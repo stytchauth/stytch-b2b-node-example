@@ -2,16 +2,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Cookies from 'cookies';
 
-type ErrorData = {
-  errorString: string;
-};
-
-export async function handler(req: NextApiRequest, res: NextApiResponse<ErrorData>) {
+export async function handler(req: NextApiRequest, res: NextApiResponse) {
   const cookies = new Cookies(req, res);
   // Delete the session cookie by setting maxAge to 0
-  cookies.set('api_webauthn_session', '', { maxAge: 0 });
+  cookies.set('session', '', { maxAge: 0 });
 
-  return res.status(200).end();
+  return res.redirect(307, '/login')
 }
 
 export default handler;

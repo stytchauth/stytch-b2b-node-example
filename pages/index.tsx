@@ -1,33 +1,17 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Recipes } from '../lib/recipeData';
-import LoginMethodCard from '../components/LoginMethodCard';
-import { useStytchUser } from '@stytch/nextjs';
+import Link from "next/link";
 
 const App = () => {
-  const { user } = useStytchUser();
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      router.push('/profile');
-    }
-  }, [user, router]);
-
   return (
     <div style={{ padding: '24px 40px' }}>
-      <h2>Stytch authentication recipes</h2>
+      <h2>Stytch B2B Demo App</h2>
       <p>
-        Stytch provides many options to build your perfect passwordless authentication experience including pre-built UI
-        components, a frontend JavaScript SDK, and a REST API for maximum flexability. Explore the recipes below to
-        learn which approach will work best for you.
+        This demo app shows how to build a B2B authentication experience with Stytch.
       </p>
-      <div style={styles.loginRow}>
-        {Object.values(Recipes).map((recipe) => (
-          <LoginMethodCard key={recipe.id} recipe={recipe} />
-        ))}
-      </div>
+      <Link href={"/login"}>Log in</Link>
+      <br />
+      <Link href={"/signup"}>Sign Up</Link>
     </div>
   );
 };

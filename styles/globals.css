@@ -110,7 +110,7 @@ input {
 }
 
 input:disabled {
-  background-color: white;
+  background-color: darkgrey;
   color: #19303d;
 }
 
@@ -152,6 +152,10 @@ button {
 }
 
 button:hover {
+  background-color: #5c727d;
+}
+button:disabled {
+    cursor: not-allowed;
   background-color: #5c727d;
 }
 
