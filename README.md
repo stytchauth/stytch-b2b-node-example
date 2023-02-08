@@ -1,3 +1,19 @@
+# B2B Demo App
+
+TODO:
+- Remove hardcoded constants / use env vars
+- Write a new Readme
+- Remove B2B client and switch to node SDK when published
+- Switch from `sso_token` to `stytch_token_type=sso`
+- Refactor API routes to authorize stytch sessions in a helper or middleware
+- Style updates - make it look nice
+- Style updates - use CSS everywhere over inline styles?
+- Move JSX out of pages and into components
+- Make lint pass
+- CI
+- 
+
+
 # Stytch + Next.js Example App
 
 This is a [Stytch](https://stytch.com) + [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). **Check out a live version of this site [here](https://www.stytchdemo.com).**
