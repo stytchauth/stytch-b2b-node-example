@@ -5,13 +5,11 @@ TODO:
 - OOTB Docker Image with Keycloak installed
 - Write a new Readme
 - Remove B2B client and switch to node SDK when published
-- Refactor API routes to authorize stytch sessions in a helper or middleware
 - Style updates - make it look nice
 - Style updates - use CSS everywhere over inline styles?
 - Move JSX out of pages and into components
 - Make lint pass
 - CI
-- 
 
 
 # Stytch + Next.js Example App

@@ -1,15 +1,13 @@
 import React, {EventHandler, FormEventHandler, MouseEventHandler, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import Link from "next/link";
-import {GetServerSideProps} from "next";
 import {OrgService} from "../../lib/orgService";
 import {Organization, Organizations} from "../../lib/StytchB2BClient/organizations";
-import Cookies from "cookies";
-import {MemberService} from "../../lib/memberService";
 import {Member} from "../../lib/StytchB2BClient/base";
 import {createSamlSSOConn, deleteMember, invite, login} from "../../lib/api";
 import {SSOService} from "../../lib/ssoService";
 import {SAMLConnection} from "../../lib/StytchB2BClient/sso";
+import {useAuth, withSessionServersideProps} from "../../lib/sessionService";
 
 type Props = {
   org: Organization,
@@ -46,7 +44,7 @@ const DeleteButton = ({member}: { member: Member }) => {
   return <button disabled={isDisabled} onClick={doDelete}>Delete User</button>
 }
 
-const MemberList = ({members, user, org}: Pick<Props, 'members'| 'user'| 'org'>) => {
+const MemberList = ({members, user, org}: Pick<Props, 'members' | 'user' | 'org'>) => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
@@ -98,7 +96,7 @@ const MemberList = ({members, user, org}: Pick<Props, 'members'| 'user'| 'org'>)
   )
 }
 
-const IDPList = ({org, saml_connections}: Pick<Props, 'org'| 'saml_connections'>) => {
+const IDPList = ({org, saml_connections}: Pick<Props, 'org' | 'saml_connections'>) => {
   const [idpName, setIDPName] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const router = useRouter()
@@ -165,23 +163,12 @@ const styles: Record<string, React.CSSProperties> = {
 };
 
 
-export const getServerSideProps: GetServerSideProps<Props, { slug: string }> = async (context) => {
-  const cookies = new Cookies(context.req, context.res);
-  const sessionToken = cookies.get("session")
-  const slug = context.params!['slug'];
+export const getServerSideProps = withSessionServersideProps<Props, { slug: string }>(async (context) => {
+  const {member} = useAuth(context);
+  const org = await OrgService.findByID(member.organization_id);
 
-  if (!sessionToken) {
-    console.log('No session token found...')
-    return {redirect: {statusCode: 307, destination: `/${slug}/login`}}
-  }
-
-  const [org, user] = await Promise.all([
-    OrgService.findBySlug(slug),
-    MemberService.findBySessionToken(sessionToken),
-  ])
-
-  if (org === null || user === null) {
-    return {redirect: {statusCode: 307, destination: `/${slug}/login`}}
+  if (org === null) {
+    return {redirect: {statusCode: 307, destination: `/login`}}
   }
 
   const [members, ssoConnections] = await Promise.all([
@@ -191,9 +178,9 @@ export const getServerSideProps: GetServerSideProps<Props, { slug: string }> = a
 
 
   return {
-    props: {org, user, members, saml_connections: ssoConnections.saml_connections}
+    props: {org, user: member, members, saml_connections: ssoConnections.saml_connections}
   }
-}
+})
 
 
 export default Dashboard;

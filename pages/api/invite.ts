@@ -5,23 +5,11 @@ import loadStytch from '../../lib/loadStytch';
 import Cookies from "cookies";
 import {OrgService} from "../../lib/orgService";
 import {MemberService} from "../../lib/memberService";
+import {Member} from "../../lib/StytchB2BClient/base";
+import {withSession} from "../../lib/sessionService";
 
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const cookies = new Cookies(req, res);
-  const sessionToken = cookies.get("session")
-
-  // TODO: Can we make this a nice util?
-  if (!sessionToken) {
-    console.log('No session token found...')
-    return res.status(401).end();
-  }
-
-  const member = await MemberService.findBySessionToken(sessionToken);
-  if (!member) {
-    return res.status(401).end();
-  }
-
+async function handler(member: Member, req: NextApiRequest, res: NextApiResponse) {
   try {
     const {email} = JSON.parse(req.body);
     // Infer the organization_id from the member's org - don't let members invite
@@ -35,4 +23,4 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default handler;
+export default withSession(handler);

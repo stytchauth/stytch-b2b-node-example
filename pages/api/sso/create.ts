@@ -1,28 +1,10 @@
 // This API route sends a magic link to the specified email address.
 import type {NextApiRequest, NextApiResponse} from 'next';
-import Cookies from "cookies";
-import {MemberService} from "../../../lib/memberService";
 import {SSOService} from "../../../lib/ssoService";
+import {Member} from "../../../lib/StytchB2BClient/base";
+import {withSession} from "../../../lib/sessionService";
 
-
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const cookies = new Cookies(req, res);
-  const sessionToken = cookies.get("session")
-  const slug = cookies.get("slug")
-
-  // TODO: Can we make this a nice util?
-  if (!sessionToken) {
-    console.log('No session token found...')
-    return res.status(401).end();
-  }
-
-  const member = await MemberService.findBySessionToken(sessionToken);
-  if (!member) {
-    return res.status(401).end();
-  }
-
-
-
+async function handler(member: Member, req: NextApiRequest, res: NextApiResponse) {
   try {
     const {display_name} = JSON.parse(req.body);
     const {connection} = await SSOService.create(display_name, member.organization_id);
@@ -34,4 +16,4 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default handler;
+export default withSession(handler);

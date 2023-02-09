@@ -1,13 +1,11 @@
-import {GetServerSideProps} from "next";
-import Cookies from "cookies";
 import {OrgService} from "../../../../lib/orgService";
-import {MemberService} from "../../../../lib/memberService";
 import {SSOService} from "../../../../lib/ssoService";
 import {SAMLConnection} from "../../../../lib/StytchB2BClient/sso";
 import React, {FormEvent, FormEventHandler} from "react";
 import {updateSamlSSOConn} from "../../../../lib/api";
 import {useRouter} from "next/router";
 import {publicToken} from "../../../../lib/loadStytch";
+import {useAuth, withSessionServersideProps} from "../../../../lib/sessionService";
 
 type Props = { connection: SAMLConnection }
 
@@ -128,34 +126,26 @@ function ConnectionEditPage({connection}: Props) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<Props, { slug: string, connection_id: string }> = async (context) => {
-  const cookies = new Cookies(context.req, context.res);
-  const sessionToken = cookies.get("session")
-  const slug = cookies.get("slug")
+export const getServerSideProps = withSessionServersideProps<Props, { slug: string, connection_id: string }>(async (context) => {
   const connection_id = context.params!['connection_id'];
+  const {member} = useAuth(context)
 
-  if (!sessionToken) {
-    console.log('No session token found...')
-    return {redirect: {statusCode: 307, destination: `/${slug}/login`}}
-  }
-
-  const org = await OrgService.findBySlug(slug as string);
-
+  const org = await OrgService.findByID(member.organization_id);
   if (org === null) {
-    return {redirect: {statusCode: 307, destination: `/${slug}/login`}}
+    return {redirect: {statusCode: 307, destination: `/login`}}
   }
 
   const connection = await SSOService.list(org.organization_id)
     .then(res => res.saml_connections.find(conn => conn.connection_id === connection_id))
 
   if (!connection) {
-    return {redirect: {statusCode: 307, destination: `/${slug}/dashboard`}}
+    return {redirect: {statusCode: 307, destination: `/${org.organization_slug}/dashboard`}}
   }
 
   return {
     props: {connection}
   }
-}
+})
 
 export default ConnectionEditPage
 

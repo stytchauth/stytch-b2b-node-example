@@ -31,7 +31,7 @@ export type MemberSearchOperand =
     };
 
 export interface SearchOrganizationMemberRequest {
-  organization_id: string;
+  organization_ids: string[];
   limit?: number;
   query?: {
     operator: SearchOperator;

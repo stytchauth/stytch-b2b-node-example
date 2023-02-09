@@ -1,12 +1,10 @@
 // This API route logs a user out.
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Cookies from 'cookies';
+import {revokeSession} from "../../lib/sessionService";
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const cookies = new Cookies(req, res);
-  // Delete the session cookie by setting maxAge to 0
-  cookies.set('session', '', { maxAge: 0 });
-
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  revokeSession(req, res)
   return res.redirect(307, '/login')
 }
 
