@@ -1,10 +1,10 @@
 # B2B Demo App
 
 TODO:
-- Remove hardcoded constants / use env vars
+- Point at prod instead of staging
+- OOTB Docker Image with Keycloak installed
 - Write a new Readme
 - Remove B2B client and switch to node SDK when published
-- Switch from `sso_token` to `stytch_token_type=sso`
 - Refactor API routes to authorize stytch sessions in a helper or middleware
 - Style updates - make it look nice
 - Style updates - use CSS everywhere over inline styles?

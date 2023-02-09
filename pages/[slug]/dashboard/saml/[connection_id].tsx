@@ -7,6 +7,7 @@ import {SAMLConnection} from "../../../../lib/StytchB2BClient/sso";
 import React, {FormEvent, FormEventHandler} from "react";
 import {updateSamlSSOConn} from "../../../../lib/api";
 import {useRouter} from "next/router";
+import {publicToken} from "../../../../lib/loadStytch";
 
 type Props = { connection: SAMLConnection }
 
@@ -116,7 +117,7 @@ function ConnectionEditPage({connection}: Props) {
             style={styles.input}
           />
           <br/>
-          <a href={`https://api.max.dev.stytch.com/v1/public/sso/start?connection_id=${connection.connection_id}&public_token=${"public-token-live-cf43b964-c802-4f0d-aafe-7e64d88d692f"}`}>
+          <a href={`https://api.staging.stytch.com/v1/public/sso/start?connection_id=${connection.connection_id}&public_token=${publicToken}`}>
             Test
           </a>
           <br/>

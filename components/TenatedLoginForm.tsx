@@ -1,6 +1,7 @@
 import React, { FormEventHandler, useEffect, useState} from 'react';
 import {Organization} from "../lib/StytchB2BClient/organizations";
 import {login} from "../lib/api";
+import {publicToken} from "../lib/loadStytch";
 
 const STATUS = {
   INIT: 0,
@@ -71,7 +72,7 @@ const TenantedLoginForm = ({org}: Props) => {
             {org.sso_default_connection_id && (
               <span>
                 Or, use this organization&apos;s&nbsp;
-                <a href={`https://api.max.dev.stytch.com/v1/public/sso/start?connection_id=${org.sso_default_connection_id}&public_token=${"public-token-live-cf43b964-c802-4f0d-aafe-7e64d88d692f"}`}>
+                <a href={`https://api.staging.stytch.com/v1/public/sso/start?connection_id=${org.sso_default_connection_id}&public_token=${publicToken}`}>
                 Preferred Identity Provider
               </a>
               </span>

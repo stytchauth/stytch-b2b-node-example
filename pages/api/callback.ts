@@ -37,7 +37,7 @@ async function exchangeToken(req: NextApiRequest): Promise<string> {
   if (req.query.stytch_token_type === 'multi_tenant_magic_links' && req.query.token) {
     return await handleMagicLinkCallback(req)
   }
-  if (req.query.sso_token) {
+  if (req.query.stytch_token_type === 'sso' && req.query.token) {
     return await handleSSOCallback(req)
   }
   // TODO: SSO
@@ -53,7 +53,7 @@ async function handleMagicLinkCallback(req: NextApiRequest): Promise<string> {
 }
 
 async function handleSSOCallback(req: NextApiRequest): Promise<string> {
-  const authRes = await stytchClient.sso.authenticate(req.query.sso_token as string, {
+  const authRes = await stytchClient.sso.authenticate(req.query.token as string, {
     session_duration_minutes: sessionDurationMinutes
   })
 
