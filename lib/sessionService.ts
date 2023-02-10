@@ -116,7 +116,7 @@ export function withSession<
 export function useAuth(context: GetServerSidePropsContext): AuthenticateResponse {
   // @ts-ignore
   if (!context[SESSION_SYMBOL]) {
-    throw Error('useAuth called in route not protected by adminOnlyAPIRouteServersideProps');
+    throw Error('useAuth called in route not protected by withSession');
   }
   // @ts-ignore
   return context[SESSION_SYMBOL] as AuthenticateResponse;
