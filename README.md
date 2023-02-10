@@ -1,7 +1,6 @@
 # B2B Demo App
 
 TODO:
-- Check to make sure node version is at least 16
 - Point at prod instead of staging
 - Write a new Readme
 - Use Trusted Metadata for admins
