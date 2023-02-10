@@ -6,6 +6,7 @@ import { updateSamlSSOConn } from '../../../../lib/api';
 import { useRouter } from 'next/router';
 import { publicToken } from '../../../../lib/loadStytch';
 import { useAuth, withSessionServersideProps } from '../../../../lib/sessionService';
+import Link from "next/link";
 
 type Props = { connection: SAMLConnection };
 
@@ -103,6 +104,8 @@ function ConnectionEditPage({ connection }: Props) {
           </a>
           <br />
           <button type="submit">Save</button>
+          <br />
+          <Link href={`/${router.query.slug}/dashboard`}>Back</Link>
         </form>
       </div>
     </>
