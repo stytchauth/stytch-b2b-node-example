@@ -1,9 +1,36 @@
 import { BaseResponse, Member, SearchOperator, ResultsMetadata, request, fetchConfig } from './base';
 
+export interface CreateMemberRequest {
+  organization_id: string;
+  email_address: string;
+  name?: string;
+  trusted_metadata?: Record<string, any>;
+  untrusted_metadata?: Record<string, any>;
+  create_member_as_pending: boolean;
+}
+
+export interface CreateMemberResponse extends BaseResponse {
+  member_id: string;
+  member: Member;
+}
+
+export interface UpdateMemberRequest {
+  organization_id: string;
+  member_id: string;
+  name?: string;
+  trusted_metadata?: Record<string, any>;
+  untrusted_metadata?: Record<string, any>;
+}
+
+export interface UpdateMemberResponse extends BaseResponse {
+  member_id: string;
+  member: Member;
+}
+
 export type MemberSearchOperand =
   | {
-      filter_name: 'member_id';
-      filter_value: string;
+      filter_name: 'member_ids';
+      filter_value: string[];
     }
   | {
       filter_name: 'member_emails';
@@ -63,11 +90,26 @@ export class Members {
     this.base_path = `${parent_path}`;
   }
 
-  delete(req: DeleteMemberRequest): Promise<DeleteMemberResponse> {
+  create(data: CreateMemberRequest): Promise<CreateMemberResponse> {
+    return request(this.fetchConfig, {
+      method: 'POST',
+      url: `${this.base_path}/${data.organization_id}/members`,
+      data,
+    });
+  }
+
+  update(data: UpdateMemberRequest): Promise<UpdateMemberResponse> {
+    return request(this.fetchConfig, {
+      method: 'PUT',
+      url: `${this.base_path}/${data.organization_id}/members/${data.member_id}`,
+      data,
+    });
+  }
+
+  delete(data: DeleteMemberRequest): Promise<DeleteMemberResponse> {
     return request(this.fetchConfig, {
       method: 'DELETE',
-      // TODO: This URL is wrong
-      url: `${this.base_path}/${req.organization_id}/member/${req.member_id}`,
+      url: `${this.base_path}/${data.organization_id}/members/${data.member_id}`,
     });
   }
 

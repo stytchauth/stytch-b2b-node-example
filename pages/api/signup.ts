@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getDomainFromRequest } from '../../lib/urlUtils';
 import loadStytch from '../../lib/loadStytch';
+import { MemberService } from '../../lib/memberService';
 
 type ErrorData = {
   errorString: string;
@@ -21,6 +22,7 @@ function toDomain(email: string): string {
 export async function handler(req: NextApiRequest, res: NextApiResponse<ErrorData>) {
   const stytchClient = loadStytch();
   const { email, organization_name } = JSON.parse(req.body);
+
   try {
     const orgCreateRes = await stytchClient.organizations.create({
       organization_name: organization_name,
@@ -29,6 +31,15 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<ErrorDat
       sso_jit_provisioning: 'ALL_ALLOWED',
       email_jit_provisioning: 'RESTRICTED',
       email_invites: 'ALL_ALLOWED',
+    });
+
+    // Create the first user in the organization
+    // Mark then as the admin
+    await stytchClient.organizations.members.create({
+      email_address: email,
+      organization_id: orgCreateRes.organization.organization_id,
+      trusted_metadata: { admin: true },
+      create_member_as_pending: false,
     });
 
     const domain = getDomainFromRequest(req);

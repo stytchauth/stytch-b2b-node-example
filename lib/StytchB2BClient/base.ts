@@ -84,6 +84,8 @@ export interface Member {
   email_address: string;
   status: string;
   name: string;
+  trusted_metadata: Record<string, any>;
+  untrusted_metadata: Record<string, any>;
 }
 
 export interface ResultsMetadata {

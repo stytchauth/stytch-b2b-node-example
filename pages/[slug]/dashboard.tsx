@@ -7,7 +7,7 @@ import { Member } from '../../lib/StytchB2BClient/base';
 import { createSamlSSOConn, deleteMember, invite, login } from '../../lib/api';
 import { SSOService } from '../../lib/ssoService';
 import { SAMLConnection } from '../../lib/StytchB2BClient/sso';
-import { useAuth, withSessionServersideProps } from '../../lib/sessionService';
+import { useAuth, withSession } from '../../lib/sessionService';
 
 type Props = {
   org: Organization;
@@ -28,7 +28,9 @@ const isValidEmail = (emailValue: string) => {
   return regex.test(emailValue);
 };
 
-const DeleteButton = ({ member }: { member: Member }) => {
+const isAdmin = (member: Member) => !!member.trusted_metadata.admin;
+
+const MemberRow = ({ member, user }: { member: Member; user: Member }) => {
   const router = useRouter();
   const [isDisabled, setIsDisabled] = useState(false);
   const doDelete: MouseEventHandler = async (e) => {
@@ -40,10 +42,23 @@ const DeleteButton = ({ member }: { member: Member }) => {
     // TODO: Success toast?
   };
 
-  return (
+  const canDelete =
+    /* Do not let members delete themselves! */
+    member.member_id !== user.member_id &&
+    /* Only admins can delete! */
+    isAdmin(user);
+
+  const deleteButton = (
     <button disabled={isDisabled} onClick={doDelete}>
       Delete User
     </button>
+  );
+
+  return (
+    <li>
+      {member.email_address} ({member.status}){/* Do not let members delete themselves! */}
+      {canDelete ? deleteButton : null}
+    </li>
   );
 };
 
@@ -74,10 +89,7 @@ const MemberList = ({ members, user, org }: Pick<Props, 'members' | 'user' | 'or
       <p>Users:</p>
       <ul>
         {members.map((member) => (
-          <li key={member.member_id}>
-            {member.email_address} ({member.status}){/* Do not let members delete themselves! */}
-            {member.member_id !== user.member_id ? <DeleteButton member={member} /> : null}
-          </li>
+          <MemberRow key={member.member_id} member={member} user={user} />
         ))}
       </ul>
       <br />
@@ -98,14 +110,12 @@ const MemberList = ({ members, user, org }: Pick<Props, 'members' | 'user' | 'or
   );
 };
 
-const IDPList = ({ org, saml_connections }: Pick<Props, 'org' | 'saml_connections'>) => {
+const IDPList = ({ user, saml_connections }: Pick<Props, 'user' | 'saml_connections'>) => {
   const [idpName, setIDPName] = useState('');
-  const [isDisabled, setIsDisabled] = useState(true);
   const router = useRouter();
 
   const onCreate: FormEventHandler = async (e) => {
     e.preventDefault();
-    setIsDisabled(true);
     const res = await createSamlSSOConn(idpName);
     const conn = await res.json();
     await router.push(`/${router.query.slug}/dashboard/saml/${conn.connection_id}`);
@@ -113,6 +123,7 @@ const IDPList = ({ org, saml_connections }: Pick<Props, 'org' | 'saml_connection
 
   return (
     <>
+      <p>SSO Connections:</p>
       <ul>
         {saml_connections.map((conn) => (
           <li key={conn.connection_id}>
@@ -125,18 +136,23 @@ const IDPList = ({ org, saml_connections }: Pick<Props, 'org' | 'saml_connection
         ))}
       </ul>
       <br />
-      <form onSubmit={onCreate}>
-        <input
-          style={styles.emailInput}
-          placeholder={`Okta Account`}
-          value={idpName}
-          onChange={(e) => setIDPName(e.target.value)}
-        />
-        <br />
-        <button disabled={idpName.length < 3} type="submit">
-          Create New SSO IDP
-        </button>
-      </form>
+      {/*Only admins can create new SSO IDPs*/}
+      {isAdmin(user) && (
+        <form onSubmit={onCreate}>
+          <input
+            style={styles.emailInput}
+            placeholder={`Okta Account`}
+            value={idpName}
+            onChange={(e) => setIDPName(e.target.value)}
+          />
+          <br />
+          <button disabled={idpName.length < 3} type="submit">
+            Create New SSO IDP
+          </button>
+          <br />
+          <br />
+        </form>
+      )}
     </>
   );
 };
@@ -147,7 +163,7 @@ const Dashboard = ({ org, user, members, saml_connections }: Props) => {
       <h2>{org.organization_name}</h2>
       <MemberList org={org} members={members} user={user} />
       <br />
-      <IDPList org={org} saml_connections={saml_connections} />
+      <IDPList user={user} saml_connections={saml_connections} />
 
       <Link href={'/api/logout'}>Log Out</Link>
     </div>
@@ -168,7 +184,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
 };
 
-export const getServerSideProps = withSessionServersideProps<Props, { slug: string }>(async (context) => {
+export const getServerSideProps = withSession<Props, { slug: string }>(async (context) => {
   const { member } = useAuth(context);
   const org = await OrgService.findByID(member.organization_id);
 

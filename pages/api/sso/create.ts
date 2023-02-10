@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { SSOService } from '../../../lib/ssoService';
 import { Member } from '../../../lib/StytchB2BClient/base';
-import { withSession } from '../../../lib/sessionService';
+import { adminOnlyAPIRoute } from '../../../lib/sessionService';
 
 async function handler(member: Member, req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -16,4 +16,4 @@ async function handler(member: Member, req: NextApiRequest, res: NextApiResponse
   }
 }
 
-export default withSession(handler);
+export default adminOnlyAPIRoute(handler);

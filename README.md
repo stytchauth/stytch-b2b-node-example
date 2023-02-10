@@ -3,7 +3,6 @@
 TODO:
 - Point at prod instead of staging
 - Write a new Readme
-- Use Trusted Metadata for admins
 - Remove B2B client and switch to node SDK when published
 - Style updates - make it look nice
 - Style updates - use CSS everywhere over inline styles?

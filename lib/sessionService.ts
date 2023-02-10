@@ -26,11 +26,11 @@ export function setSession(req: NextApiRequest, res: NextApiResponse, sessionJWT
 type APIHandler = (member: Member, req: NextApiRequest, res: NextApiResponse) => Promise<NextApiResponse | void>;
 
 /**
- * WithSession wraps an API handler and ensures that the caller has a valid session
+ * adminOnlyAPIRoute wraps an API handler and ensures that the caller has a valid session
  * The caller's member object is passed to the API handler
  * @param apiHandler
  */
-export function withSession(apiHandler: APIHandler) {
+export function adminOnlyAPIRoute(apiHandler: APIHandler) {
   return async function WrappedHandler(req: NextApiRequest, res: NextApiResponse): Promise<NextApiResponse | void> {
     const cookies = new Cookies(req, res);
     const sessionJWT = cookies.get(SESSION_COOKIE);
@@ -57,16 +57,22 @@ export function withSession(apiHandler: APIHandler) {
     // Stytch issues a new JWT on every authenticate call - store it on the UA for faster validation next time
     setSession(req, res, sessionAuthRes.session_jwt);
 
+    const isAdmin = sessionAuthRes.member.trusted_metadata.admin as boolean;
+    if (!isAdmin) {
+      console.error('Member is not authorized to call route');
+      return res.status(403).end();
+    }
+
     return apiHandler(sessionAuthRes.member, req, res);
   };
 }
 
 /**
- * withSessionServersideProps wraps a page's getServerSideProps function
+ * withSession wraps a page's getServerSideProps function
  * and ensures that the caller has a valid session
  * The member is stored on the ServerSide Props context and can be retrieved with {@link useAuth}
  */
-export function withSessionServersideProps<
+export function withSession<
   P extends { [key: string]: any } = { [key: string]: any },
   Q extends ParsedUrlQuery = ParsedUrlQuery,
   D extends PreviewData = PreviewData,
@@ -104,13 +110,13 @@ export function withSessionServersideProps<
 
 /**
  * useAuth will return the authentication result for the logged-in user.
- * It can only be called in functions wrapped with `withSessionServersideProps`
+ * It can only be called in functions wrapped with {@link withSession}`
  * @param context
  */
 export function useAuth(context: GetServerSidePropsContext): AuthenticateResponse {
   // @ts-ignore
   if (!context[SESSION_SYMBOL]) {
-    throw Error('useAuth called in route not protected by withSessionServersideProps');
+    throw Error('useAuth called in route not protected by adminOnlyAPIRouteServersideProps');
   }
   // @ts-ignore
   return context[SESSION_SYMBOL] as AuthenticateResponse;
