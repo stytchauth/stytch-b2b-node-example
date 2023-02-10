@@ -28,7 +28,7 @@ function ConnectionEditPage({ connection }: Props) {
     });
 
     // Force a reload to refresh the conn list
-    router.replace(router.asPath);
+    await router.replace(router.asPath);
   };
 
   return (
@@ -37,16 +37,16 @@ function ConnectionEditPage({ connection }: Props) {
         <form onSubmit={onSubmit} style={{ minWidth: 600 }}>
           <h1>Edit SAML Connection</h1>
           <label htmlFor="display_name">Display Name</label>
-          <input name="display_name" defaultValue={connection.display_name} style={styles.input} />
+          <input name="display_name" value={connection.display_name} style={styles.input} />
           <br />
           <label htmlFor="status">Status</label>
-          <input name="status" disabled defaultValue={connection.status} style={styles.input} />
+          <input name="status" disabled value={connection.status} style={styles.input} />
           <br />
           <label htmlFor="acs_url">ACS URL</label>
-          <input name="acs_url" disabled defaultValue={connection.acs_url} style={styles.input} />
+          <input name="acs_url" disabled value={connection.acs_url} style={styles.input} />
           <br />
           <label htmlFor="audience_uri">Audience URI</label>
-          <input name="audience_uri" disabled defaultValue={connection.audience_uri} style={styles.input} />
+          <input name="audience_uri" disabled value={connection.audience_uri} style={styles.input} />
           <br />
           <label htmlFor="idp_sso_url">SSO URL</label>
           <input
