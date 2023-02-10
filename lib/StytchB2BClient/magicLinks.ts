@@ -25,8 +25,8 @@ export interface InviteByEmailRequest {
   invite_redirect_url?: string;
   invited_by_member_id?: string;
   invite_template_id?: string;
-  trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-  untrusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  trusted_metadata?: Record<string, any>;
+  untrusted_metadata?: Record<string, any>;
 }
 
 export interface InviteByEmailResponse extends BaseResponse {
@@ -38,7 +38,7 @@ export interface AuthenticateRequest {
   session_token?: string;
   session_jwt?: string;
   session_duration_minutes?: number;
-  session_custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  session_custom_claims?: Record<string, any>;
   pkce_code_verifier?: string;
 }
 

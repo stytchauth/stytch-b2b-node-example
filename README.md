@@ -8,7 +8,6 @@ TODO:
 - Style updates - make it look nice
 - Style updates - use CSS everywhere over inline styles?
 - Move JSX out of pages and into components
-- Make lint pass
 - CI
 
 

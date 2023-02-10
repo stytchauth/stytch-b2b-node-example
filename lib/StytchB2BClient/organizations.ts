@@ -38,7 +38,7 @@ export interface Organization {
   organization_name: string;
   organization_slug: string;
   organization_logo_url: string;
-  trusted_metadata: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  trusted_metadata: Record<string, any>;
 
   sso_default_connection_id: string | null;
   sso_jit_provisioning: 'ALL_ALLOWED' | 'RESTRICTED' | 'NOT_ALLOWED';
@@ -53,7 +53,7 @@ export interface CreateOrganizationRequest {
   organization_name: string;
   organization_slug: string;
   organization_logo_url?: string;
-  trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  trusted_metadata?: Record<string, any>;
   sso_jit_provisioning?: 'ALL_ALLOWED' | 'RESTRICTED' | 'NOT_ALLOWED';
   email_allowed_domains: string[];
   email_jit_provisioning?: 'RESTRICTED' | 'NOT_ALLOWED';
@@ -90,7 +90,7 @@ export interface UpdateOrganizationRequest {
   organization_name?: string;
   organization_slug?: string;
   organization_logo_url?: string;
-  trusted_metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  trusted_metadata?: Record<string, any>;
 
   sso_default_connection_id?: string;
   sso_jit_provisioning?: 'ALL_ALLOWED' | 'RESTRICTED' | 'NOT_ALLOWED';

@@ -75,7 +75,7 @@ export interface MemberSession {
   last_accessed_at: Date;
   expires_at: Date;
   authentication_factors: AuthenticationFactor[];
-  custom_claims?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  custom_claims?: Record<string, any>;
 }
 
 export interface Member {
