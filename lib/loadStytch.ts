@@ -6,7 +6,6 @@ export const publicToken = process.env.NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN;
 
 const loadStytch = () => {
   if (!client) {
-
     client = new stytch.Client({
       project_id: process.env.STYTCH_PROJECT_ID || '',
       secret: process.env.STYTCH_SECRET || '',

@@ -1,8 +1,8 @@
 # B2B Demo App
 
 TODO:
+- Check to make sure node version is at least 16
 - Point at prod instead of staging
-- OOTB Docker Image with Keycloak installed
 - Write a new Readme
 - Use Trusted Metadata for admins
 - Remove B2B client and switch to node SDK when published

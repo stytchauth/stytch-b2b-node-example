@@ -1,16 +1,16 @@
-import {Member} from "./StytchB2BClient/base";
-import loadStytch from "./loadStytch";
+import { Member } from './StytchB2BClient/base';
+import loadStytch from './loadStytch';
 
 const stytch = loadStytch();
 
 export const SSOService = {
-  list: async function(organization_id: string) {
-    return stytch.sso.get(organization_id)
+  list: async function (organization_id: string) {
+    return stytch.sso.get(organization_id);
   },
-  create: async function(display_name: string, organization_id: string) {
+  create: async function (display_name: string, organization_id: string) {
     return stytch.sso.saml.create(organization_id, {
-      display_name
-    })
+      display_name,
+    });
   },
   // delete: async function(member_id: string, organization_id: string) {
   //   return stytch.organizations.members.delete({
@@ -31,4 +31,4 @@ export const SSOService = {
   //       return null
   //     })
   // }
-}
+};

@@ -1,6 +1,14 @@
 import React from 'react';
 import { StytchLogin } from '@stytch/nextjs';
-import { StytchLoginConfig, OAuthProviders, OneTapPositions, Products, StyleConfig, StytchEvent, StytchError } from '@stytch/vanilla-js';
+import {
+  StytchLoginConfig,
+  OAuthProviders,
+  OneTapPositions,
+  Products,
+  StyleConfig,
+  StytchEvent,
+  StytchError,
+} from '@stytch/vanilla-js';
 import { getDomainFromWindow } from '../lib/urlUtils';
 
 const sdkStyle: StyleConfig = {
@@ -39,7 +47,7 @@ const sdkConfig: StytchLoginConfig = {
 const callbackConfig = {
   onEvent: (message: StytchEvent) => console.log(message),
   onError: (error: StytchError) => console.log(error),
-}
+};
 
 const LoginWithStytchSDKUI = () => <StytchLogin config={sdkConfig} styles={sdkStyle} callbacks={callbackConfig} />;
 

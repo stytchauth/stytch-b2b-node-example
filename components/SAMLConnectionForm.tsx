@@ -1,13 +1,5 @@
-
-
 const SAMLConnectionForm = () => {
-
-  return (
-    <form>
-
-    </form>
-  )
-
-}
+  return <form></form>;
+};
 
 export default SAMLConnectionForm;

@@ -1,6 +1,6 @@
-import Link from "next/link";
-import React from "react";
-import LoginDiscoveryForm from "../components/LoginDiscoveryForm";
+import Link from 'next/link';
+import React from 'react';
+import LoginDiscoveryForm from '../components/LoginDiscoveryForm';
 
 export default () => {
   return (
@@ -8,4 +8,4 @@ export default () => {
       <LoginDiscoveryForm />
     </div>
   );
-}
+};

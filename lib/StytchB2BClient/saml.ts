@@ -10,7 +10,7 @@ export interface CreateSAMLConnectionResponse extends BaseResponse {
 }
 
 export interface UpdateSAMLConnectionRequest {
-  entity_id?: string;
+  idp_entity_id?: string;
   display_name?: string;
   attribute_mapping?: Record<string, string>;
   x509_certificate?: string;

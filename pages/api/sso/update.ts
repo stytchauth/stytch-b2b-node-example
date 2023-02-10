@@ -1,9 +1,8 @@
 // This API route sends a magic link to the specified email address.
-import type {NextApiRequest, NextApiResponse} from 'next';
-import loadStytch from "../../../lib/loadStytch";
-import {Member} from "../../../lib/StytchB2BClient/base";
-import {withSession} from "../../../lib/sessionService";
-
+import type { NextApiRequest, NextApiResponse } from 'next';
+import loadStytch from '../../../lib/loadStytch';
+import { Member } from '../../../lib/StytchB2BClient/base';
+import { withSession } from '../../../lib/sessionService';
 
 async function handler(member: Member, req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -15,11 +14,11 @@ async function handler(member: Member, req: NextApiRequest, res: NextApiResponse
       first_name_attribute,
       last_name_attribute,
       certificate,
-      connection_id
+      connection_id,
     } = JSON.parse(req.body);
 
     await loadStytch().sso.saml.update(member.organization_id, connection_id, {
-      entity_id: idp_entity_id,
+      idp_entity_id: idp_entity_id,
       display_name: display_name,
       attribute_mapping: {
         email: email_attribute,
@@ -28,10 +27,10 @@ async function handler(member: Member, req: NextApiRequest, res: NextApiResponse
       },
       x509_certificate: certificate,
       idp_sso_url: idp_sso_url,
-    })
+    });
     return res.status(200).end();
   } catch (e) {
-    console.error('Failed to update SSO connection', e)
+    console.error('Failed to update SSO connection', e);
     return res.status(400).end();
   }
 }

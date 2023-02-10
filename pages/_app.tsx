@@ -4,7 +4,6 @@ import React from 'react';
 import Head from 'next/head';
 import NavBar from '../components/NavBar';
 
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -14,8 +13,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>Stytch B2B Demo</title>
       </Head>
 
-        <NavBar />
-        <Component {...pageProps} />
+      <NavBar />
+      <Component {...pageProps} />
     </>
   );
 }

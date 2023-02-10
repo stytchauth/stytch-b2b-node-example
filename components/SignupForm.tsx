@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler, FormEventHandler, useEffect, useState} from 'react';
+import React, { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
 import { signup } from '../lib/api';
 
 const STATUS = {
@@ -7,7 +7,6 @@ const STATUS = {
   ERROR: 2,
 };
 
-
 const isValidEmail = (emailValue: string) => {
   // Overly simple email address regex
   const regex = /\S+@\S+\.\S+/;
@@ -15,8 +14,8 @@ const isValidEmail = (emailValue: string) => {
 };
 
 const isValidOrgName = (organizationName: string) => {
-  return organizationName.length > 3
-}
+  return organizationName.length > 3;
+};
 
 const SignupForm = () => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
@@ -26,9 +25,8 @@ const SignupForm = () => {
 
   useEffect(() => {
     const allValid = isValidEmail(email) && isValidOrgName(organizationName);
-    setIsDisabled(!allValid)
-  }, [email, organizationName])
-
+    setIsDisabled(!allValid);
+  }, [email, organizationName]);
 
   const onEmailChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setEmail(e.target.value);
