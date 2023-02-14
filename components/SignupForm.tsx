@@ -1,5 +1,10 @@
-import React, { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
-import { signup } from '../lib/api';
+import React, {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from "react";
+import { signup } from "../lib/api";
 
 const STATUS = {
   INIT: 0,
@@ -19,8 +24,8 @@ const isValidOrgName = (organizationName: string) => {
 
 const SignupForm = () => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
-  const [email, setEmail] = useState('');
-  const [organizationName, setOrganizationName] = useState('');
+  const [email, setEmail] = useState("");
+  const [organizationName, setOrganizationName] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
@@ -65,44 +70,52 @@ const SignupForm = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div className="card">
       {emlSent === STATUS.INIT && (
-        <div>
-          <h2>Sign up</h2>
+        <>
+          <h1>Sign up</h1>
           <p>
-            Make sure to add the appropriate Redirect URL in your{' '}
-            <a className="link" href="https://stytch.com/dashboard/redirect-urls" target="_blank" rel="noreferrer">
+            Make sure to add the appropriate Redirect URL in your{" "}
+            <a
+              className="link"
+              href="https://stytch.com/dashboard/redirect-urls"
+              target="_blank"
+              rel="noreferrer"
+            >
               Stytch Dashboard
             </a>
           </p>
           <form onSubmit={onSubmit}>
             <input
-              style={styles.emailInput}
               placeholder="example@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
             />
             <input
-              style={styles.emailInput}
               placeholder="Foo Corp"
               value={organizationName}
               onChange={(e) => setOrganizationName(e.target.value)}
             />
-            <button className="full-width" disabled={isDisabled} id="button" type="submit">
+            <button
+              className="primary"
+              disabled={isDisabled}
+              id="button"
+              type="submit"
+            >
               Continue
             </button>
           </form>
-        </div>
+        </>
       )}
       {emlSent === STATUS.SENT && (
-        <div>
-          <h2>Check your email</h2>
+        <>
+          <h1>Check your email</h1>
           <p>{`An email was sent to ${email}`}</p>
           <a className="link" onClick={handleTryAgain}>
             Click here to try again.
           </a>
-        </div>
+        </>
       )}
       {emlSent === STATUS.ERROR && (
         <div>
@@ -115,21 +128,6 @@ const SignupForm = () => {
       )}
     </div>
   );
-};
-
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    display: 'flex',
-    margin: '48px 24px',
-    flexWrap: 'wrap-reverse',
-    justifyContent: 'center',
-    gap: '48px',
-  },
-  emailInput: {
-    width: '100%',
-    fontSize: '18px',
-    marginBottom: '8px',
-  },
 };
 
 export default SignupForm;

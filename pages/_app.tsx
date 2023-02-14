@@ -1,20 +1,26 @@
-import '../styles/globals.css';
-import type { AppProps } from 'next/app';
-import React from 'react';
-import Head from 'next/head';
-import NavBar from '../components/NavBar';
+import "../styles/stytch.css";
+import type { AppProps } from "next/app";
+import React from "react";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-        <title>Stytch B2B Demo</title>
+        <title>Stytch Next.js B2B Example</title>
+        <meta
+          name="description"
+          content="An example Next.js B2B application using Stytch for authentication"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <NavBar />
-      <Component {...pageProps} />
+      <main>
+        <div className="container">
+          <Component {...pageProps} />
+        </div>
+      </main>
     </>
   );
 }

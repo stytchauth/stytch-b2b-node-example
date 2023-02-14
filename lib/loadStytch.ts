@@ -9,9 +9,12 @@ const loadStytch = () => {
     client = new stytch.Client({
       project_id: process.env.STYTCH_PROJECT_ID || '',
       secret: process.env.STYTCH_SECRET || '',
-      // TODO: Point at Prod
-      env: 'https://api.staging.stytch.com/v1/b2b/',
-      // env: process.env.STYTCH_PROJECT_ENV === 'live' ? stytch.envs.live : stytch.envs.test,
+      // TODO: Clean up https:// work around once backend SDK is available
+      env: process.env.STYTCH_PROJECT_ENV?.startsWith('https://')
+        ? process.env.STYTCH_PROJECT_ENV
+        : process.env.STYTCH_PROJECT_ENV === 'live'
+        ? stytch.envs.live
+        : stytch.envs.test,
     });
   }
 
