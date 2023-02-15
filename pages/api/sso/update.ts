@@ -1,7 +1,6 @@
 // This API route sends a magic link to the specified email address.
 import type { NextApiRequest, NextApiResponse } from 'next';
-import loadStytch from '../../../lib/loadStytch';
-import { Member } from '../../../lib/StytchB2BClient/base';
+import loadStytch, {Member} from '../../../lib/loadStytch';
 import { adminOnlyAPIRoute } from '../../../lib/sessionService';
 
 async function handler(member: Member, req: NextApiRequest, res: NextApiResponse) {
@@ -17,7 +16,9 @@ async function handler(member: Member, req: NextApiRequest, res: NextApiResponse
       connection_id,
     } = JSON.parse(req.body);
 
-    await loadStytch().sso.saml.update(member.organization_id, connection_id, {
+    await loadStytch().sso.saml.update({
+      organization_id: member.organization_id,
+      connection_id,
       idp_entity_id: idp_entity_id,
       display_name: display_name,
       attribute_mapping: {

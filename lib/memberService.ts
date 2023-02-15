@@ -1,4 +1,3 @@
-import { Member } from './StytchB2BClient/base';
 import loadStytch from './loadStytch';
 
 const stytch = loadStytch();

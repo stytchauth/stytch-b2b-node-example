@@ -1,7 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type {NextApiRequest, NextApiResponse} from 'next';
 import loadStytch from '../../lib/loadStytch';
 import Cookies from 'cookies';
-import { SESSION_DURATION_MINUTES, setSession } from '../../lib/sessionService';
+import {SESSION_DURATION_MINUTES, setSession} from '../../lib/sessionService';
 
 const stytchClient = loadStytch();
 
@@ -35,7 +35,8 @@ async function exchangeToken(req: NextApiRequest): Promise<string> {
 }
 
 async function handleMagicLinkCallback(req: NextApiRequest): Promise<string> {
-  const authRes = await stytchClient.magicLinks.authenticate(req.query.token as string, {
+  const authRes = await stytchClient.magicLinks.authenticate({
+    magic_links_token: req.query.token as string,
     session_duration_minutes: SESSION_DURATION_MINUTES,
   });
 
@@ -43,7 +44,8 @@ async function handleMagicLinkCallback(req: NextApiRequest): Promise<string> {
 }
 
 async function handleSSOCallback(req: NextApiRequest): Promise<string> {
-  const authRes = await stytchClient.sso.authenticate(req.query.token as string, {
+  const authRes = await stytchClient.sso.authenticate({
+    sso_token: req.query.token as string,
     session_duration_minutes: SESSION_DURATION_MINUTES,
   });
 

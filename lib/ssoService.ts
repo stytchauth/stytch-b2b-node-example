@@ -1,14 +1,14 @@
-import { Member } from './StytchB2BClient/base';
 import loadStytch from './loadStytch';
 
 const stytch = loadStytch();
 
 export const SSOService = {
   list: async function (organization_id: string) {
-    return stytch.sso.get(organization_id);
+    return stytch.sso.get({organization_id});
   },
   create: async function (display_name: string, organization_id: string) {
-    return stytch.sso.saml.create(organization_id, {
+    return stytch.sso.saml.create({
+      organization_id,
       display_name,
     });
   },

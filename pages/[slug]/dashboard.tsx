@@ -8,15 +8,10 @@ import React, {
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { OrgService } from "../../lib/orgService";
-import {
-  Organization,
-  Organizations,
-} from "../../lib/StytchB2BClient/organizations";
-import { Member } from "../../lib/StytchB2BClient/base";
 import { createSamlSSOConn, deleteMember, invite, login } from "../../lib/api";
 import { SSOService } from "../../lib/ssoService";
-import { SAMLConnection } from "../../lib/StytchB2BClient/sso";
 import { useAuth, withSession } from "../../lib/sessionService";
+import {Member, Organization, SAMLConnection} from "../../lib/loadStytch";
 
 type Props = {
   org: Organization;

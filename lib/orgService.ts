@@ -1,21 +1,19 @@
-import loadStytch from "./loadStytch";
-import { Member, SearchOperator } from "./StytchB2BClient/base";
-import { Organization } from "./StytchB2BClient/organizations";
-import { Members } from "./StytchB2BClient/members";
+import loadStytch, {Member, Organization} from "./loadStytch";
+import {SearchOperator} from "stytch";
 
 const stytch = loadStytch();
 
 export const OrgService = {
-  async findByID(organizationID: string): Promise<Organization | null> {
-    const orgGetPromise = stytch.organizations.get(organizationID);
+  async findByID(organization_id: string): Promise<Organization | null> {
+    const orgGetPromise = stytch.organizations.get({organization_id});
 
     try {
       const orgResult = await orgGetPromise;
       const org = orgResult.organization;
-      console.log("Organization found for id", organizationID);
+      console.log("Organization found for id", organization_id);
       return org;
     } catch (e) {
-      console.error("Failed to search for org by id", organizationID);
+      console.error("Failed to search for org by id", organization_id);
       return null;
     }
   },

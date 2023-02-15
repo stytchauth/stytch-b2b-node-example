@@ -1,12 +1,8 @@
 import { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
 import Cookies from 'cookies';
-import { MemberService } from './memberService';
-import { Member } from './StytchB2BClient/base';
-import { NextRequest, NextResponse } from 'next/server';
-import loadStytch from './loadStytch';
+import loadStytch, {Member, SessionsAuthenticateResponse} from './loadStytch';
 import { ParsedUrlQuery } from 'querystring';
 import { GetServerSidePropsContext, PreviewData } from 'next/types';
-import { AuthenticateResponse } from './StytchB2BClient/sessions';
 
 export const SESSION_DURATION_MINUTES = 60;
 
@@ -113,7 +109,7 @@ export function withSession<
  * It can only be called in functions wrapped with {@link withSession}`
  * @param context
  */
-export function useAuth(context: GetServerSidePropsContext): AuthenticateResponse {
+export function useAuth(context: GetServerSidePropsContext): SessionsAuthenticateResponse {
   // @ts-ignore
   if (!context[SESSION_SYMBOL]) {
     throw Error('useAuth called in route not protected by withSession');
