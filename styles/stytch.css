@@ -15,7 +15,13 @@ h1 {
 h2 {
   font-size: 20px;
   font-weight: 500;
-  line-height: "30px";
+  line-height: 30px;
+  margin-bottom: 4px;
+}
+
+h3 {
+  font-size: 14px;
+  line-height: 30px;
   margin-bottom: 4px;
 }
 
@@ -23,6 +29,12 @@ p {
   font-size: 18px;
   font-weight: 400;
   margin-bottom: 16px;
+}
+
+li {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 4px;
 }
 
 main {

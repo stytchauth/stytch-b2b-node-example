@@ -1,7 +1,7 @@
-import React, { FormEventHandler, useEffect, useState } from 'react';
-import { Organization } from '../lib/StytchB2BClient/organizations';
-import { login } from '../lib/api';
-import { publicToken } from '../lib/loadStytch';
+import React, { FormEventHandler, useEffect, useState } from "react";
+import { Organization } from "../lib/StytchB2BClient/organizations";
+import { login } from "../lib/api";
+import { publicToken } from "../lib/loadStytch";
 
 const STATUS = {
   INIT: 0,
@@ -20,7 +20,7 @@ type Props = {
 };
 const TenantedLoginForm = ({ org }: Props) => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
@@ -53,19 +53,23 @@ const TenantedLoginForm = ({ org }: Props) => {
   };
 
   return (
-    <div style={styles.container}>
+    <div className="card">
+      <h1>Log in to {org.organization_name}</h1>
       {emlSent === STATUS.INIT && (
-        <div>
-          <h2>Log in to {org.organization_name}</h2>
+        <div className="section">
           <form onSubmit={onSubmit}>
             <input
-              style={styles.emailInput}
               placeholder="example@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
             />
-            <button className="full-width" disabled={isDisabled} id="button" type="submit">
+            <button
+              className="primary"
+              disabled={isDisabled}
+              id="button"
+              type="submit"
+            >
               Continue
             </button>
             {org.sso_default_connection_id && (
@@ -82,7 +86,7 @@ const TenantedLoginForm = ({ org }: Props) => {
         </div>
       )}
       {emlSent === STATUS.SENT && (
-        <div>
+        <div className="section">
           <h2>Check your email</h2>
           <p>{`An email was sent to ${email}`}</p>
           <a className="link" onClick={handleTryAgain}>
@@ -101,21 +105,6 @@ const TenantedLoginForm = ({ org }: Props) => {
       )}
     </div>
   );
-};
-
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    display: 'flex',
-    margin: '48px 24px',
-    flexWrap: 'wrap-reverse',
-    justifyContent: 'center',
-    gap: '48px',
-  },
-  emailInput: {
-    width: '100%',
-    fontSize: '18px',
-    marginBottom: '8px',
-  },
 };
 
 export default TenantedLoginForm;

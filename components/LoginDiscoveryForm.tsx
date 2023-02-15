@@ -1,46 +1,37 @@
-import React, { FormEventHandler, useRef } from 'react';
-import { useRouter } from 'next/router';
+import React, { FormEventHandler, useRef, useState } from "react";
+import { useRouter } from "next/router";
 
 // TODO - Make this integrate with the discovery endpoints
 // For now - just link to tenanted login
 const LoginDiscoveryForm = () => {
-  const slug = useRef<HTMLInputElement>(null);
+  const [slug, setSlug] = useState<string>("");
+  // const slug = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    router.push(`${slug.current?.value}/login`);
+    router.push(`${slug}/login`);
   };
 
   return (
-    <div style={styles.container}>
-      <div>
-        <h2>What is your Organization&apos;s Domain Name?</h2>
-        <p>If you don&apos;t know, please reach out to your organization administrator.</p>
-        <form onSubmit={onSubmit}>
-          <input ref={slug} style={styles.emailInput} placeholder="acme-corp" />
-          <button className="full-width" id="button" type="submit">
-            Continue
-          </button>
-        </form>
-      </div>
+    <div>
+      <h1>What is your Organization&apos;s Domain Name?</h1>
+      <p>
+        If you don&apos;t know, please reach out to your organization
+        administrator.
+      </p>
+      <form onSubmit={onSubmit}>
+        <input
+          value={slug}
+          onChange={(e) => setSlug(e.target.value)}
+          placeholder="acme-corp"
+        />
+        <button className="primary" id="button" type="submit" disabled={!slug}>
+          Continue
+        </button>
+      </form>
     </div>
   );
-};
-
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    display: 'flex',
-    margin: '48px 24px',
-    flexWrap: 'wrap-reverse',
-    justifyContent: 'center',
-    gap: '48px',
-  },
-  emailInput: {
-    width: '100%',
-    fontSize: '18px',
-    marginBottom: '8px',
-  },
 };
 
 export default LoginDiscoveryForm;

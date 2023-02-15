@@ -26,14 +26,14 @@ class MyDocument extends Document {
             <Link
               className="header"
               target="_blank"
-              href="https://www.stytch.com/docs"
+              href="https://www.stytch.com/docs/b2b"
             >
               Stytch Docs
             </Link>
             <Link
               className="header"
               target="_blank"
-              href="https://github.com/stytchauth/stytch-nextjs-example"
+              href="https://github.com/stytchauth/stytch-b2b-nextjs-example"
             >
               <Image
                 alt="Github"

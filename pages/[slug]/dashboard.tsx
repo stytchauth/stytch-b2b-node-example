@@ -110,7 +110,7 @@ const MemberList = ({
       </div>
 
       <div className="section">
-        <h2>Invite new member</h2>
+        <h3>Invite new member</h3>
         <form onSubmit={onInviteSubmit} className="row">
           <input
             placeholder={`your-coworker@${org.email_allowed_domains[0]}`}
@@ -145,36 +145,45 @@ const IDPList = ({
 
   return (
     <>
-      <p>SSO Connections:</p>
-      <ul>
-        {saml_connections.map((conn) => (
-          <li key={conn.connection_id}>
-            <Link
-              href={`/${router.query.slug}/dashboard/saml/${conn.connection_id}`}
-            >
-              <span>
-                {conn.display_name} ({conn.status})
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <br />
+      <div className="section">
+        <h2>SSO Connections</h2>
+        {console.log(saml_connections)}
+        {saml_connections.length === 0 && <p>No connections configured.</p>}
+        <ul>
+          {saml_connections.map((conn) => (
+            <li key={conn.connection_id}>
+              <Link
+                href={`/${router.query.slug}/dashboard/saml/${conn.connection_id}`}
+              >
+                <span>
+                  {conn.display_name} ({conn.status})
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       {/*Only admins can create new SSO IDPs*/}
       {isAdmin(user) && (
-        <form onSubmit={onCreate}>
-          <input
-            placeholder={`Okta Account`}
-            value={idpName}
-            onChange={(e) => setIDPName(e.target.value)}
-          />
-          <br />
-          <button disabled={idpName.length < 3} type="submit">
-            Create New SSO IDP
-          </button>
-          <br />
-          <br />
-        </form>
+        <div className="section">
+          <h3>Create a new SSO IDP</h3>
+
+          <form onSubmit={onCreate} className="row">
+            <input
+              placeholder={`Okta Account`}
+              value={idpName}
+              onChange={(e) => setIDPName(e.target.value)}
+            />
+            <button
+              disabled={idpName.length < 3}
+              type="submit"
+              className="primary"
+            >
+              Create
+            </button>
+          </form>
+        </div>
       )}
     </>
   );
