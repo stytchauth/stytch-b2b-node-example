@@ -1,24 +1,19 @@
 # B2B Demo App
 
 TODO:
-- Point at prod instead of staging
+
 - Write a new Readme
 - Remove B2B client and switch to node SDK when published
-- Style updates - make it look nice
-- Style updates - use CSS everywhere over inline styles?
-- Move JSX out of pages and into components
 - CI
 
-
 Steps taken to set up:
-- Got API keys in `.env.local`
-- Set redirect urls 
 
+- Got API keys in `.env.local`
+- Set redirect urls
 
 # Stytch + Next.js Example App
 
 This is a [Stytch](https://stytch.com) + [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). **Check out a live version of this site [here](https://www.stytchdemo.com).**
-
 
 <p align="center"><img src="./public/example-app-image.png" alt="stytch" width="50%"/></p>
 
