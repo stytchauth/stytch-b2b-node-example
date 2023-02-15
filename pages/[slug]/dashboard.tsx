@@ -146,22 +146,23 @@ const IDPList = ({
   return (
     <>
       <div className="section">
-        <h2>SSO Connections</h2>
-        {console.log(saml_connections)}
-        {saml_connections.length === 0 && <p>No connections configured.</p>}
-        <ul>
-          {saml_connections.map((conn) => (
-            <li key={conn.connection_id}>
-              <Link
-                href={`/${router.query.slug}/dashboard/saml/${conn.connection_id}`}
-              >
-                <span>
-                  {conn.display_name} ({conn.status})
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <>
+          <h2>SSO Connections</h2>
+          {saml_connections.length === 0 && <p>No connections configured.</p>}
+          <ul>
+            {saml_connections.map((conn) => (
+              <li key={conn.connection_id}>
+                <Link
+                  href={`/${router.query.slug}/dashboard/saml/${conn.connection_id}`}
+                >
+                  <span>
+                    {conn.display_name} ({conn.status})
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </>
       </div>
 
       {/*Only admins can create new SSO IDPs*/}
