@@ -1,8 +1,8 @@
 // This API route sends a magic link to the specified email address.
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { SSOService } from '../../../lib/ssoService';
-import { Member } from '../../../lib/StytchB2BClient/base';
 import { adminOnlyAPIRoute } from '../../../lib/sessionService';
+import {Member} from "../../../lib/loadStytch";
 
 async function handler(member: Member, req: NextApiRequest, res: NextApiResponse) {
   try {

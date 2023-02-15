@@ -1,10 +1,9 @@
 import { OrgService } from "../../../../lib/orgService";
 import { SSOService } from "../../../../lib/ssoService";
-import { SAMLConnection } from "../../../../lib/StytchB2BClient/sso";
 import React, { FormEvent, FormEventHandler } from "react";
 import { updateSamlSSOConn } from "../../../../lib/api";
 import { useRouter } from "next/router";
-import { publicToken } from "../../../../lib/loadStytch";
+import {formatSSOStartURL, publicToken, SAMLConnection} from "../../../../lib/loadStytch";
 import { useAuth, withSession } from "../../../../lib/sessionService";
 import Link from "next/link";
 
@@ -116,9 +115,7 @@ function ConnectionEditPage({ connection }: Props) {
             style={styles.input}
           />
           <br />
-          <a
-            href={`https://api.staging.stytch.com/v1/public/sso/start?connection_id=${connection.connection_id}&public_token=${publicToken}`}
-          >
+          <a href={formatSSOStartURL(connection.connection_id)}>
             Test
           </a>
           <br />

@@ -1,12 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import loadStytch from "../../lib/loadStytch";
 import { GetServerSideProps } from "next";
-import { SearchOperator } from "../../lib/StytchB2BClient/base";
-import { Organization } from "../../lib/StytchB2BClient/organizations";
 import { useRouter } from "next/router";
 import TenantedLoginForm from "../../components/TenatedLoginForm";
 import { OrgService } from "../../lib/orgService";
+import {Organization} from "../../lib/loadStytch";
 
 type Props = { org: null | Organization };
 
