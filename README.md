@@ -1,4 +1,105 @@
-# B2B Demo App
+# Stytch B2B authentication example in Next.js
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/100632220/219726085-c9c0885f-e4ef-4019-be52-4736d2b8b4d6.png" width="750">
+</p>
+
+## Overview
+
+This example application demonstrates how one may use Stytch's B2B authenticaiton suite within a Next.js application.  The application features a sign-up and login flow powered by Email magic links. On sign-up a new organization is created, and the initial member becomes the admin of that organization. As admin, the member is able to invite others to join the organization, and set up SSO connections via SAML.
+
+This project utilizes Stytch's [Node Backend SDK](https://www.npmjs.com/package/stytch) to power authentication. All authentication logic lives on the backend of this Next.js application in API routes. The API routes allow for communication between the frontend, and Stytch. 
+
+This project was bootstrapped with [Create Next App](https://nextjs.org/docs/api-reference/create-next-app).
+
+## Set up
+
+Follow the steps below to get this application fully functional and running using your own Stytch credentials.
+
+### In the Stytch Dashboard
+
+1. Create a [Stytch](https://stytch.com/) account. Once your account is set up a Project called "My first project" will be automatically created for you.
+
+2. Within your new Project, navigate to [SDK configuration](https://stytch.com/dashboard/sdk-configuration), and make the following changes:
+
+   - Click **Enable SDK**.
+   - Under **Authorized environments** add the domain `http://localhost:3000`.
+     
+     <img width="400" alt="Authorized environments" src="https://user-images.githubusercontent.com/100632220/217052985-2e6fc264-7b8b-452b-9d24-66a76c143d10.png">
+
+   - Within the **Email Magic Links** drawer, toggle on **Enable the LoginOrCreate Flow**.
+     
+     <img width="400" alt="SDK Email Magic Links" src="https://user-images.githubusercontent.com/100632220/217053215-8c369de8-7828-4ad6-ac88-a50918520fc3.png">
+
+   - Toggle on **OAuth**.
+     
+     <img width="400" alt="SDK OAuth" src="https://user-images.githubusercontent.com/100632220/217053483-e757d1aa-af18-4af3-a476-45860ca3065f.png">
+
+3. Navigate to [Redirect URLs](https://stytch.com/dashboard/redirect-urls), and add `http://localhost:3000/authenticate` as the types **Login** and **Sign-up**.
+   
+   <img width="400" alt="Redirect URLs" src="https://user-images.githubusercontent.com/100632220/217983021-d8bf6fff-6a68-4e94-bffd-d062e69c8817.png">
+
+4. Navigate to [OAuth](https://stytch.com/dashboard/oauth), and set up login for Google in the Test environment. Follow all the instructions provided in the Dashboard. If you are not interested in OAuth login you can skip this step. However, the _Continue with Google_ button in this application will not work.
+   
+   <img width="400" alt="OAuth configuration" src="https://user-images.githubusercontent.com/100632220/217055674-a7dafc17-6ad3-492f-8dd2-92560d60dc00.png">
+
+5. Finally, navigate to [API Keys](https://stytch.com/dashboard/api-keys). You will need the `project_id`, `secret`, and `public_token` values found on this page later on.
+
+### On your machine
+
+In your terminal clone the project and install dependencies:
+
+```bash
+git clone https://github.com/cal-stytch/test-stytch-nextjs-example.git
+cd test-stytch-nextjs-example
+npm i
+```
+
+Next, create `.env.local` file by running the command below which copies the contents of `.env.template`.
+```bash
+cp .env.template .env.local
+```
+
+Open `.env.local` in the text editor of your choice, and set the environment variables using the `project_id`, `secret`, and `public_token` found on [API Keys](https://stytch.com/dashboard/api-keys). Leave the `STYTCH_PROJECT_ENV` value as `test`.
+
+```
+# This is what a completed .env.local file will look like
+STYTCH_PROJECT_ENV=test
+STYTCH_PROJECT_ID=project-test-00000000-0000-1234-abcd-abcdef1234
+NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN=public-token-test-abcd123-0000-0000-abcd-1234567abc
+STYTCH_SECRET=secret-test-12345678901234567890abcdabcd
+```
+
+## Running locally
+
+After completing all the set up steps above the application can be run with the command:
+
+```bash
+npm run dev
+```
+
+The application will be available at [`http://localhost:3000`](http://localhost:3000).
+
+You'll be able to login with Email Magic Links or Google OAuth and see your Stytch User object, Stytch Session, and see how logging out works.
+
+## Next steps
+
+This example app showcases a small portion of what you can accomplish with Stytch. Here are a few ideas to explore:
+
+1. Add additional login methods like [Passwords](https://stytch.com/docs/passwords#guides_getting-started-sdk).
+2. Replace the prebuilt UI with your own using by using the SDK's [headless methods](https://stytch.com/docs/sdks/javascript-sdk).
+3. Replace the Google OAuth button with the high converting [Google One Tap UI](https://stytch.com/docs/oauth#guides_google-sdk).
+4. Secure your app further by building MFA authentication using methods like [WebAuthn](https://stytch.com/docs/sdks/javascript-sdk#webauthn).
+
+## Get help and join the community
+
+#### :speech_balloon: Stytch community Slack
+
+Join the discussion, ask questions, and suggest new features in our ​[Slack community](https://join.slack.com/t/stytch/shared_invite/zt-nil4wo92-jApJ9Cl32cJbEd9esKkvyg)!
+
+#### :question: Need support?
+
+Check out the [Stytch Forum](https://forum.stytch.com/) or email us at [support@stytch.com](mailto:support@stytch.com).
 
 TODO:
 
@@ -10,75 +111,3 @@ Steps taken to set up:
 
 - Got API keys in `.env.local`
 - Set redirect urls
-
-# Stytch + Next.js Example App
-
-This is a [Stytch](https://stytch.com) + [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). **Check out a live version of this site [here](https://www.stytchdemo.com).**
-
-<p align="center"><img src="./public/example-app-image.png" alt="stytch" width="50%"/></p>
-
-In this repo, we have three sample auth flows:
-
-- SDK with React component: This flow uses Stytch's React component to create a login and sign-up flow using [Email magic links](https://stytch.com/products/email-magic-links) and [OAuth logins](https://stytch.com/products/oauth).
-- SDK with custom UI: This flow uses a custom UI with Stytch's headless SDK to implement [Onetime Passcodes(OTP) via SMS](https://stytch.com/products/sms-passcodes) authentication.
-- Direct API: This flow uses a custom UI with Stytch's backend API for a two step authenticaiton which requires [Email magic links](https://stytch.com/products/email-magic-links) and [WebAuthn](https://stytch.com/products/webauthn).
-
-**Note:** By default this example app enables five of our OAuth providers, Google, Microsoft, Facebook, Github, and Apple. If you haven't set up these OAuth providers in your [Dashboard](https://stytch.com/dashboard/oauth), you'll receive a redirect error when you attempt to login via those providers. You may remove all OAuth methods by removing `SDKProductTypes.oauth` from the `products` array in [components/LoginWithReactSDK.tsx](components/LoginWithReactSDK.tsx) or adjust which ones are displayed by via `oauthOptions.providers` in the same file. More detail on working with OAuth providers in our SDK may be found in our [Docs](https://stytch.com/docs/javascript-sdk#javascript-sdk/oauth).
-
-# Running with Vercel
-
-If you'd like to run this example app with [Vercel](https://vercel.com/), the first step is to configure the appropriate redirect URLs for your project.
-
-You'll set these magic link redirect URLs in the [Redirect URLs](https://stytch.com/dashboard/redirect-urls) section of your Dashboard. Add `https://*.vercel.app/authenticate` as both a login and sign-up redirect URL. If you'd like to try our [WebAuthn](https://stytch.com/docs/api/webauthn-overview) example integration, add `https://*.vercel.app/api/authenticate_magic_link_with_webauthn` as a login and sign-up redirect URL as well.
-
-Additionally, you will need to configure the headless SDK settings. In your [SDK Configuration](https://stytch.com/dashboard/sdk-configuration) add `https://*.vercel.app` as an authorized domain and toggle on the Auth methods "Email magic links", "OAuth", and "SMS passcodes (OTP)".
-
-**Note:** To use Google One Tap in this example app, you'll need to deploy on Vercel first, then add the resulting URL, e.g. `https://<uuid>.vercel.app/` as both a Stytch Redirect URL and as a [Authorized JavaScript origins](https://console.cloud.google.com/apis/credentials/) in your Google OAuth dashboard.
-
-Now just click the deploy button below! Once you're signed in to your Vercel account, you'll be guided through how to get up and running quickly. Check out [.env.template](/.env.template) for pointers on filling in the appropriate environment variables for this step.
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fstytchauth%2Fstytch-nextjs-integration&env=STYTCH_PROJECT_ENV,STYTCH_PROJECT_ID,STYTCH_SECRET,STYTCH_PUBLIC_TOKEN,IRON_SESSION_PASSWORD,IRON_SESSION_COOKIE_NAME&envDescription=All%20variables%20here%20need%20values%2C%20see%20the%20following%20link%20for%20pointers%20on%20how%20to%20feel%20these%20out.&envLink=https%3A%2F%2Fgithub.com%2Fstytchauth%2Fstytch-nextjs-integration%2Fblob%2Fmain%2F.env.template&project-name=stytch-nextjs&repo-name=stytch-nextjs&demo-title=Stytch%20on%20Next.js&demo-description=Next.js%20example%20app%20using%20Stytch%20authentication&demo-url=https%3A%2F%2Fgithub.com%2Fstytchauth%2Fstytch-nextjs-integration&demo-image=https%3A%2F%2Fgithub.com%2Fstytchauth%2Fstytch-nextjs-integration%2Fblob%2Fmain%2Fpublic%2Fexample-app-image.png)
-
-# Running locally
-
-## Setting up Stytch
-
-After signing up for Stytch, you'll need your Project's `project_id`, `secret`, and `public_token`. You can find these in the [API keys tab](https://stytch.com/dashboard/api-keys).
-
-Once you've gathered these values, add them to a new .env.local file.
-Example:
-
-```bash
-cp .env.template .env.local
-# Replace your keys in new .env.local file
-```
-
-Next we'll configure the appropriate redirect URLs for your project, you'll set these magic link URLs for your project in the [Redirect URLs](https://stytch.com/dashboard/redirect-urls) section of your Dashboard. Add `http://localhost:3000/authenticate` as both a login and sign-up redirect URL. If you'd like to try our [WebAuthn](https://stytch.com/docs/api/webauthn-overview) example integration, add `http://localhost:3000/api/authenticate_magic_link_with_webauthn` as a login and sign-up redirect URL as well.
-
-## Running the example app
-
-Install dependencies by running
-
-```bash
-npm install
-# or
-yarn install
-```
-
-You can then run a development server using:
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Documentation
-
-Learn more about some of Stytch's products used in this example app:
-
-- [Stytch Web SDK](https://www.npmjs.com/package/@stytch/vanilla-js)
-- [Stytch NextJS](https://www.npmjs.com/package/@stytch/nextjs)
-- [Stytch's node client library](https://www.npmjs.com/package/stytch)
