@@ -3,7 +3,11 @@ import { SSOService } from "../../../../lib/ssoService";
 import React, { FormEvent, FormEventHandler } from "react";
 import { updateSamlSSOConn } from "../../../../lib/api";
 import { useRouter } from "next/router";
-import {formatSSOStartURL, publicToken, SAMLConnection} from "../../../../lib/loadStytch";
+import {
+  formatSSOStartURL,
+  publicToken,
+  SAMLConnection,
+} from "../../../../lib/loadStytch";
 import { useAuth, withSession } from "../../../../lib/sessionService";
 import Link from "next/link";
 
@@ -37,90 +41,56 @@ function ConnectionEditPage({ connection }: Props) {
         <form onSubmit={onSubmit} style={{ minWidth: 600 }}>
           <h1>Edit SAML Connection</h1>
           <label htmlFor="display_name">Display Name</label>
-          <input
-            name="display_name"
-            value={connection.display_name}
-            style={styles.input}
-          />
-          <br />
+          <input name="display_name" value={connection.display_name} disabled />
           <label htmlFor="status">Status</label>
-          <input
-            name="status"
-            disabled
-            value={connection.status}
-            style={styles.input}
-          />
-          <br />
+          <input name="status" disabled value={connection.status} />
           <label htmlFor="acs_url">ACS URL</label>
-          <input
-            name="acs_url"
-            disabled
-            value={connection.acs_url}
-            style={styles.input}
-          />
-          <br />
+          <input name="acs_url" disabled value={connection.acs_url} />
           <label htmlFor="audience_uri">Audience URI</label>
-          <input
-            name="audience_uri"
-            disabled
-            value={connection.audience_uri}
-            style={styles.input}
-          />
-          <br />
+          <input name="audience_uri" disabled value={connection.audience_uri} />
           <label htmlFor="idp_sso_url">SSO URL</label>
           <input
             name="idp_sso_url"
             placeholder="https://idp.com/sso/start"
             defaultValue={connection.idp_sso_url}
-            style={styles.input}
           />
-          <br />
           <label htmlFor="idp_entity_id">IDP Entity ID</label>
           <input
             name="idp_entity_id"
             placeholder="https://idp.com/sso/start"
             defaultValue={connection.idp_entity_id}
-            style={styles.input}
           />
-          <br />
           <label htmlFor="email_attribute">Email Attribute</label>
           <input
             name="email_attribute"
             placeholder="NameID"
             defaultValue={connection.attribute_mapping["email"]}
-            style={styles.input}
           />
-          <br />
           <label htmlFor="first_name_attribute">First Name Attribute</label>
           <input
             name="first_name_attribute"
             placeholder="firstName"
             defaultValue={connection.attribute_mapping["first_name"]}
-            style={styles.input}
           />
-          <br />
           <label htmlFor="last_name_attribute">Last Name Attribute</label>
           <input
             name="last_name_attribute"
             placeholder="lastName"
             defaultValue={connection.attribute_mapping["last_name"]}
-            style={styles.input}
           />
-          <br />
           <label htmlFor="certificate">Signing Certificate</label>
           <textarea
             name="certificate"
             placeholder="-------BEGIN ------"
             defaultValue={connection.verification_certificates[0]?.certificate}
-            style={styles.input}
           />
-          <br />
           <a href={formatSSOStartURL(connection.connection_id)}>
-            Test
+            <button className="secondary">Test connection</button>
           </a>
-          <br />
-          <button type="submit">Save</button>
-          <br />
+
+          <button className="primary" type="submit">
+            Save
+          </button>
           <Link href={`/${router.query.slug}/dashboard`}>Back</Link>
         </form>
       </div>
@@ -159,15 +129,3 @@ export const getServerSideProps = withSession<
 });
 
 export default ConnectionEditPage;
-
-const styles = {
-  container: {
-    display: "flex",
-    margin: "48px 24px",
-    justifyContent: "center",
-    gap: "48px",
-  },
-  input: {
-    width: "100%",
-  },
-};

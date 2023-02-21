@@ -11,7 +11,7 @@ import { OrgService } from "../../lib/orgService";
 import { createSamlSSOConn, deleteMember, invite, login } from "../../lib/api";
 import { SSOService } from "../../lib/ssoService";
 import { useAuth, withSession } from "../../lib/sessionService";
-import {Member, Organization, SAMLConnection} from "../../lib/loadStytch";
+import { Member, Organization, SAMLConnection } from "../../lib/loadStytch";
 
 type Props = {
   org: Organization;
@@ -188,7 +188,11 @@ const IDPList = ({
 const Dashboard = ({ org, user, members, saml_connections }: Props) => {
   return (
     <div className="card">
-      <h1>{org.organization_name}</h1>
+      <h1>Organization name: {org.organization_name}</h1>
+      <p>
+        Organization domain:{" "}
+        <span className="code">{org.organization_slug}</span>
+      </p>
       <MemberList org={org} members={members} user={user} />
       <br />
       <IDPList user={user} saml_connections={saml_connections} />

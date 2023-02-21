@@ -89,6 +89,24 @@ button.primary:disabled {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
+button.secondary {
+  width: 100%;
+  height: 45px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #4a37be;
+  background-color: white;
+  border: 1px solid #4a37be;
+  border-radius: 4px;
+}
+button.secondary:disabled {
+  cursor: default;
+  pointer-events: none;
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
 pre.code-block {
   max-height: 200px;
   width: 100%;
@@ -185,4 +203,13 @@ form > input:focus {
   outline: none;
   border: 1px solid #4a37be;
   box-shadow: inset 0 0 0 1px #4a37be;
+}
+
+input:disabled {
+  background-color: lightgray;
+  opacity: 0.5;
+}
+
+textarea {
+  min-height: 100px;
 }
