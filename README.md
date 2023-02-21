@@ -6,7 +6,7 @@
 
 ## Overview
 
-This example application demonstrates how one may use Stytch's B2B authenticaiton suite within a Next.js application.  The application features a sign-up and login flow powered by Email magic links. On sign-up a new organization is created, and the initial member becomes the admin of that organization. As admin, the member is able to invite others to join the organization, and set up SSO connections via SAML.
+This example application demonstrates how one may use Stytch's B2B authentication suite within a Next.js application.  The application features a sign-up and login flow powered by Email magic links. On sign-up a new organization is created, and the initial member becomes the admin of that organization. As admin, the member is able to invite others to join the organization, and set up SSO connections via SAML.
 
 This project utilizes Stytch's [Node Backend SDK](https://www.npmjs.com/package/stytch) to power authentication. All authentication logic lives on the backend of this Next.js application in API routes. The API routes allow for communication between the frontend, and Stytch. 
 
@@ -18,40 +18,22 @@ Follow the steps below to get this application fully functional and running usin
 
 ### In the Stytch Dashboard
 
-1. Create a [Stytch](https://stytch.com/) account. Once your account is set up a Project called "My first project" will be automatically created for you.
+1. Create a [Stytch](https://stytch.com/) account. Within the sign up flow select **B2B Authentication** as the authentication type you are interested in. Once your account is set up a Project called "My first project" will be automatically created for you.
+    - If you signed up for Stytch in the past then your default Project is likely a Consumer type Project. You can confirm this in your [Project settings](https://stytch.com/dashboard/project-settings). To create a B2B project, use the Project dropdown near the top of the dashboard side nav. Be sure to select **B2B Authentication** as the authentication type.
 
-2. Within your new Project, navigate to [SDK configuration](https://stytch.com/dashboard/sdk-configuration), and make the following changes:
+2. Navigate to [Redirect URLs](https://stytch.com/dashboard/redirect-urls), and add `http://localhost:3000/api/callback` as the types **Login**, **Sign-up**, and **Invite**.
 
-   - Click **Enable SDK**.
-   - Under **Authorized environments** add the domain `http://localhost:3000`.
-     
-     <img width="400" alt="Authorized environments" src="https://user-images.githubusercontent.com/100632220/217052985-2e6fc264-7b8b-452b-9d24-66a76c143d10.png">
+   <img width="400" alt="Redirect URLs" src="https://user-images.githubusercontent.com/100632220/220420098-84c78ca3-4e71-46b5-90f1-25afbb571ce2.png">
 
-   - Within the **Email Magic Links** drawer, toggle on **Enable the LoginOrCreate Flow**.
-     
-     <img width="400" alt="SDK Email Magic Links" src="https://user-images.githubusercontent.com/100632220/217053215-8c369de8-7828-4ad6-ac88-a50918520fc3.png">
-
-   - Toggle on **OAuth**.
-     
-     <img width="400" alt="SDK OAuth" src="https://user-images.githubusercontent.com/100632220/217053483-e757d1aa-af18-4af3-a476-45860ca3065f.png">
-
-3. Navigate to [Redirect URLs](https://stytch.com/dashboard/redirect-urls), and add `http://localhost:3000/authenticate` as the types **Login** and **Sign-up**.
-   
-   <img width="400" alt="Redirect URLs" src="https://user-images.githubusercontent.com/100632220/217983021-d8bf6fff-6a68-4e94-bffd-d062e69c8817.png">
-
-4. Navigate to [OAuth](https://stytch.com/dashboard/oauth), and set up login for Google in the Test environment. Follow all the instructions provided in the Dashboard. If you are not interested in OAuth login you can skip this step. However, the _Continue with Google_ button in this application will not work.
-   
-   <img width="400" alt="OAuth configuration" src="https://user-images.githubusercontent.com/100632220/217055674-a7dafc17-6ad3-492f-8dd2-92560d60dc00.png">
-
-5. Finally, navigate to [API Keys](https://stytch.com/dashboard/api-keys). You will need the `project_id`, `secret`, and `public_token` values found on this page later on.
+3. Finally, navigate to [API Keys](https://stytch.com/dashboard/api-keys). You will need the `project_id` and `secret` values found on this page later on.
 
 ### On your machine
 
 In your terminal clone the project and install dependencies:
 
 ```bash
-git clone https://github.com/cal-stytch/test-stytch-nextjs-example.git
-cd test-stytch-nextjs-example
+git clone https://github.com/stytchauth/stytch-b2b-nextjs-example.git
+cd stytch-b2b-nextjs-example
 npm i
 ```
 
@@ -66,7 +48,6 @@ Open `.env.local` in the text editor of your choice, and set the environment var
 # This is what a completed .env.local file will look like
 STYTCH_PROJECT_ENV=test
 STYTCH_PROJECT_ID=project-test-00000000-0000-1234-abcd-abcdef1234
-NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN=public-token-test-abcd123-0000-0000-abcd-1234567abc
 STYTCH_SECRET=secret-test-12345678901234567890abcdabcd
 ```
 
@@ -80,17 +61,6 @@ npm run dev
 
 The application will be available at [`http://localhost:3000`](http://localhost:3000).
 
-You'll be able to login with Email Magic Links or Google OAuth and see your Stytch User object, Stytch Session, and see how logging out works.
-
-## Next steps
-
-This example app showcases a small portion of what you can accomplish with Stytch. Here are a few ideas to explore:
-
-1. Add additional login methods like [Passwords](https://stytch.com/docs/passwords#guides_getting-started-sdk).
-2. Replace the prebuilt UI with your own using by using the SDK's [headless methods](https://stytch.com/docs/sdks/javascript-sdk).
-3. Replace the Google OAuth button with the high converting [Google One Tap UI](https://stytch.com/docs/oauth#guides_google-sdk).
-4. Secure your app further by building MFA authentication using methods like [WebAuthn](https://stytch.com/docs/sdks/javascript-sdk#webauthn).
-
 ## Get help and join the community
 
 #### :speech_balloon: Stytch community Slack
@@ -100,14 +70,3 @@ Join the discussion, ask questions, and suggest new features in our ​[Slack co
 #### :question: Need support?
 
 Check out the [Stytch Forum](https://forum.stytch.com/) or email us at [support@stytch.com](mailto:support@stytch.com).
-
-TODO:
-
-- Write a new Readme
-- Remove B2B client and switch to node SDK when published
-- CI
-
-Steps taken to set up:
-
-- Got API keys in `.env.local`
-- Set redirect urls
