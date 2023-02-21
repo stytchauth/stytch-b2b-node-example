@@ -1,7 +1,6 @@
 # Stytch B2B authentication example in Next.js
-
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/100632220/219726085-c9c0885f-e4ef-4019-be52-4736d2b8b4d6.png" width="750">
+  <img src="https://user-images.githubusercontent.com/100632220/220425771-fa0a92ed-3088-4ef4-8bdd-7f771bbb16bc.png" width="750">
 </p>
 
 ## Overview
