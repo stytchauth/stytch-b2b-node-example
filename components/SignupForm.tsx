@@ -74,24 +74,15 @@ const SignupForm = () => {
       {emlSent === STATUS.INIT && (
         <>
           <h1>Sign up</h1>
-          <p>
-            Make sure to add the appropriate Redirect URL in your{" "}
-            <a
-              className="link"
-              href="https://stytch.com/dashboard/redirect-urls"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Stytch Dashboard
-            </a>
-          </p>
           <form onSubmit={onSubmit}>
+            <label>Email address</label>
             <input
               placeholder="example@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
             />
+            <label>Organization name</label>
             <input
               placeholder="Foo Corp"
               value={organizationName}
