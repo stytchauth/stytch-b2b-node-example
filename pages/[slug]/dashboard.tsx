@@ -160,10 +160,10 @@ const IDPList = ({
         </>
       </div>
 
-      {/*Only admins can create new SSO IDPs*/}
+      {/*Only admins can create new SSO Connection*/}
       {isAdmin(user) && (
         <div className="section">
-          <h3>Create a new SSO IDP</h3>
+          <h3>Create a new SAML Connection</h3>
 
           <form onSubmit={onCreate} className="row">
             <input
@@ -190,7 +190,7 @@ const Dashboard = ({ org, user, members, saml_connections }: Props) => {
     <div className="card">
       <h1>Organization name: {org.organization_name}</h1>
       <p>
-        Organization domain:{" "}
+        Organization slug:{" "}
         <span className="code">{org.organization_slug}</span>
       </p>
       <MemberList org={org} members={members} user={user} />

@@ -15,7 +15,7 @@ const LoginDiscoveryForm = () => {
 
   return (
     <div>
-      <h1>What is your Organization&apos;s Domain Name?</h1>
+      <h1>What is your Organization&apos;s slug?</h1>
       <p>
         If you don&apos;t know, please reach out to your organization
         administrator.
