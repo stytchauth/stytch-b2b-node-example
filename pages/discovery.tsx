@@ -8,18 +8,18 @@ import {getDiscoverySessionData} from "../lib/sessionService";
 
 type Props = {
   possible_organizations: PossibleOrganizations,
-  is_discovery: boolean,
 };
 
 const PossibleOrganizationsList = ({
-                                     possible_organizations
-                                   }: Pick<Props, "possible_organizations">) => {
+                                     possible_organizations,
+                                   }:Props) => {
   return (
     <div className="section">
       <h3>Your Organizations</h3>
       {possible_organizations.length === 0 && <p>No existing organizations.</p>}
       <ul>
-        {possible_organizations.map(({organization, member}) => (
+        {possible_organizations
+          .map(({organization, member}) => (
           <li key={organization.organization_id}>
             <Link
               href={`/api/discovery/${organization.organization_id}`}
@@ -62,12 +62,11 @@ const CreateNewOrganization = () => {
   )
 }
 
-const Discovery = ({possible_organizations, is_discovery}: Props) => {
+const Discovery = ({possible_organizations}: Props) => {
   return (
     <div className="card">
-      {!is_discovery && (<h3>Organization Switcher</h3>)}
-      <PossibleOrganizationsList possible_organizations={possible_organizations}/>
-      {is_discovery && <CreateNewOrganization/>}
+      <PossibleOrganizationsList possible_organizations={possible_organizations} />
+      <CreateNewOrganization/>
     </div>
   );
 };
@@ -79,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
       return { redirect: { statusCode: 307, destination: `/login` } };
   }
 
-  const {possible_organizations} = await loadStytch().discovery.memberships({
+  const {possible_organizations, request_id} = await loadStytch().discovery.memberships({
     intermediate_session_token: discoverySessionData.intermediateSession,
     session_jwt: discoverySessionData.sessionJWT,
   });
@@ -87,7 +86,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
   return {
     props: {
       possible_organizations,
-      is_discovery: discoverySessionData.isDiscovery,
     },
   };
 };

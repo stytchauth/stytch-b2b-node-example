@@ -108,7 +108,7 @@ const MemberList = ({
         <h3>Invite new member</h3>
         <form onSubmit={onInviteSubmit} className="row">
           <input
-            placeholder={`your-coworker@${org.email_allowed_domains[0]}`}
+            placeholder={`your-coworker@${org.email_allowed_domains[0] ?? 'example.com'}`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -198,7 +198,7 @@ const Dashboard = ({ org, user, members, saml_connections }: Props) => {
       <IDPList user={user} saml_connections={saml_connections} />
 
       <div>
-      <Link href={"/discovery"}>Switch Organizations</Link>
+      <Link href={"/orgswitcher"}>Switch Organizations</Link>
         &nbsp;&nbsp;&nbsp;&nbsp;
       <Link href={"/api/logout"}>Log Out</Link>
       </div>

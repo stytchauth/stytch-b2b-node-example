@@ -60,6 +60,7 @@ export interface OrganizationRequest {
   intermediate_session_token: string;
   organization_name: string;
   organization_slug: string;
+  email_allowed_domains?: string[]
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>;
 }

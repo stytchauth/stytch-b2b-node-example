@@ -3,6 +3,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import loadStytch from '../../../lib/loadStytch';
 import Cookies from "cookies";
 import {clearIntermediateSession, setSession} from "../../../lib/sessionService";
+import {StytchError} from "stytch";
 
 const stytchClient = loadStytch();
 
@@ -15,6 +16,10 @@ function toSlug(orgName: string): string {
     .toLowerCase()
     .replaceAll(/[^\s\w]/g, '')
     .replaceAll(/\s/g, '-');
+}
+
+function toDomain(email: string): string {
+  return email.split('@')[1];
 }
 
 export async function handler(req: NextApiRequest, res: NextApiResponse<ErrorData>) {
@@ -33,6 +38,22 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<ErrorDat
       organization_slug,
       session_duration_minutes: 60
     });
+
+    // Make the organization discoverable to other emails
+    try {
+      await stytchClient.organizations.update({
+        organization_id: organization.organization_id,
+        email_jit_provisioning: "RESTRICTED",
+        email_allowed_domains: [toDomain(member.email_address)],
+      })
+    } catch (e) {
+      if(e instanceof  StytchError && e.error_type == 'organization_settings_domain_too_common') {
+        console.log('User domain is common email provider, cannot link to organization')
+      } else {
+        throw e
+      }
+    }
+
 
     // Mark the first user in the organization as the admin
     await stytchClient.organizations.members.update({

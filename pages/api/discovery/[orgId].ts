@@ -8,7 +8,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
   const discoverySessionData = getDiscoverySessionData(req, res);
   if (discoverySessionData.error) {
     console.log('No session tokens found...');
-    return { redirect: { statusCode: 307, destination: `/login` } };
+    return {redirect: {statusCode: 307, destination: `/login`}};
   }
 
   const orgId = req.query.orgId;
@@ -24,7 +24,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
         session_duration_minutes: 60
       });
     }
-    return   stytchClient.discovery.sessionExchange({
+    return stytchClient.discovery.sessionExchange({
       organization_id: orgId,
       session_jwt: discoverySessionData.sessionJWT,
     })
