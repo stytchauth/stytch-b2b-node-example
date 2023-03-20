@@ -197,7 +197,11 @@ const Dashboard = ({ org, user, members, saml_connections }: Props) => {
       <br />
       <IDPList user={user} saml_connections={saml_connections} />
 
+      <div>
+      <Link href={"/discovery"}>Switch Organizations</Link>
+        &nbsp;&nbsp;&nbsp;&nbsp;
       <Link href={"/api/logout"}>Log Out</Link>
+      </div>
     </div>
   );
 };

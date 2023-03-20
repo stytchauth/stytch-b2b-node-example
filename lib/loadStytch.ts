@@ -18,6 +18,10 @@ export type SAMLConnection = Awaited<
   ReturnType<typeof client.sso.saml.create>
 >["connection"];
 
+export type PossibleOrganizations = Awaited<
+  ReturnType<typeof client.discovery.memberships>
+>["possible_organizations"];
+
 const stytchEnv =
   process.env.NEXT_PUBLIC_STYTCH_PROJECT_ENV === "live"
     ? stytch.envs.live

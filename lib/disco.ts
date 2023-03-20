@@ -58,7 +58,8 @@ export interface MembershipsResponse extends BaseResponse {
 
 export interface OrganizationRequest {
   intermediate_session_token: string;
-  organization: Organization;
+  organization_name: string;
+  organization_slug: string;
   session_duration_minutes?: number;
   session_custom_claims?: Record<string, any>;
 }
@@ -85,6 +86,7 @@ export interface SessionResponse extends BaseResponse {
   session_token: string;
   session_jwt: string;
   member: Member;
+  organization: Organization;
 }
 
 export interface SessionExchangeRequest {
@@ -99,6 +101,7 @@ export interface SessionExchangeResponse extends BaseResponse {
   session_token: string;
   session_jwt: string;
   member: Member;
+  organization: Organization;
 }
 
 export interface PossibleOrganization {
@@ -138,7 +141,7 @@ export class Discovery {
   memberships(data: MembershipsRequest): Promise<MembershipsResponse> {
     return request<MembershipsResponse>(this.fetchConfig, {
       method: 'POST',
-      url: 'b2b/discovery/memberships',
+      url: 'discovery/memberships',
       data,
     });
   }
@@ -146,7 +149,7 @@ export class Discovery {
   organization(data: OrganizationRequest): Promise<OrganizationResponse> {
     return request<OrganizationResponse>(this.fetchConfig, {
       method: 'POST',
-      url: 'b2b/discovery/organization',
+      url: 'discovery/organization',
       data,
     });
   }
@@ -154,7 +157,7 @@ export class Discovery {
   session(data: SessionRequest): Promise<SessionResponse> {
     return request<SessionResponse>(this.fetchConfig, {
       method: 'POST',
-      url: 'b2b/discovery/session',
+      url: 'discovery/session',
       data,
     });
   }
@@ -162,7 +165,7 @@ export class Discovery {
   sessionExchange(data: SessionExchangeRequest): Promise<SessionExchangeResponse> {
     return request<SessionExchangeResponse>(this.fetchConfig, {
       method: 'POST',
-      url: 'b2b/discovery/session/exchange',
+      url: 'discovery/session/exchange',
       data,
     });
   }
@@ -176,7 +179,7 @@ export class Discovery {
   discoveryEmailSend(data: DiscoveryEmailSendRequest): Promise<BaseResponse> {
     return request<BaseResponse>(this.fetchConfig, {
       method: 'POST',
-      url: 'b2b/discovery/magic_links/email/send',
+      url: 'discovery/magic_links/email/send',
       data,
     });
   }
@@ -184,7 +187,7 @@ export class Discovery {
   discoveryAuthenticate(data: DiscoveryAuthenticateRequest): Promise<DiscoveryAuthenticateResponse> {
     return request<DiscoveryAuthenticateResponse>(this.fetchConfig, {
       method: 'POST',
-      url: 'b2b/discovery/magic_links/authenticate',
+      url: 'discovery/magic_links/authenticate',
       data,
     });
   }
