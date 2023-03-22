@@ -18,13 +18,13 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const exchangeSession = () => {
     if (discoverySessionData.isDiscovery) {
-      return stytchClient.discovery.session({
+      return stytchClient.discovery.intermediateSessions.exchange({
         intermediate_session_token: discoverySessionData.intermediateSession,
         organization_id: orgId,
         session_duration_minutes: 60
       });
     }
-    return stytchClient.discovery.sessionExchange({
+    return stytchClient.sessions.exchange({
       organization_id: orgId,
       session_jwt: discoverySessionData.sessionJWT,
     })

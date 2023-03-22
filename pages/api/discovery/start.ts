@@ -14,7 +14,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<ErrorDat
   const domain = getDomainFromRequest(req);
 
   try {
-    await stytchClient.discovery.discoveryEmailSend({
+    await stytchClient.magicLinks.email.discovery.send({
       email_address: email,
       discovery_redirect_url: `${domain}/api/callback`,
     });

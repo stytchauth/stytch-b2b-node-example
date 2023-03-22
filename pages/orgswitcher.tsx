@@ -3,23 +3,23 @@ import React, {
 } from "react";
 import Link from "next/link";
 import {GetServerSideProps} from "next";
-import loadStytch, {Member, PossibleOrganizations} from "../lib/loadStytch";
+import loadStytch, {Member, DiscoveredOrganizations} from "../lib/loadStytch";
 import {getDiscoverySessionData, useAuth, withSession} from "../lib/sessionService";
 
 type Props = {
-  possible_organizations: PossibleOrganizations,
+  discovered_organizations: DiscoveredOrganizations,
   user: Member,
 };
 
 const OrgSwitcherList = ({
-                           possible_organizations,
+                           discovered_organizations,
                            user,
                          }: Props) => {
   return (
     <div className="section">
       <h3>Your Organizations</h3>
       <ul>
-        {possible_organizations
+        {discovered_organizations
           .map(({organization}) => (
             <li key={organization.organization_id}>
               <Link
@@ -53,7 +53,7 @@ export const getServerSideProps = withSession<Props>(async (context) => {
     return {redirect: {statusCode: 307, destination: `/login`}};
   }
 
-  const {possible_organizations} = await loadStytch().discovery.memberships({
+  const {discovered_organizations} = await loadStytch().discovery.organizations.list({
     intermediate_session_token: discoverySessionData.intermediateSession,
     session_jwt: discoverySessionData.sessionJWT,
   });
@@ -61,7 +61,7 @@ export const getServerSideProps = withSession<Props>(async (context) => {
   return {
     props: {
       user: member,
-      possible_organizations: possible_organizations.filter(({member}) => !!member),
+      discovered_organizations,
     },
   };
 });

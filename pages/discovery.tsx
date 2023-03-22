@@ -3,34 +3,46 @@ import React, {
 } from "react";
 import Link from "next/link";
 import {GetServerSideProps} from "next";
-import loadStytch, {PossibleOrganizations} from "../lib/loadStytch";
+import loadStytch, {DiscoveredOrganizations} from "../lib/loadStytch";
 import {getDiscoverySessionData} from "../lib/sessionService";
 
 type Props = {
-  possible_organizations: PossibleOrganizations,
+  discovered_organizations: DiscoveredOrganizations,
 };
 
-const PossibleOrganizationsList = ({
-                                     possible_organizations,
-                                   }:Props) => {
+const DiscoveredOrganizationsList = ({
+                                       discovered_organizations,
+                                     }: Props) => {
+
+  const formatMembership = ({membership, organization}: DiscoveredOrganizations[0]) => {
+    if (membership.type === "pending_member") {
+      return `Join ${organization.organization_name}`
+    }
+    if (membership.type === "eligible_to_join_by_email_domain") {
+      return `Join ${organization.organization_name} via your ${membership.details.domain} email`
+    }
+    if (membership.type === "invited_member") {
+      return `Accept Invite for ${organization.organization_name}`
+    }
+    return `Continue to ${organization.organization_name}`
+  }
+
+
   return (
     <div className="section">
       <h3>Your Organizations</h3>
-      {possible_organizations.length === 0 && <p>No existing organizations.</p>}
+      {discovered_organizations.length === 0 && <p>No existing organizations.</p>}
       <ul>
-        {possible_organizations
-          .map(({organization, member}) => (
-          <li key={organization.organization_id}>
-            <Link
-              href={`/api/discovery/${organization.organization_id}`}
-            >
-              {/*TODO: reference _how_ the join is possible - invites or some other mechanism?*/}
-              <span>
-                    {member ? 'Continue to' : 'Join'} {organization.organization_name}
-                  </span>
-            </Link>
-          </li>
-        ))}
+        {discovered_organizations
+          .map(({organization, membership}) => (
+            <li key={organization.organization_id}>
+              <Link
+                href={`/api/discovery/${organization.organization_id}`}
+              >
+                <span>{formatMembership({organization, membership})}</span>
+              </Link>
+            </li>
+          ))}
       </ul>
     </div>
   );
@@ -62,10 +74,10 @@ const CreateNewOrganization = () => {
   )
 }
 
-const Discovery = ({possible_organizations}: Props) => {
+const Discovery = ({discovered_organizations}: Props) => {
   return (
     <div className="card">
-      <PossibleOrganizationsList possible_organizations={possible_organizations} />
+      <DiscoveredOrganizationsList discovered_organizations={discovered_organizations}/>
       <CreateNewOrganization/>
     </div>
   );
@@ -74,18 +86,20 @@ const Discovery = ({possible_organizations}: Props) => {
 export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
   const discoverySessionData = getDiscoverySessionData(context.req, context.res);
   if (discoverySessionData.error) {
-      console.log('No session tokens found...');
-      return { redirect: { statusCode: 307, destination: `/login` } };
+    console.log('No session tokens found...');
+    return {redirect: {statusCode: 307, destination: `/login`}};
   }
 
-  const {possible_organizations, request_id} = await loadStytch().discovery.memberships({
+  const {discovered_organizations, request_id} = await loadStytch().discovery.organizations.list({
     intermediate_session_token: discoverySessionData.intermediateSession,
     session_jwt: discoverySessionData.sessionJWT,
   });
 
+  console.log(discovered_organizations)
+
   return {
     props: {
-      possible_organizations,
+      discovered_organizations,
     },
   };
 };

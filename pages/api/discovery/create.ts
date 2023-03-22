@@ -32,8 +32,9 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<ErrorDat
   const organization_slug = toSlug(organization_name);
 
   try {
-    const {member, organization, session_jwt} = await stytchClient.discovery.organization({
+    const {member, organization, session_jwt} = await stytchClient.discovery.organizations.create({
       intermediate_session_token: intermediateSession,
+      email_allowed_domains: [],
       organization_name,
       organization_slug,
       session_duration_minutes: 60

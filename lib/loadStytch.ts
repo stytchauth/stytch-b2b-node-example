@@ -1,7 +1,6 @@
 import * as stytch from "stytch";
-import {Discovery} from "./disco";
 
-let client: CustomStytchB2BClient;
+let client: stytch.B2BClient;
 
 export const publicToken = process.env.NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN;
 
@@ -18,9 +17,9 @@ export type SAMLConnection = Awaited<
   ReturnType<typeof client.sso.saml.create>
 >["connection"];
 
-export type PossibleOrganizations = Awaited<
-  ReturnType<typeof client.discovery.memberships>
->["possible_organizations"];
+export type DiscoveredOrganizations = Awaited<
+  ReturnType<typeof client.discovery.organizations.list>
+>["discovered_organizations"];
 
 const stytchEnv =
   process.env.NEXT_PUBLIC_STYTCH_PROJECT_ENV === "live"
@@ -31,21 +30,11 @@ export const formatSSOStartURL = (connection_id: string): string => {
   return `${stytchEnv}public/sso/start?connection_id=${connection_id}&public_token=${publicToken}`;
 };
 
-export class CustomStytchB2BClient extends stytch.B2BClient {
-  discovery: Discovery;
-  constructor(...args: ConstructorParameters<typeof stytch.B2BClient>) {
-    super(...args);
-
-    // fetchConfig is private, but that won't stop us!!!!!!!
-    // @ts-ignore
-    this.discovery = new Discovery(this.fetchConfig);
-  }
-}
 
 
 const loadStytch = () => {
   if (!client) {
-    client = new CustomStytchB2BClient({
+    client = new stytch.B2BClient({
       project_id: process.env.STYTCH_PROJECT_ID || "",
       secret: process.env.STYTCH_SECRET || "",
       env: stytchEnv,
