@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "toggle-local-stytch": "(npm ls stytch | grep ./../stytch-node && npm uninstall stytch && npm install stytch) || (npm ls stytch | grep -q ./../stytch-node || npm install --save ../stytch-node)\n"
   },
   "pre-commit": [
     "precommit-msg",
@@ -29,7 +30,7 @@
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "stytch": "^6.0.0-next.0",
+    "stytch": "^6.0.6",
     "typescript": "4.9.5"
   },
   "devDependencies": {
