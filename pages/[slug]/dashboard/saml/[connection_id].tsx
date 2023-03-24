@@ -83,10 +83,6 @@ function ConnectionEditPage({ connection }: Props) {
             placeholder="-------BEGIN ------"
             defaultValue={connection.verification_certificates[0]?.certificate}
           />
-          <a href={formatSSOStartURL(connection.connection_id)}>
-            <button className="secondary">Test connection</button>
-          </a>
-
           <button className="primary" type="submit">
             Save
           </button>
