@@ -1,11 +1,10 @@
 import { OrgService } from "../../../../lib/orgService";
 import { SSOService } from "../../../../lib/ssoService";
-import React, { FormEvent, FormEventHandler } from "react";
+import React, { FormEventHandler } from "react";
 import { updateSamlSSOConn } from "../../../../lib/api";
 import { useRouter } from "next/router";
 import {
   formatSSOStartURL,
-  publicToken,
   SAMLConnection,
 } from "../../../../lib/loadStytch";
 import { useAuth, withSession } from "../../../../lib/sessionService";
@@ -38,7 +37,7 @@ function ConnectionEditPage({ connection }: Props) {
   return (
     <>
       <div className="card">
-        <form onSubmit={onSubmit} style={{ minWidth: 600 }}>
+        <form onSubmit={onSubmit} style={{ minWidth: 400 }}>
           <h1>Edit SAML Connection</h1>
           <label htmlFor="display_name">Display Name</label>
           <input name="display_name" value={connection.display_name} disabled />
@@ -91,8 +90,11 @@ function ConnectionEditPage({ connection }: Props) {
           <button className="primary" type="submit">
             Save
           </button>
-          <Link href={`/${router.query.slug}/dashboard`}>Back</Link>
         </form>
+        <a style={{ minWidth: 400, margin: 10 }} href={formatSSOStartURL(connection.connection_id)}>
+          <button className="secondary">Test connection</button>
+        </a>
+        <Link style={{ marginRight: 'auto'}}  href={`/${router.query.slug}/dashboard`}>Back</Link>
       </div>
     </>
   );

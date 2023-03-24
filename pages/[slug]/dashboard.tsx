@@ -1,5 +1,4 @@
 import React, {
-  EventHandler,
   FormEventHandler,
   MouseEventHandler,
   useEffect,
@@ -8,7 +7,7 @@ import React, {
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { OrgService } from "../../lib/orgService";
-import { createSamlSSOConn, deleteMember, invite, login } from "../../lib/api";
+import { createSamlSSOConn, deleteMember, invite } from "../../lib/api";
 import { SSOService } from "../../lib/ssoService";
 import { useAuth, withSession } from "../../lib/sessionService";
 import { Member, Organization, SAMLConnection } from "../../lib/loadStytch";
@@ -18,12 +17,6 @@ type Props = {
   user: Member;
   members: Member[];
   saml_connections: SAMLConnection[];
-};
-
-const STATUS = {
-  INIT: 0,
-  SENT: 1,
-  ERROR: 2,
 };
 
 const isValidEmail = (emailValue: string) => {
@@ -60,7 +53,7 @@ const MemberRow = ({ member, user }: { member: Member; user: Member }) => {
 
   return (
     <li>
-      {member.email_address} ({member.status})
+      [{isAdmin(member) ? "admin" : "member"}] {member.email_address} ({member.status })
       {/* Do not let members delete themselves! */}
       {canDelete ? deleteButton : null}
     </li>
@@ -192,6 +185,9 @@ const Dashboard = ({ org, user, members, saml_connections }: Props) => {
       <p>
         Organization slug:{" "}
         <span className="code">{org.organization_slug}</span>
+      </p>
+      <p>
+        Current user: <span className="code">{user.email_address}</span>
       </p>
       <MemberList org={org} members={members} user={user} />
       <br />
