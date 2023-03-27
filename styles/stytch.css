@@ -43,7 +43,7 @@ main {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 36px 0px;
+  padding: 36px 0;
 }
 
 ul {
@@ -179,6 +179,8 @@ form {
 form.row {
   display: flex;
   flex-direction: row;
+  padding-bottom: 2px;
+  padding-top: 2px;
 }
 
 form.row > button {

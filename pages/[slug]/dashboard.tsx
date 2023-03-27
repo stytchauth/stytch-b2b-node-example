@@ -7,16 +7,27 @@ import React, {
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { OrgService } from "../../lib/orgService";
-import { createSamlSSOConn, deleteMember, invite } from "../../lib/api";
+import {
+  createOidcSSOConn,
+  createSamlSSOConn,
+  deleteMember,
+  invite,
+} from "../../lib/api";
 import { SSOService } from "../../lib/ssoService";
 import { useAuth, withSession } from "../../lib/sessionService";
-import { Member, Organization, SAMLConnection } from "../../lib/loadStytch";
+import {
+  Member,
+  Organization,
+  SAMLConnection,
+  OIDCConnection,
+} from "../../lib/loadStytch";
 
 type Props = {
   org: Organization;
   user: Member;
   members: Member[];
   saml_connections: SAMLConnection[];
+  oidc_connections: OIDCConnection[];
 };
 
 const isValidEmail = (emailValue: string) => {
@@ -53,8 +64,8 @@ const MemberRow = ({ member, user }: { member: Member; user: Member }) => {
 
   return (
     <li>
-      [{isAdmin(member) ? "admin" : "member"}] {member.email_address} ({member.status })
-      {/* Do not let members delete themselves! */}
+      [{isAdmin(member) ? "admin" : "member"}] {member.email_address} (
+      {member.status}){/* Do not let members delete themselves! */}
       {canDelete ? deleteButton : null}
     </li>
   );
@@ -118,16 +129,35 @@ const MemberList = ({
 const IDPList = ({
   user,
   saml_connections,
-}: Pick<Props, "user" | "saml_connections">) => {
-  const [idpName, setIDPName] = useState("");
+  oidc_connections,
+}: Pick<Props, "user" | "saml_connections" | "oidc_connections">) => {
+  const [idpNameSAML, setIdpNameSAML] = useState("");
+  const [idpNameOIDC, setIdpNameOIDC] = useState("");
   const router = useRouter();
 
-  const onCreate: FormEventHandler = async (e) => {
+  const onSamlCreate: FormEventHandler = async (e) => {
     e.preventDefault();
-    const res = await createSamlSSOConn(idpName);
+    const res = await createSamlSSOConn(idpNameSAML);
     const conn = await res.json();
     await router.push(
       `/${router.query.slug}/dashboard/saml/${conn.connection_id}`
+    );
+  };
+
+  const onOidcCreate: FormEventHandler = async (e) => {
+    e.preventDefault();
+    const res = await createOidcSSOConn(idpNameOIDC);
+    if (res.status !== 200) {
+      alert(
+        "Error creating connection, are you at the max # of connections (5)?" +
+          JSON.stringify(res)
+      );
+      return;
+    }
+    const conn = await res.json();
+    console.log(conn);
+    await router.push(
+      `/${router.query.slug}/dashboard/oidc/${conn.connection_id}`
     );
   };
 
@@ -136,6 +166,7 @@ const IDPList = ({
       <div className="section">
         <>
           <h2>SSO Connections</h2>
+          <h3>SAML</h3>
           {saml_connections.length === 0 && <p>No connections configured.</p>}
           <ul>
             {saml_connections.map((conn) => (
@@ -150,22 +181,51 @@ const IDPList = ({
               </li>
             ))}
           </ul>
+          <h3>OIDC</h3>
+          {oidc_connections.length === 0 && <p>No connections configured.</p>}
+          <ul>
+            {oidc_connections.map((conn) => (
+              <li key={conn.connection_id}>
+                <Link
+                  href={`/${router.query.slug}/dashboard/oidc/${conn.connection_id}`}
+                >
+                  <span>
+                    {conn.display_name} ({conn.status})
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </>
       </div>
 
       {/*Only admins can create new SSO Connection*/}
       {isAdmin(user) && (
         <div className="section">
-          <h3>Create a new SAML Connection</h3>
+          <h3>Create a new Connection</h3>
 
-          <form onSubmit={onCreate} className="row">
+          <form onSubmit={onSamlCreate} className="row">
             <input
-              placeholder={`Okta Account`}
-              value={idpName}
-              onChange={(e) => setIDPName(e.target.value)}
+              placeholder={`SAML Display Name`}
+              value={idpNameSAML}
+              onChange={(e) => setIdpNameSAML(e.target.value)}
             />
             <button
-              disabled={idpName.length < 3}
+              disabled={idpNameSAML.length < 3}
+              type="submit"
+              className="primary"
+            >
+              Create
+            </button>
+          </form>
+          <form onSubmit={onOidcCreate} className="row">
+            <input
+              placeholder={`OIDC Display Name`}
+              value={idpNameOIDC}
+              onChange={(e) => setIdpNameOIDC(e.target.value)}
+            />
+            <button
+              disabled={idpNameOIDC.length < 3}
               type="submit"
               className="primary"
             >
@@ -178,20 +238,29 @@ const IDPList = ({
   );
 };
 
-const Dashboard = ({ org, user, members, saml_connections }: Props) => {
+const Dashboard = ({
+  org,
+  user,
+  members,
+  saml_connections,
+  oidc_connections,
+}: Props) => {
   return (
     <div className="card">
       <h1>Organization name: {org.organization_name}</h1>
       <p>
-        Organization slug:{" "}
-        <span className="code">{org.organization_slug}</span>
+        Organization slug: <span className="code">{org.organization_slug}</span>
       </p>
       <p>
         Current user: <span className="code">{user.email_address}</span>
       </p>
       <MemberList org={org} members={members} user={user} />
       <br />
-      <IDPList user={user} saml_connections={saml_connections} />
+      <IDPList
+        user={user}
+        saml_connections={saml_connections}
+        oidc_connections={oidc_connections}
+      />
 
       <Link href={"/api/logout"}>Log Out</Link>
     </div>
@@ -217,7 +286,8 @@ export const getServerSideProps = withSession<Props, { slug: string }>(
         org,
         user: member,
         members,
-        saml_connections: ssoConnections.saml_connections,
+        saml_connections: ssoConnections.saml_connections ?? [],
+        oidc_connections: ssoConnections.oidc_connections ?? [],
       },
     };
   }

@@ -1,13 +1,19 @@
-import loadStytch from './loadStytch';
+import loadStytch from "./loadStytch";
 
 const stytch = loadStytch();
 
 export const SSOService = {
   list: async function (organization_id: string) {
-    return stytch.sso.get({organization_id});
+    return stytch.sso.get({ organization_id });
   },
-  create: async function (display_name: string, organization_id: string) {
+  createSaml: async function (display_name: string, organization_id: string) {
     return stytch.sso.saml.create({
+      organization_id,
+      display_name,
+    });
+  },
+  createOidc: async function (display_name: string, organization_id: string) {
+    return stytch.sso.oidc.create({
       organization_id,
       display_name,
     });
