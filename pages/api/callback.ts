@@ -1,7 +1,6 @@
-import type {NextApiRequest, NextApiResponse} from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import loadStytch from '../../lib/loadStytch';
-import Cookies from 'cookies';
-import {SESSION_DURATION_MINUTES, setSession} from '../../lib/sessionService';
+import { SESSION_DURATION_MINUTES, setSession } from '../../lib/sessionService';
 
 const stytchClient = loadStytch();
 

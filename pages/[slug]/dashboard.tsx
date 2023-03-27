@@ -1,29 +1,17 @@
-import React, {
-  EventHandler,
-  FormEventHandler,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { OrgService } from "../../lib/orgService";
-import { createSamlSSOConn, deleteMember, invite, login } from "../../lib/api";
-import { SSOService } from "../../lib/ssoService";
-import { useAuth, withSession } from "../../lib/sessionService";
-import { Member, Organization, SAMLConnection } from "../../lib/loadStytch";
+import React, { FormEventHandler, MouseEventHandler, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { OrgService } from '../../lib/orgService';
+import { createSamlSSOConn, deleteMember, invite } from '../../lib/api';
+import { SSOService } from '../../lib/ssoService';
+import { useAuth, withSession } from '../../lib/sessionService';
+import { Member, Organization, SAMLConnection } from '../../lib/loadStytch';
 
 type Props = {
   org: Organization;
   user: Member;
   members: Member[];
   saml_connections: SAMLConnection[];
-};
-
-const STATUS = {
-  INIT: 0,
-  SENT: 1,
-  ERROR: 2,
 };
 
 const isValidEmail = (emailValue: string) => {
@@ -60,20 +48,15 @@ const MemberRow = ({ member, user }: { member: Member; user: Member }) => {
 
   return (
     <li>
-      {member.email_address} ({member.status})
-      {/* Do not let members delete themselves! */}
+      {member.email_address} ({member.status}){/* Do not let members delete themselves! */}
       {canDelete ? deleteButton : null}
     </li>
   );
 };
 
-const MemberList = ({
-  members,
-  user,
-  org,
-}: Pick<Props, "members" | "user" | "org">) => {
+const MemberList = ({ members, user, org }: Pick<Props, 'members' | 'user' | 'org'>) => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
@@ -122,20 +105,15 @@ const MemberList = ({
   );
 };
 
-const IDPList = ({
-  user,
-  saml_connections,
-}: Pick<Props, "user" | "saml_connections">) => {
-  const [idpName, setIDPName] = useState("");
+const IDPList = ({ user, saml_connections }: Pick<Props, 'user' | 'saml_connections'>) => {
+  const [idpName, setIDPName] = useState('');
   const router = useRouter();
 
   const onCreate: FormEventHandler = async (e) => {
     e.preventDefault();
     const res = await createSamlSSOConn(idpName);
     const conn = await res.json();
-    await router.push(
-      `/${router.query.slug}/dashboard/saml/${conn.connection_id}`
-    );
+    await router.push(`/${router.query.slug}/dashboard/saml/${conn.connection_id}`);
   };
 
   return (
@@ -147,9 +125,7 @@ const IDPList = ({
           <ul>
             {saml_connections.map((conn) => (
               <li key={conn.connection_id}>
-                <Link
-                  href={`/${router.query.slug}/dashboard/saml/${conn.connection_id}`}
-                >
+                <Link href={`/${router.query.slug}/dashboard/saml/${conn.connection_id}`}>
                   <span>
                     {conn.display_name} ({conn.status})
                   </span>
@@ -166,16 +142,8 @@ const IDPList = ({
           <h3>Create a new SAML Connection</h3>
 
           <form onSubmit={onCreate} className="row">
-            <input
-              placeholder={`Okta Account`}
-              value={idpName}
-              onChange={(e) => setIDPName(e.target.value)}
-            />
-            <button
-              disabled={idpName.length < 3}
-              type="submit"
-              className="primary"
-            >
+            <input placeholder={`Okta Account`} value={idpName} onChange={(e) => setIDPName(e.target.value)} />
+            <button disabled={idpName.length < 3} type="submit" className="primary">
               Create
             </button>
           </form>
@@ -190,41 +158,38 @@ const Dashboard = ({ org, user, members, saml_connections }: Props) => {
     <div className="card">
       <h1>Organization name: {org.organization_name}</h1>
       <p>
-        Organization slug:{" "}
-        <span className="code">{org.organization_slug}</span>
+        Organization slug: <span className="code">{org.organization_slug}</span>
       </p>
       <MemberList org={org} members={members} user={user} />
       <br />
       <IDPList user={user} saml_connections={saml_connections} />
 
-      <Link href={"/api/logout"}>Log Out</Link>
+      <Link href={'/api/logout'}>Log Out</Link>
     </div>
   );
 };
 
-export const getServerSideProps = withSession<Props, { slug: string }>(
-  async (context) => {
-    const { member } = useAuth(context);
-    const org = await OrgService.findByID(member.organization_id);
+export const getServerSideProps = withSession<Props, { slug: string }>(async (context) => {
+  const { member } = useAuth(context);
+  const org = await OrgService.findByID(member.organization_id);
 
-    if (org === null) {
-      return { redirect: { statusCode: 307, destination: `/login` } };
-    }
-
-    const [members, ssoConnections] = await Promise.all([
-      OrgService.findAllMembers(org.organization_id),
-      SSOService.list(org.organization_id),
-    ]);
-
-    return {
-      props: {
-        org,
-        user: member,
-        members,
-        saml_connections: ssoConnections.saml_connections,
-      },
-    };
+  if (org === null) {
+    return { redirect: { statusCode: 307, destination: `/login` } };
   }
-);
+
+  const [members, ssoConnections] = await Promise.all([
+    OrgService.findAllMembers(org.organization_id),
+    SSOService.list(org.organization_id),
+  ]);
+
+  return {
+    props: {
+      org,
+      user: member,
+      members,
+      saml_connections: ssoConnections.saml_connections,
+    },
+  };
+});
 
 export default Dashboard;

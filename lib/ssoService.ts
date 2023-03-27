@@ -4,7 +4,7 @@ const stytch = loadStytch();
 
 export const SSOService = {
   list: async function (organization_id: string) {
-    return stytch.sso.get({organization_id});
+    return stytch.sso.get({ organization_id });
   },
   create: async function (display_name: string, organization_id: string) {
     return stytch.sso.saml.create({

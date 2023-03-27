@@ -1,6 +1,6 @@
-import React, {FormEventHandler, useEffect, useState} from "react";
-import {login} from "../lib/api";
-import {formatSSOStartURL, Organization, publicToken} from "../lib/loadStytch";
+import React, { FormEventHandler, useEffect, useState } from 'react';
+import { login } from '../lib/api';
+import { formatSSOStartURL, Organization } from '../lib/loadStytch';
 
 const STATUS = {
   INIT: 0,
@@ -17,9 +17,9 @@ const isValidEmail = (emailValue: string) => {
 type Props = {
   org: Organization;
 };
-const TenantedLoginForm = ({org}: Props) => {
+const TenantedLoginForm = ({ org }: Props) => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
@@ -63,20 +63,13 @@ const TenantedLoginForm = ({org}: Props) => {
               onChange={(e) => setEmail(e.target.value)}
               type="email"
             />
-            <button
-              className="primary"
-              disabled={isDisabled}
-              id="button"
-              type="submit"
-            >
+            <button className="primary" disabled={isDisabled} id="button" type="submit">
               Continue
             </button>
             {org.sso_default_connection_id && (
               <span>
                 Or, use this organization&apos;s&nbsp;
-                <a href={formatSSOStartURL(org.sso_default_connection_id)}>
-                  Preferred Identity Provider
-                </a>
+                <a href={formatSSOStartURL(org.sso_default_connection_id)}>Preferred Identity Provider</a>
               </span>
             )}
           </form>

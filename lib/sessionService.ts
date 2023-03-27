@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
 import Cookies from 'cookies';
-import loadStytch, {Member, SessionsAuthenticateResponse} from './loadStytch';
+import loadStytch, { Member, SessionsAuthenticateResponse } from './loadStytch';
 import { ParsedUrlQuery } from 'querystring';
 import { GetServerSidePropsContext, PreviewData } from 'next/types';
 
