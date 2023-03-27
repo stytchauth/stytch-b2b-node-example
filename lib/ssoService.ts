@@ -1,4 +1,4 @@
-import loadStytch from "./loadStytch";
+import loadStytch from './loadStytch';
 
 const stytch = loadStytch();
 

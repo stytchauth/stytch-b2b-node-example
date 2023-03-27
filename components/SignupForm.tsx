@@ -1,10 +1,5 @@
-import React, {
-  ChangeEventHandler,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from "react";
-import { signup } from "../lib/api";
+import React, { FormEventHandler, useEffect, useState } from 'react';
+import { signup } from '../lib/api';
 
 const STATUS = {
   INIT: 0,
@@ -24,23 +19,14 @@ const isValidOrgName = (organizationName: string) => {
 
 const SignupForm = () => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
-  const [email, setEmail] = useState("");
-  const [organizationName, setOrganizationName] = useState("");
+  const [email, setEmail] = useState('');
+  const [organizationName, setOrganizationName] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
     const allValid = isValidEmail(email) && isValidOrgName(organizationName);
     setIsDisabled(!allValid);
   }, [email, organizationName]);
-
-  const onEmailChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setEmail(e.target.value);
-    if (isValidEmail(e.target.value)) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
-  };
 
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
@@ -88,12 +74,7 @@ const SignupForm = () => {
               value={organizationName}
               onChange={(e) => setOrganizationName(e.target.value)}
             />
-            <button
-              className="primary"
-              disabled={isDisabled}
-              id="button"
-              type="submit"
-            >
+            <button className="primary" disabled={isDisabled} id="button" type="submit">
               Continue
             </button>
           </form>

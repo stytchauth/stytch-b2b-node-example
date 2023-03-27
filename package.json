@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "toggle-local-stytch": "(npm ls stytch | grep ./../stytch-node && npm uninstall stytch && npm install stytch) || (npm ls stytch | grep -q ./../stytch-node || npm install --save ../stytch-node)\n"
+    "toggle-local-stytch": "(npm ls stytch | grep ./../stytch-node && npm uninstall stytch && npm install stytch) || (npm ls stytch | grep -q ./../stytch-node || npm install --save ../stytch-node)\n",
+    "format": "npx prettier --write ."
   },
   "pre-commit": [
     "precommit-msg",
@@ -28,6 +29,7 @@
     "isomorphic-base64": "^1.0.2",
     "isomorphic-unfetch": "^4.0.2",
     "next": "13.1.6",
+    "prettier": "^2.8.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "stytch": "^6.0.6",

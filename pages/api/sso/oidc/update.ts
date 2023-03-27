@@ -1,13 +1,9 @@
 // This API route updates the specified OIDC connection.
-import type { NextApiRequest, NextApiResponse } from "next";
-import loadStytch, { Member } from "../../../../lib/loadStytch";
-import { adminOnlyAPIRoute } from "../../../../lib/sessionService";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import loadStytch, { Member } from '../../../../lib/loadStytch';
+import { adminOnlyAPIRoute } from '../../../../lib/sessionService';
 
-async function handler(
-  member: Member,
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(member: Member, req: NextApiRequest, res: NextApiResponse) {
   try {
     const {
       connection_id,
@@ -35,7 +31,7 @@ async function handler(
     });
     return res.status(200).end();
   } catch (e) {
-    console.error("Failed to update OIDC connection", e);
+    console.error('Failed to update OIDC connection', e);
     return res.status(400).end();
   }
 }

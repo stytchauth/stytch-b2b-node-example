@@ -1,26 +1,11 @@
-import React, {
-  FormEventHandler,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { OrgService } from "../../lib/orgService";
-import {
-  createOidcSSOConn,
-  createSamlSSOConn,
-  deleteMember,
-  invite,
-} from "../../lib/api";
-import { SSOService } from "../../lib/ssoService";
-import { useAuth, withSession } from "../../lib/sessionService";
-import {
-  Member,
-  Organization,
-  SAMLConnection,
-  OIDCConnection,
-} from "../../lib/loadStytch";
+import React, { FormEventHandler, MouseEventHandler, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { OrgService } from '../../lib/orgService';
+import { createOidcSSOConn, createSamlSSOConn, deleteMember, invite } from '../../lib/api';
+import { SSOService } from '../../lib/ssoService';
+import { useAuth, withSession } from '../../lib/sessionService';
+import { Member, Organization, SAMLConnection, OIDCConnection } from '../../lib/loadStytch';
 
 type Props = {
   org: Organization;
@@ -64,20 +49,16 @@ const MemberRow = ({ member, user }: { member: Member; user: Member }) => {
 
   return (
     <li>
-      [{isAdmin(member) ? "admin" : "member"}] {member.email_address} (
-      {member.status}){/* Do not let members delete themselves! */}
+      [{isAdmin(member) ? 'admin' : 'member'}] {member.email_address} ({member.status})
+      {/* Do not let members delete themselves! */}
       {canDelete ? deleteButton : null}
     </li>
   );
 };
 
-const MemberList = ({
-  members,
-  user,
-  org,
-}: Pick<Props, "members" | "user" | "org">) => {
+const MemberList = ({ members, user, org }: Pick<Props, 'members' | 'user' | 'org'>) => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
@@ -130,35 +111,28 @@ const IDPList = ({
   user,
   saml_connections,
   oidc_connections,
-}: Pick<Props, "user" | "saml_connections" | "oidc_connections">) => {
-  const [idpNameSAML, setIdpNameSAML] = useState("");
-  const [idpNameOIDC, setIdpNameOIDC] = useState("");
+}: Pick<Props, 'user' | 'saml_connections' | 'oidc_connections'>) => {
+  const [idpNameSAML, setIdpNameSAML] = useState('');
+  const [idpNameOIDC, setIdpNameOIDC] = useState('');
   const router = useRouter();
 
   const onSamlCreate: FormEventHandler = async (e) => {
     e.preventDefault();
     const res = await createSamlSSOConn(idpNameSAML);
     const conn = await res.json();
-    await router.push(
-      `/${router.query.slug}/dashboard/saml/${conn.connection_id}`
-    );
+    await router.push(`/${router.query.slug}/dashboard/saml/${conn.connection_id}`);
   };
 
   const onOidcCreate: FormEventHandler = async (e) => {
     e.preventDefault();
     const res = await createOidcSSOConn(idpNameOIDC);
     if (res.status !== 200) {
-      alert(
-        "Error creating connection, are you at the max # of connections (5)?" +
-          JSON.stringify(res)
-      );
+      alert('Error creating connection, are you at the max # of connections (5)?' + JSON.stringify(res));
       return;
     }
     const conn = await res.json();
     console.log(conn);
-    await router.push(
-      `/${router.query.slug}/dashboard/oidc/${conn.connection_id}`
-    );
+    await router.push(`/${router.query.slug}/dashboard/oidc/${conn.connection_id}`);
   };
 
   return (
@@ -171,9 +145,7 @@ const IDPList = ({
           <ul>
             {saml_connections.map((conn) => (
               <li key={conn.connection_id}>
-                <Link
-                  href={`/${router.query.slug}/dashboard/saml/${conn.connection_id}`}
-                >
+                <Link href={`/${router.query.slug}/dashboard/saml/${conn.connection_id}`}>
                   <span>
                     {conn.display_name} ({conn.status})
                   </span>
@@ -186,9 +158,7 @@ const IDPList = ({
           <ul>
             {oidc_connections.map((conn) => (
               <li key={conn.connection_id}>
-                <Link
-                  href={`/${router.query.slug}/dashboard/oidc/${conn.connection_id}`}
-                >
+                <Link href={`/${router.query.slug}/dashboard/oidc/${conn.connection_id}`}>
                   <span>
                     {conn.display_name} ({conn.status})
                   </span>
@@ -210,11 +180,7 @@ const IDPList = ({
               value={idpNameSAML}
               onChange={(e) => setIdpNameSAML(e.target.value)}
             />
-            <button
-              disabled={idpNameSAML.length < 3}
-              type="submit"
-              className="primary"
-            >
+            <button disabled={idpNameSAML.length < 3} type="submit" className="primary">
               Create
             </button>
           </form>
@@ -224,11 +190,7 @@ const IDPList = ({
               value={idpNameOIDC}
               onChange={(e) => setIdpNameOIDC(e.target.value)}
             />
-            <button
-              disabled={idpNameOIDC.length < 3}
-              type="submit"
-              className="primary"
-            >
+            <button disabled={idpNameOIDC.length < 3} type="submit" className="primary">
               Create
             </button>
           </form>
@@ -238,13 +200,7 @@ const IDPList = ({
   );
 };
 
-const Dashboard = ({
-  org,
-  user,
-  members,
-  saml_connections,
-  oidc_connections,
-}: Props) => {
+const Dashboard = ({ org, user, members, saml_connections, oidc_connections }: Props) => {
   return (
     <div className="card">
       <h1>Organization name: {org.organization_name}</h1>
@@ -256,41 +212,35 @@ const Dashboard = ({
       </p>
       <MemberList org={org} members={members} user={user} />
       <br />
-      <IDPList
-        user={user}
-        saml_connections={saml_connections}
-        oidc_connections={oidc_connections}
-      />
+      <IDPList user={user} saml_connections={saml_connections} oidc_connections={oidc_connections} />
 
-      <Link href={"/api/logout"}>Log Out</Link>
+      <Link href={'/api/logout'}>Log Out</Link>
     </div>
   );
 };
 
-export const getServerSideProps = withSession<Props, { slug: string }>(
-  async (context) => {
-    const { member } = useAuth(context);
-    const org = await OrgService.findByID(member.organization_id);
+export const getServerSideProps = withSession<Props, { slug: string }>(async (context) => {
+  const { member } = useAuth(context);
+  const org = await OrgService.findByID(member.organization_id);
 
-    if (org === null) {
-      return { redirect: { statusCode: 307, destination: `/login` } };
-    }
-
-    const [members, ssoConnections] = await Promise.all([
-      OrgService.findAllMembers(org.organization_id),
-      SSOService.list(org.organization_id),
-    ]);
-
-    return {
-      props: {
-        org,
-        user: member,
-        members,
-        saml_connections: ssoConnections.saml_connections ?? [],
-        oidc_connections: ssoConnections.oidc_connections ?? [],
-      },
-    };
+  if (org === null) {
+    return { redirect: { statusCode: 307, destination: `/login` } };
   }
-);
+
+  const [members, ssoConnections] = await Promise.all([
+    OrgService.findAllMembers(org.organization_id),
+    SSOService.list(org.organization_id),
+  ]);
+
+  return {
+    props: {
+      org,
+      user: member,
+      members,
+      saml_connections: ssoConnections.saml_connections ?? [],
+      oidc_connections: ssoConnections.oidc_connections ?? [],
+    },
+  };
+});
 
 export default Dashboard;
