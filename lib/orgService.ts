@@ -1,11 +1,11 @@
-import loadStytch, {Member, Organization} from "./loadStytch";
-import {SearchOperator} from "stytch";
+import loadStytch, { Member, Organization } from "./loadStytch";
+import { SearchOperator } from "stytch";
 
 const stytch = loadStytch();
 
 export const OrgService = {
   async findByID(organization_id: string): Promise<Organization | null> {
-    const orgGetPromise = stytch.organizations.get({organization_id});
+    const orgGetPromise = stytch.organizations.get({ organization_id });
 
     try {
       const orgResult = await orgGetPromise;

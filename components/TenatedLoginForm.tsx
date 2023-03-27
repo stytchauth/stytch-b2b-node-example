@@ -1,6 +1,10 @@
-import React, {FormEventHandler, useEffect, useState} from "react";
-import {login} from "../lib/api";
-import {formatSSOStartURL, Organization, publicToken} from "../lib/loadStytch";
+import React, { FormEventHandler, useEffect, useState } from "react";
+import { login } from "../lib/api";
+import {
+  formatSSOStartURL,
+  Organization,
+  publicToken,
+} from "../lib/loadStytch";
 
 const STATUS = {
   INIT: 0,
@@ -17,7 +21,7 @@ const isValidEmail = (emailValue: string) => {
 type Props = {
   org: Organization;
 };
-const TenantedLoginForm = ({org}: Props) => {
+const TenantedLoginForm = ({ org }: Props) => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
   const [email, setEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);

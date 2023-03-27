@@ -3,10 +3,7 @@ import { SSOService } from "../../../../lib/ssoService";
 import React, { FormEventHandler } from "react";
 import { updateSamlSSOConn } from "../../../../lib/api";
 import { useRouter } from "next/router";
-import {
-  formatSSOStartURL,
-  SAMLConnection,
-} from "../../../../lib/loadStytch";
+import { formatSSOStartURL, SAMLConnection } from "../../../../lib/loadStytch";
 import { useAuth, withSession } from "../../../../lib/sessionService";
 import Link from "next/link";
 
@@ -87,10 +84,18 @@ function ConnectionEditPage({ connection }: Props) {
             Save
           </button>
         </form>
-        <a style={{ minWidth: 400, margin: 10 }} href={formatSSOStartURL(connection.connection_id)}>
+        <a
+          style={{ minWidth: 400, margin: 10 }}
+          href={formatSSOStartURL(connection.connection_id)}
+        >
           <button className="secondary">Test connection</button>
         </a>
-        <Link style={{ marginRight: 'auto'}}  href={`/${router.query.slug}/dashboard`}>Back</Link>
+        <Link
+          style={{ marginRight: "auto" }}
+          href={`/${router.query.slug}/dashboard`}
+        >
+          Back
+        </Link>
       </div>
     </>
   );

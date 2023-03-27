@@ -53,8 +53,8 @@ const MemberRow = ({ member, user }: { member: Member; user: Member }) => {
 
   return (
     <li>
-      [{isAdmin(member) ? "admin" : "member"}] {member.email_address} ({member.status })
-      {/* Do not let members delete themselves! */}
+      [{isAdmin(member) ? "admin" : "member"}] {member.email_address} (
+      {member.status}){/* Do not let members delete themselves! */}
       {canDelete ? deleteButton : null}
     </li>
   );
@@ -183,8 +183,7 @@ const Dashboard = ({ org, user, members, saml_connections }: Props) => {
     <div className="card">
       <h1>Organization name: {org.organization_name}</h1>
       <p>
-        Organization slug:{" "}
-        <span className="code">{org.organization_slug}</span>
+        Organization slug: <span className="code">{org.organization_slug}</span>
       </p>
       <p>
         Current user: <span className="code">{user.email_address}</span>
