@@ -72,3 +72,47 @@ export const updateSamlSSOConn = async ({
       connection_id,
     }),
   });
+
+export const createOidcSSOConn = async (display_name: string) =>
+    fetch("/api/sso/oidc/create", {
+        method: "POST",
+        body: JSON.stringify({
+            display_name,
+        }),
+    });
+
+export const updateOidcSSOConn = async ({
+                                            display_name,
+                                            client_id,
+                                            client_secret,
+                                            issuer,
+                                            authorization_url,
+                                            token_url,
+                                            userinfo_url,
+                                            jwks_url,
+                                            connection_id,
+                                        }: {
+    display_name: string;
+    client_id: string;
+    client_secret: string;
+    issuer: string;
+    authorization_url: string;
+    token_url: string;
+    userinfo_url: string;
+    jwks_url: string;
+    connection_id: string;
+}) =>
+    fetch("/api/sso/oidc/update", {
+        method: "POST",
+        body: JSON.stringify({
+            display_name,
+            client_id,
+            client_secret,
+            issuer,
+            authorization_url,
+            token_url,
+            userinfo_url,
+            jwks_url,
+            connection_id,
+        }),
+    });
