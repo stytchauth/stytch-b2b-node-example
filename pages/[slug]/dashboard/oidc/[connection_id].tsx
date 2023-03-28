@@ -1,19 +1,31 @@
-import { OrgService } from "../../../../lib/orgService";
-import { SSOService } from "../../../../lib/ssoService";
-import React, { FormEventHandler } from "react";
-import { updateOidcSSOConn } from "../../../../lib/api";
-import { useRouter } from "next/router";
+import {OrgService} from "../../../../lib/orgService";
+import {SSOService} from "../../../../lib/ssoService";
+import React, {BaseSyntheticEvent, FormEventHandler} from "react";
+import {updateOidcSSOConn} from "../../../../lib/api";
+import {useRouter} from "next/router";
 import {
     formatSSOStartURL,
     OIDCConnection,
 } from "../../../../lib/loadStytch";
-import { useAuth, withSession } from "../../../../lib/sessionService";
+import {useAuth, withSession} from "../../../../lib/sessionService";
 import Link from "next/link";
 
 type Props = { connection: OIDCConnection };
 
-function ConnectionEditPage({ connection }: Props) {
+function ConnectionEditPage({connection}: Props) {
     const router = useRouter();
+
+
+    // @ts-ignore
+    const urlSectionClick = (e) => {
+        e.preventDefault();
+        var panel = e.target.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    }
 
     const onSubmit: FormEventHandler = async (e) => {
         e.preventDefault();
@@ -38,12 +50,12 @@ function ConnectionEditPage({ connection }: Props) {
     return (
         <>
             <div className="card">
-                <form onSubmit={onSubmit} style={{ minWidth: 400 }}>
+                <form onSubmit={onSubmit} style={{minWidth: 400}}>
                     <h1>Edit OIDC Connection</h1>
                     <label htmlFor="display_name">Display Name</label>
-                    <input name="display_name" value={connection.display_name} disabled />
+                    <input name="display_name" value={connection.display_name} disabled/>
                     <label htmlFor="status">Status</label>
-                    <input name="status" disabled value={connection.status} />
+                    <input name="status" disabled value={connection.status}/>
                     <label htmlFor="client_id">Client ID</label>
                     <input
                         name="client_id"
@@ -56,44 +68,59 @@ function ConnectionEditPage({ connection }: Props) {
                         placeholder="Client Secret"
                         defaultValue={connection.client_secret}
                     />
-                    <label htmlFor="issuer">Issuer</label>
+                    <label htmlFor="issuer">Issuer URL</label>
                     <input
                         name="issuer"
                         placeholder="Issuer"
                         defaultValue={connection.issuer}
                     />
-                    <label htmlFor="authorization_url">Authorization URL</label>
-                    <input
-                        name="authorization_url"
-                        placeholder="Authorization URL"
-                        defaultValue={connection.authorization_url}
-                    />
-                    <label htmlFor="token_url">Token URL</label>
-                    <input
-                        name="token_url"
-                        placeholder="Token URL"
-                        defaultValue={connection.token_url}
-                    />
-                    <label htmlFor="userinfo_url">User Info URL</label>
-                    <input
-                        name="userinfo_url"
-                        placeholder="User Info URL"
-                        defaultValue={connection.userinfo_url}
-                    />
-                    <label htmlFor="jwks_url">Jwks URL</label>
-                    <input
-                        name="jwks_url"
-                        placeholder="Jwks URL"
-                        defaultValue={connection.jwks_url}
-                    />
+                    <hr/>
+                    <h5>If you provide a valid Issuer URL using an IDP that supports a well-known configuration page,
+                        these endpoints will be auto-populated.</h5>
+                    <button className="accordion" onClick={urlSectionClick}>
+                        <span>
+                            Endpoint
+                        </span>
+                        <span>
+                            +
+                        </span>
+                    </button>
+                    <div className="panel">
+                        <div className={"panel-contents"}>
+                            <label htmlFor="authorization_url">Authorization URL</label>
+                            <input
+                                name="authorization_url"
+                                placeholder="Authorization URL"
+                                defaultValue={connection.authorization_url}
+                            />
+                            <label htmlFor="token_url">Token URL</label>
+                            <input
+                                name="token_url"
+                                placeholder="Token URL"
+                                defaultValue={connection.token_url}
+                            />
+                            <label htmlFor="userinfo_url">User Info URL</label>
+                            <input
+                                name="userinfo_url"
+                                placeholder="User Info URL"
+                                defaultValue={connection.userinfo_url}
+                            />
+                            <label htmlFor="jwks_url">Jwks URL</label>
+                            <input
+                                name="jwks_url"
+                                placeholder="Jwks URL"
+                                defaultValue={connection.jwks_url}
+                            />
+                        </div>
+                    </div>
                     <button className="primary" type="submit">
                         Save
                     </button>
                 </form>
-                <a style={{ minWidth: 400, margin: 10 }} href={formatSSOStartURL(connection.connection_id)}>
+                <a style={{minWidth: 400, margin: 10}} href={formatSSOStartURL(connection.connection_id)}>
                     <button className="secondary">Test connection</button>
                 </a>
-                <Link style={{ marginRight: 'auto'}}  href={`/${router.query.slug}/dashboard`}>Back</Link>
+                <Link style={{marginRight: 'auto'}} href={`/${router.query.slug}/dashboard`}>Back</Link>
             </div>
         </>
     );
@@ -104,11 +131,11 @@ export const getServerSideProps = withSession<
     { slug: string; connection_id: string }
 >(async (context) => {
     const connection_id = context.params!["connection_id"];
-    const { member } = useAuth(context);
+    const {member} = useAuth(context);
 
     const org = await OrgService.findByID(member.organization_id);
     if (org === null) {
-        return { redirect: { statusCode: 307, destination: `/login` } };
+        return {redirect: {statusCode: 307, destination: `/login`}};
     }
 
     const connection = await SSOService.list(org.organization_id).then((res) => {
@@ -126,7 +153,7 @@ export const getServerSideProps = withSession<
     }
 
     return {
-        props: { connection },
+        props: {connection},
     };
 });
 
