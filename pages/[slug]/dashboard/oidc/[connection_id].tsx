@@ -79,10 +79,10 @@ function ConnectionEditPage({connection}: Props) {
                         these endpoints will be auto-populated.</h5>
                     <button className="accordion" onClick={urlSectionClick}>
                         <span>
-                            Endpoint
+                            Endpoints
                         </span>
                         <span>
-                            +
+                            <b>+</b>
                         </span>
                     </button>
                     <div className="panel">
