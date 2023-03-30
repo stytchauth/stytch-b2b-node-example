@@ -192,7 +192,7 @@ const IDPList = ({
       {/*Only admins can create new SSO Connection*/}
       {isAdmin(user) && (
         <div className="section">
-          <h3>Create a new SAML Connection</h3>
+          <h3>Create a new SSO Connection</h3>
             <form onSubmit={onSamlCreate} className="row">
                 <input
                     placeholder={`SAML Display Name`}

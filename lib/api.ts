@@ -33,7 +33,7 @@ export const deleteMember = async (member_id: string) =>
   });
 
 export const createSamlSSOConn = async (display_name: string) =>
-  fetch('/api/sso/create', {
+  fetch('/api/sso/saml/create', {
     method: 'POST',
     body: JSON.stringify({
       display_name,
@@ -59,7 +59,7 @@ export const updateSamlSSOConn = async ({
   certificate: string;
   connection_id: string;
 }) =>
-  fetch('/api/sso/update', {
+  fetch('/api/sso/saml/update', {
     method: 'POST',
     body: JSON.stringify({
       display_name,
