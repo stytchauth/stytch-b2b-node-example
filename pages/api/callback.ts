@@ -69,7 +69,7 @@ async function handleSSOCallback(req: NextApiRequest): Promise<ExchangeResult> {
 
 async function handleDiscoveryCallback(req: NextApiRequest): Promise<ExchangeResult> {
   const authRes = await stytchClient.magicLinks.discovery.authenticate({
-    intermediate_magic_links_token: req.query.token as string,
+    discovery_magic_links_token: req.query.token as string,
   });
 
   return {
