@@ -1,9 +1,8 @@
-export const signup = async (email: string, organization_name: string) =>
-  fetch('/api/signup', {
+export const discoveryStart = async (email: string) =>
+  fetch('/api/discovery/start', {
     method: 'POST',
     body: JSON.stringify({
       email,
-      organization_name,
     }),
   });
 
@@ -37,6 +36,14 @@ export const createSamlSSOConn = async (display_name: string) =>
     method: 'POST',
     body: JSON.stringify({
       display_name,
+    }),
+  });
+
+export const createOrganizationFromDiscovery = async (organization_name: string) =>
+  fetch('/api/discovery/create', {
+    method: 'POST',
+    body: JSON.stringify({
+      organization_name,
     }),
   });
 

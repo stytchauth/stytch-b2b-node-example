@@ -1,13 +1,16 @@
-import { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
+import {GetServerSideProps, NextApiRequest, NextApiResponse} from 'next';
 import Cookies from 'cookies';
 import loadStytch, {Member, SessionsAuthenticateResponse} from './loadStytch';
-import { ParsedUrlQuery } from 'querystring';
-import { GetServerSidePropsContext, PreviewData } from 'next/types';
+import {ParsedUrlQuery} from 'querystring';
+import {GetServerSidePropsContext, PreviewData} from 'next/types';
+import {IncomingMessage, ServerResponse} from "http";
 
 export const SESSION_DURATION_MINUTES = 60;
+export const INTERMEDIATE_SESSION_DURATION_MINUTES = 10;
 
 const SESSION_SYMBOL = Symbol('session');
 const SESSION_COOKIE = 'session';
+const INTERMEDIATE_SESSION_COOKIE = 'intermediate_session';
 
 const stytch = loadStytch();
 
@@ -18,6 +21,42 @@ export function setSession(req: NextApiRequest, res: NextApiResponse, sessionJWT
     maxAge: 1000 * 60 * SESSION_DURATION_MINUTES, // minutes to milliseconds
   });
 }
+
+export function setIntermediateSession(req: NextApiRequest, res: NextApiResponse, intermediateSessionToken: string) {
+  const cookies = new Cookies(req, res);
+  cookies.set(INTERMEDIATE_SESSION_COOKIE, intermediateSessionToken, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * INTERMEDIATE_SESSION_DURATION_MINUTES, // minutes to milliseconds
+  });
+}
+
+export function clearIntermediateSession(req: NextApiRequest, res: NextApiResponse) {
+  const cookies = new Cookies(req, res);
+  cookies.set(INTERMEDIATE_SESSION_COOKIE, "", {
+    httpOnly: true,
+    maxAge: 0, // minutes to milliseconds
+  });
+}
+
+type DiscoverySessionData =
+  { sessionJWT: string, intermediateSession: undefined, isDiscovery: false, error: false } |
+  { sessionJWT: undefined, intermediateSession: string, isDiscovery: true, error: false } |
+  { error: true }
+
+export function getDiscoverySessionData(req: IncomingMessage, res: ServerResponse): DiscoverySessionData {
+  const cookies = new Cookies(req, res);
+  const sessionJWT = cookies.get('session');
+  if (sessionJWT) {
+    return {sessionJWT, intermediateSession: undefined, isDiscovery: false, error: false}
+  }
+
+  const intermediateSession = cookies.get('intermediate_session');
+  if (intermediateSession) {
+    return {sessionJWT: undefined, intermediateSession, isDiscovery: true, error: false}
+  }
+  return {error: true}
+}
+
 
 type APIHandler = (member: Member, req: NextApiRequest, res: NextApiResponse) => Promise<NextApiResponse | void>;
 
@@ -68,21 +107,18 @@ export function adminOnlyAPIRoute(apiHandler: APIHandler) {
  * and ensures that the caller has a valid session
  * The member is stored on the ServerSide Props context and can be retrieved with {@link useAuth}
  */
-export function withSession<
-  P extends { [key: string]: any } = { [key: string]: any },
+export function withSession<P extends { [key: string]: any } = { [key: string]: any },
   Q extends ParsedUrlQuery = ParsedUrlQuery,
   D extends PreviewData = PreviewData,
->(handler: GetServerSideProps<P, Q, D>): GetServerSideProps<P, Q, D> {
+  >(handler: GetServerSideProps<P, Q, D>): GetServerSideProps<P, Q, D> {
   return async function (context) {
     const cookies = new Cookies(context.req, context.res);
     const sessionJWT = cookies.get('session');
 
     if (!sessionJWT) {
       console.log('No session JWT found...');
-      return { redirect: { statusCode: 307, destination: `/login` } };
+      return {redirect: {statusCode: 307, destination: `/login`}};
     }
-
-    console.log(sessionJWT);
 
     let sessionAuthRes;
     try {
@@ -92,7 +128,7 @@ export function withSession<
       });
     } catch (err) {
       console.error('Could not find member by session token', err);
-      return { redirect: { statusCode: 307, destination: `/login` } };
+      return {redirect: {statusCode: 307, destination: `/login`}};
     }
 
     // Hide the session authentication result on the context
@@ -125,11 +161,11 @@ export function revokeSession(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
   // Delete the session cookie by setting maxAge to 0
-  cookies.set(SESSION_COOKIE, '', { maxAge: 0 });
+  cookies.set(SESSION_COOKIE, '', {maxAge: 0});
   // Call Stytch in the background to terminate the session
   // But don't block on it!
   stytch.sessions
-    .revoke({ session_jwt: sessionJWT })
+    .revoke({session_jwt: sessionJWT})
     .then(() => {
       console.log('Session successfully revoked');
     })
