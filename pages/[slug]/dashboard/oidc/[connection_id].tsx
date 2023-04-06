@@ -56,6 +56,10 @@ function ConnectionEditPage({connection}: Props) {
                     <input name="display_name" value={connection.display_name} disabled/>
                     <label htmlFor="status">Status</label>
                     <input name="status" disabled value={connection.status}/>
+                    <label htmlFor="connection_id">Connection ID</label>
+                    <input name="connection_id" value={connection.connection_id} disabled/>
+                    <label htmlFor="redirect_url">Redirect URL</label>
+                    <input name="redirect_url" value={connection.redirect_url} disabled/>
                     <label htmlFor="client_id">Client ID</label>
                     <input
                         name="client_id"

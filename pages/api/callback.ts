@@ -1,6 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import loadStytch from '../../lib/loadStytch';
-import Cookies from 'cookies';
 import {SESSION_DURATION_MINUTES, setSession} from '../../lib/sessionService';
 
 const stytchClient = loadStytch();
@@ -15,7 +14,6 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.redirect(307, `/${slug}/dashboard`);
   } catch (error) {
     console.error('Could not authenticate in callback', error);
-
     return res.redirect(307, '/login');
   }
 }

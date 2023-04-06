@@ -6,7 +6,7 @@
 
 ## Overview
 
-This example application demonstrates how one may use Stytch's B2B authentication suite within a Next.js application. The application features a sign-up and login flow powered by Email magic links. On sign-up a new organization is created, and the initial member becomes the admin of that organization. As admin, the member is able to invite others to join the organization, and set up SSO connections via SAML.
+This example application demonstrates how one may use Stytch's B2B authentication suite within a Next.js application. The application features a sign-up and login flow powered by Email magic links. On sign-up a new organization is created, and the initial member becomes the admin of that organization. As admin, the member is able to invite others to join the organization, and set up SSO connections via SAML or OIDC.
 
 This project utilizes Stytch's [Node Backend SDK](https://www.npmjs.com/package/stytch) to power authentication. All authentication logic lives on the backend of this Next.js application in API routes. The API routes allow for communication between the frontend, and Stytch.
 
@@ -56,7 +56,7 @@ NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN=public-token-test-abc123-abcde-1234-0987-0000-ab
 
 ## Running locally
 
-After completing all the set up steps above the application can be run with the command:
+After completing all the set-up steps above the application can be run with the command:
 
 ```bash
 npm run dev
