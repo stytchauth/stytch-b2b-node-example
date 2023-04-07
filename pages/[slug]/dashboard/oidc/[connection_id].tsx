@@ -53,27 +53,27 @@ function ConnectionEditPage({connection}: Props) {
                 <form onSubmit={onSubmit} style={{minWidth: 400}}>
                     <h1>Edit OIDC Connection</h1>
                     <label htmlFor="display_name">Display Name</label>
-                    <input name="display_name" value={connection.display_name} disabled/>
+                    <input type="text" name="display_name" value={connection.display_name} disabled/>
                     <label htmlFor="status">Status</label>
-                    <input name="status" disabled value={connection.status}/>
+                    <input type="text" name="status" disabled value={connection.status}/>
                     <label htmlFor="connection_id">Connection ID</label>
-                    <input name="connection_id" value={connection.connection_id} disabled/>
+                    <input type="text" name="connection_id" value={connection.connection_id} disabled/>
                     <label htmlFor="redirect_url">Redirect URL</label>
-                    <input name="redirect_url" value={connection.redirect_url} disabled/>
+                    <input type="text" name="redirect_url" value={connection.redirect_url} disabled/>
                     <label htmlFor="client_id">Client ID</label>
-                    <input
+                    <input type="text"
                         name="client_id"
                         placeholder="Client ID"
                         defaultValue={connection.client_id}
                     />
                     <label htmlFor="client_secret">Client Secret</label>
-                    <input
+                    <input type="text"
                         name="client_secret"
                         placeholder="Client Secret"
                         defaultValue={connection.client_secret}
                     />
                     <label htmlFor="issuer">Issuer URL</label>
-                    <input
+                    <input type="text"
                         name="issuer"
                         placeholder="Issuer"
                         defaultValue={connection.issuer}
@@ -92,25 +92,25 @@ function ConnectionEditPage({connection}: Props) {
                     <div className="panel">
                         <div className={"panel-contents"}>
                             <label htmlFor="authorization_url">Authorization URL</label>
-                            <input
+                            <input type="text"
                                 name="authorization_url"
                                 placeholder="Authorization URL"
                                 defaultValue={connection.authorization_url}
                             />
                             <label htmlFor="token_url">Token URL</label>
-                            <input
+                            <input type="text"
                                 name="token_url"
                                 placeholder="Token URL"
                                 defaultValue={connection.token_url}
                             />
                             <label htmlFor="userinfo_url">User Info URL</label>
-                            <input
+                            <input type="text"
                                 name="userinfo_url"
                                 placeholder="User Info URL"
                                 defaultValue={connection.userinfo_url}
                             />
                             <label htmlFor="jwks_url">Jwks URL</label>
-                            <input
+                            <input type="text"
                                 name="jwks_url"
                                 placeholder="Jwks URL"
                                 defaultValue={connection.jwks_url}

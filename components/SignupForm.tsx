@@ -83,7 +83,7 @@ const SignupForm = () => {
               type="email"
             />
             <label>Organization name</label>
-            <input
+            <input type="text"
               placeholder="Foo Corp"
               value={organizationName}
               onChange={(e) => setOrganizationName(e.target.value)}

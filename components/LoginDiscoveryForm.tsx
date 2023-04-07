@@ -21,7 +21,7 @@ const LoginDiscoveryForm = () => {
         administrator.
       </p>
       <form onSubmit={onSubmit}>
-        <input
+        <input type="text"
           value={slug}
           onChange={(e) => setSlug(e.target.value)}
           placeholder="acme-corp"

@@ -122,6 +122,8 @@ const IDPList = ({
   oidc_connections }: Pick<Props, "user" | "saml_connections" | "oidc_connections">) => {
     const [idpNameSAML, setIdpNameSAML] = useState("");
     const [idpNameOIDC, setIdpNameOIDC] = useState("");
+    const [isSaml, setIsSaml] = useState(true);
+
     const router = useRouter();
 
     const onSamlCreate: FormEventHandler = async (e) => {
@@ -150,6 +152,11 @@ const IDPList = ({
             `/${router.query.slug}/dashboard/oidc/${conn.connection_id}`
         );
     };
+
+    const onSsoMethodChange: FormEventHandler = async (e) => {
+        // @ts-ignore
+        setIsSaml(e.target["value"] == "SAML");
+    }
 
   return (
     <>
@@ -193,34 +200,27 @@ const IDPList = ({
       {isAdmin(user) && (
         <div className="section">
           <h3>Create a new SSO Connection</h3>
-            <form onSubmit={onSamlCreate} className="row">
+            <form onSubmit={isSaml ? onSamlCreate : onOidcCreate} className="row">
                 <input
-                    placeholder={`SAML Display Name`}
-                    value={idpNameSAML}
-                    onChange={(e) => setIdpNameSAML(e.target.value)}
+                    type="text"
+                    placeholder={isSaml ? `SAML Display Name` : `OIDC Display Name`}
+                    value={isSaml ? idpNameSAML : idpNameOIDC}
+                    onChange={isSaml ? (e) => setIdpNameSAML(e.target.value) : (e) => setIdpNameOIDC(e.target.value)}
                 />
                 <button
-                    disabled={idpNameSAML.length < 3}
+                    disabled={isSaml ? idpNameSAML.length < 3 : idpNameOIDC.length < 3}
                     type="submit"
                     className="primary"
                 >
                     Create
                 </button>
             </form>
-            <form onSubmit={onOidcCreate} className="row">
-                <input
-                    placeholder={`OIDC Display Name`}
-                    value={idpNameOIDC}
-                    onChange={(e) => setIdpNameOIDC(e.target.value)}
-                />
-                <button
-                    disabled={idpNameOIDC.length < 3}
-                    type="submit"
-                    className="primary"
-                >
-                    Create
-                </button>
-            </form>
+            <div className="radio-sso">
+                <input type="radio" id="saml" name="sso_method" onClick={(e) => setIsSaml(true)} checked={isSaml}/>
+                <label htmlFor="saml">SAML</label>
+                <input type="radio" id="oidc" onClick={(e) => setIsSaml(false)} checked={!isSaml}/>
+                <label htmlFor="oidc">OIDC</label>
+            </div>
         </div>
       )}
     </>
