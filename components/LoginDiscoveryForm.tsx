@@ -1,11 +1,12 @@
-import React, { FormEventHandler, useRef, useState } from "react";
-import { useRouter } from "next/router";
+import React, {FormEventHandler, useRef, useState} from "react";
+import {useRouter} from "next/router";
+import Link from "next/link";
+import {EmailLoginForm} from "./EmailLoginForm";
+import {discoveryStart} from "../lib/api";
 
-// TODO - Make this integrate with the discovery endpoints
-// For now - just link to tenanted login
-const LoginDiscoveryForm = () => {
+
+const ContinueToTenantForm = ({onBack}: { onBack: () => void }) => {
   const [slug, setSlug] = useState<string>("");
-  // const slug = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const onSubmit: FormEventHandler = async (e) => {
@@ -15,10 +16,10 @@ const LoginDiscoveryForm = () => {
 
   return (
     <div>
-      <h1>What is your Organization&apos;s slug?</h1>
+      <h1>What is your Organization&apos;s Domain?</h1>
       <p>
-        If you don&apos;t know, please reach out to your organization
-        administrator.
+        Don&apos;t know your organization&apos;s Domain?
+        Find your <Link href="" onClick={onBack}>organizations</Link>.
       </p>
       <form onSubmit={onSubmit}>
         <input type="text"
@@ -31,7 +32,34 @@ const LoginDiscoveryForm = () => {
         </button>
       </form>
     </div>
-  );
+  )
+}
+
+const LoginDiscoveryForm = () => {
+  const [isDiscovery, setIsDiscovery] = useState(true)
+
+  if (isDiscovery) {
+    return (
+      <EmailLoginForm
+        title="Sign in"
+        onSubmit={discoveryStart}
+      >
+        <p>
+          We&apos;ll email you a magic code for a password-free sign in.
+          <br/>
+          You&apos;ll be able to choose which organization you want to access.
+          <br/>
+          Or you can <Link href="" onClick={() => setIsDiscovery(false)}>sign in manually instead</Link>.
+        </p>
+      </EmailLoginForm>
+    )
+  } else {
+    return (
+      <ContinueToTenantForm
+        onBack={() => setIsDiscovery(true)}
+      />
+    )
+  }
 };
 
 export default LoginDiscoveryForm;

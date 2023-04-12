@@ -21,6 +21,10 @@ export type OIDCConnection = Awaited<
     ReturnType<typeof client.sso.oidc.create>
 >["connection"];
 
+export type DiscoveredOrganizations = Awaited<
+  ReturnType<typeof client.discovery.organizations.list>
+>["discovered_organizations"];
+
 const stytchEnv =
   process.env.NEXT_PUBLIC_STYTCH_PROJECT_ENV === "live"
     ? stytch.envs.live
@@ -29,6 +33,8 @@ const stytchEnv =
 export const formatSSOStartURL = (connection_id: string): string => {
   return `${stytchEnv}public/sso/start?connection_id=${connection_id}&public_token=${publicToken}`;
 };
+
+
 
 const loadStytch = () => {
   if (!client) {

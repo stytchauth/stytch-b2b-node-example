@@ -102,7 +102,7 @@ const MemberList = ({
         <h3>Invite new member</h3>
         <form onSubmit={onInviteSubmit} className="row">
           <input
-            placeholder={`your-coworker@${org.email_allowed_domains[0]}`}
+            placeholder={`your-coworker@${org.email_allowed_domains[0] ?? 'example.com'}`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -246,7 +246,11 @@ const Dashboard = ({ org, user, members, saml_connections, oidc_connections }: P
           oidc_connections={oidc_connections}
       />
 
+      <div>
+      <Link href={"/orgswitcher"}>Switch Organizations</Link>
+        &nbsp;&nbsp;&nbsp;&nbsp;
       <Link href={"/api/logout"}>Log Out</Link>
+      </div>
     </div>
   );
 };
