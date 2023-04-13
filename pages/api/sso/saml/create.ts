@@ -16,7 +16,7 @@ async function handler(
         member.organization_id
     );
     console.log(
-        "Successfully created new SSO connection",
+        "Successfully created new SAML connection",
         connection.connection_id
     );
     return res.status(200).json(connection);

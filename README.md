@@ -56,7 +56,7 @@ NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN=public-token-test-abc123-abcde-1234-0987-0000-ab
 
 ## Running locally
 
-After completing all the set-up steps above the application can be run with the command:
+After completing all the setup steps above the application can be run with the command:
 
 ```bash
 npm run dev

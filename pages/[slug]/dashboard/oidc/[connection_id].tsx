@@ -143,7 +143,6 @@ export const getServerSideProps = withSession<
     }
 
     const connection = await SSOService.list(org.organization_id).then((res) => {
-        console.log("response here get: " + JSON.stringify(res));
         return res.oidc_connections.find((conn) => conn.connection_id === connection_id);
     });
 

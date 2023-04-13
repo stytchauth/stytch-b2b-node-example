@@ -11,6 +11,7 @@ import { createOidcSSOConn, createSamlSSOConn, deleteMember, invite } from "../.
 import { SSOService } from "../../lib/ssoService";
 import { useAuth, withSession } from "../../lib/sessionService";
 import { Member, OIDCConnection, Organization, SAMLConnection } from "../../lib/loadStytch";
+import {SSO} from "stytch/types/lib/b2b/sso";
 
 type Props = {
   org: Organization;
@@ -27,6 +28,11 @@ const isValidEmail = (emailValue: string) => {
 };
 
 const isAdmin = (member: Member) => !!member.trusted_metadata.admin;
+
+const SSO_METHOD = {
+    SAML: "SAML",
+    OIDC: "OIDC"
+}
 
 const MemberRow = ({ member, user }: { member: Member; user: Member }) => {
   const router = useRouter();
@@ -122,15 +128,14 @@ const IDPList = ({
   oidc_connections }: Pick<Props, "user" | "saml_connections" | "oidc_connections">) => {
     const [idpNameSAML, setIdpNameSAML] = useState("");
     const [idpNameOIDC, setIdpNameOIDC] = useState("");
-    const [isSaml, setIsSaml] = useState(true);
-
+    const [ssoMethod, setSsoMethod] = useState(SSO_METHOD.SAML);
     const router = useRouter();
 
     const onSamlCreate: FormEventHandler = async (e) => {
         e.preventDefault();
         const res = await createSamlSSOConn(idpNameSAML);
         if (res.status !== 200) {
-            alert("Error creating connection, are you at the max # of SAML connections (5)?");
+            alert("Error creating connection");
             return;
         }
         const conn = await res.json();
@@ -143,11 +148,10 @@ const IDPList = ({
         e.preventDefault();
         const res = await createOidcSSOConn(idpNameOIDC);
         if (res.status !== 200) {
-            alert("Error creating connection, are you at the max # of OIDC connections (5)?");
+            alert("Error creating connection");
             return;
         }
         const conn = await res.json();
-        console.log(conn);
         await router.push(
             `/${router.query.slug}/dashboard/oidc/${conn.connection_id}`
         );
@@ -200,15 +204,15 @@ const IDPList = ({
       {isAdmin(user) && (
         <div className="section">
           <h3>Create a new SSO Connection</h3>
-            <form onSubmit={isSaml ? onSamlCreate : onOidcCreate} className="row">
+            <form onSubmit={ssoMethod === SSO_METHOD.SAML ? onSamlCreate : onOidcCreate} className="row">
                 <input
                     type="text"
-                    placeholder={isSaml ? `SAML Display Name` : `OIDC Display Name`}
-                    value={isSaml ? idpNameSAML : idpNameOIDC}
-                    onChange={isSaml ? (e) => setIdpNameSAML(e.target.value) : (e) => setIdpNameOIDC(e.target.value)}
+                    placeholder={ssoMethod === SSO_METHOD.SAML ? `SAML Display Name` : `OIDC Display Name`}
+                    value={ssoMethod === SSO_METHOD.SAML ? idpNameSAML : idpNameOIDC}
+                    onChange={ssoMethod === SSO_METHOD.SAML ? (e) => setIdpNameSAML(e.target.value) : (e) => setIdpNameOIDC(e.target.value)}
                 />
                 <button
-                    disabled={isSaml ? idpNameSAML.length < 3 : idpNameOIDC.length < 3}
+                    disabled={ssoMethod === SSO_METHOD.SAML ? idpNameSAML.length < 3 : idpNameOIDC.length < 3}
                     type="submit"
                     className="primary"
                 >
@@ -216,9 +220,9 @@ const IDPList = ({
                 </button>
             </form>
             <div className="radio-sso">
-                <input type="radio" id="saml" name="sso_method" onClick={(e) => setIsSaml(true)} checked={isSaml}/>
+                <input type="radio" id="saml" name="sso_method" onClick={(e) => setSsoMethod(SSO_METHOD.SAML)} checked={ssoMethod === SSO_METHOD.SAML}/>
                 <label htmlFor="saml">SAML</label>
-                <input type="radio" id="oidc" onClick={(e) => setIsSaml(false)} checked={!isSaml}/>
+                <input type="radio" id="oidc" onClick={(e) => setSsoMethod(SSO_METHOD.OIDC)} checked={ssoMethod === SSO_METHOD.OIDC}/>
                 <label htmlFor="oidc">OIDC</label>
             </div>
         </div>
