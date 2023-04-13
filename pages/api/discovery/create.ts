@@ -45,6 +45,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse<ErrorDat
       await stytchClient.organizations.update({
         organization_id: organization.organization_id,
         email_jit_provisioning: "RESTRICTED",
+        sso_jit_provisioning: "ALL_ALLOWED",
         email_allowed_domains: [toDomain(member.email_address)],
       })
     } catch (e) {

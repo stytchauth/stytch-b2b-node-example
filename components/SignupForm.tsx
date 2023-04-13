@@ -81,12 +81,6 @@ const SignupForm = () => {
               onChange={(e) => setEmail(e.target.value)}
               type="email"
             />
-            <label>Organization name</label>
-            <input type="text"
-              placeholder="Foo Corp"
-              value={organizationName}
-              onChange={(e) => setOrganizationName(e.target.value)}
-            />
             <button
               className="primary"
               disabled={isDisabled}

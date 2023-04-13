@@ -14,7 +14,7 @@ const DiscoveredOrganizationsList = ({
                                        discovered_organizations,
                                      }: Props) => {
 
-  const formatMembership = ({membership, organization}: DiscoveredOrganizations[0]) => {
+  const formatMembership = ({membership, organization}: Pick<DiscoveredOrganizations[0], 'membership' | 'organization'>) => {
     if (membership.type === "pending_member") {
       return `Join ${organization.organization_name}`
     }
@@ -57,6 +57,7 @@ const CreateNewOrganization = () => {
       <form method="POST" action="/api/discovery/create" className="row">
         <label htmlFor="organization_name">Organization name</label>
         <input
+          type={"text"}
           placeholder={`Foo Corp`}
           name="organization_name"
           value={orgName}
