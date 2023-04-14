@@ -22,7 +22,7 @@ const ContinueToTenantForm = ({onBack}: { onBack: () => void }) => {
         Find your <Link href="" onClick={onBack}>organizations</Link>.
       </p>
       <form onSubmit={onSubmit}>
-        <input
+        <input type="text"
           value={slug}
           onChange={(e) => setSlug(e.target.value)}
           placeholder="acme-corp"

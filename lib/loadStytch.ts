@@ -17,6 +17,10 @@ export type SAMLConnection = Awaited<
   ReturnType<typeof client.sso.saml.create>
 >["connection"];
 
+export type OIDCConnection = Awaited<
+    ReturnType<typeof client.sso.oidc.create>
+>["connection"];
+
 export type DiscoveredOrganizations = Awaited<
   ReturnType<typeof client.discovery.organizations.list>
 >["discovered_organizations"];

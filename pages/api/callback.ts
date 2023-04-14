@@ -20,7 +20,6 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
   } catch (error) {
     console.error('Could not authenticate in callback', error);
-
     return res.redirect(307, '/login');
   }
 }

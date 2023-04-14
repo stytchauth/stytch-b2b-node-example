@@ -1,9 +1,13 @@
 // This API route sends a magic link to the specified email address.
-import type { NextApiRequest, NextApiResponse } from 'next';
-import loadStytch, {Member} from '../../../lib/loadStytch';
-import { adminOnlyAPIRoute } from '../../../lib/sessionService';
+import type { NextApiRequest, NextApiResponse } from "next";
+import loadStytch, { Member } from "../../../../lib/loadStytch";
+import {adminOnlyAPIRoute} from "../../../../lib/sessionService";
 
-async function handler(member: Member, req: NextApiRequest, res: NextApiResponse) {
+async function handler(
+    member: Member,
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
   try {
     const {
       display_name,
@@ -15,7 +19,6 @@ async function handler(member: Member, req: NextApiRequest, res: NextApiResponse
       certificate,
       connection_id,
     } = JSON.parse(req.body);
-
     await loadStytch().sso.saml.update({
       organization_id: member.organization_id,
       connection_id,
@@ -31,7 +34,7 @@ async function handler(member: Member, req: NextApiRequest, res: NextApiResponse
     });
     return res.status(200).end();
   } catch (e) {
-    console.error('Failed to update SSO connection', e);
+    console.error("Failed to update SAML connection", e);
     return res.status(400).end();
   }
 }
