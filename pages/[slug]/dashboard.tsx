@@ -10,8 +10,7 @@ import { OrgService } from "../../lib/orgService";
 import { createOidcSSOConn, createSamlSSOConn, deleteMember, invite } from "../../lib/api";
 import { SSOService } from "../../lib/ssoService";
 import { useAuth, withSession } from "../../lib/sessionService";
-import { Member, OIDCConnection, Organization, SAMLConnection } from "../../lib/loadStytch";
-import {SSO} from "stytch/types/lib/b2b/sso";
+import {Member, OIDCConnection, Organization, SAMLConnection} from "stytch";
 
 type Props = {
   org: Organization;

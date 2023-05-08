@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { SSOService } from '../../../../lib/ssoService';
 import { adminOnlyAPIRoute } from '../../../../lib/sessionService';
-import {Member} from "../../../../lib/loadStytch";
+import type {Member} from 'stytch'
 
 async function handler(
     member: Member,

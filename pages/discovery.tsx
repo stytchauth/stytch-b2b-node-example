@@ -3,18 +3,19 @@ import React, {
 } from "react";
 import Link from "next/link";
 import {GetServerSideProps} from "next";
-import loadStytch, {DiscoveredOrganizations} from "../lib/loadStytch";
+import loadStytch from "../lib/loadStytch";
 import {getDiscoverySessionData} from "../lib/sessionService";
+import type {DiscoveredOrganization} from "stytch";
 
 type Props = {
-  discovered_organizations: DiscoveredOrganizations,
+  discovered_organizations: DiscoveredOrganization[],
 };
 
 const DiscoveredOrganizationsList = ({
                                        discovered_organizations,
                                      }: Props) => {
 
-  const formatMembership = ({membership, organization}: Pick<DiscoveredOrganizations[0], 'membership' | 'organization'>) => {
+  const formatMembership = ({membership, organization}: Pick<DiscoveredOrganization, 'membership' | 'organization'>) => {
     if (membership.type === "pending_member") {
       return `Join ${organization.organization_name}`
     }

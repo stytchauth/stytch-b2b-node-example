@@ -3,11 +3,12 @@ import React, {
 } from "react";
 import Link from "next/link";
 import {GetServerSideProps} from "next";
-import loadStytch, {Member, DiscoveredOrganizations} from "../lib/loadStytch";
+import loadStytch from "../lib/loadStytch";
 import {getDiscoverySessionData, useAuth, withSession} from "../lib/sessionService";
+import type {Member, DiscoveredOrganization} from 'stytch'
 
 type Props = {
-  discovered_organizations: DiscoveredOrganizations,
+  discovered_organizations: DiscoveredOrganization[],
   user: Member,
 };
 

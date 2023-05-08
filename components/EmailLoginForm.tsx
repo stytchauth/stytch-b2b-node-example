@@ -1,6 +1,4 @@
-import {formatSSOStartURL, Organization} from "../lib/loadStytch";
 import React, {FormEventHandler, useEffect, useState} from "react";
-import {login} from "../lib/api";
 
 const STATUS = {
   INIT: 0,

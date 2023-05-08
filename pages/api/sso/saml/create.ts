@@ -1,8 +1,8 @@
 // This API route creates a new SAML connection
 import type { NextApiRequest, NextApiResponse } from "next";
+import type {Member} from 'stytch'
 import { SSOService } from "../../../../lib/ssoService";
 import { adminOnlyAPIRoute } from "../../../../lib/sessionService";
-import { Member } from "../../../../lib/loadStytch";
 
 async function handler(
     member: Member,

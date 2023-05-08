@@ -1,5 +1,5 @@
-import loadStytch, {Member, Organization} from "./loadStytch";
-import {SearchOperator} from "stytch";
+import loadStytch from "./loadStytch";
+import {SearchOperator, Member, Organization} from "stytch";
 
 const stytch = loadStytch();
 

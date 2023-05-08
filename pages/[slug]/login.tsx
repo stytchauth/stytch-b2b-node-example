@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import TenantedLoginForm from "../../components/TenatedLoginForm";
 import { OrgService } from "../../lib/orgService";
-import {Organization} from "../../lib/loadStytch";
+import {Organization} from "stytch";
 
 type Props = { org: null | Organization };
 

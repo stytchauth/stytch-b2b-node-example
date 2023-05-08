@@ -1,14 +1,14 @@
 import {OrgService} from "../../../../lib/orgService";
 import {SSOService} from "../../../../lib/ssoService";
-import React, {BaseSyntheticEvent, FormEventHandler} from "react";
+import React, {FormEventHandler} from "react";
 import {updateOidcSSOConn} from "../../../../lib/api";
 import {useRouter} from "next/router";
 import {
-    formatSSOStartURL,
-    OIDCConnection,
+    formatSSOStartURL
 } from "../../../../lib/loadStytch";
 import {useAuth, withSession} from "../../../../lib/sessionService";
 import Link from "next/link";
+import {OIDCConnection} from 'stytch'
 
 type Props = { connection: OIDCConnection };
 

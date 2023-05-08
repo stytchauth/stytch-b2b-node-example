@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import loadStytch, {Member} from '../../lib/loadStytch';
+import type {Member} from 'stytch'
+import loadStytch from '../../lib/loadStytch';
 import { OrgService } from '../../lib/orgService';
 import { MemberService } from '../../lib/memberService';
 import { adminOnlyAPIRoute } from '../../lib/sessionService';

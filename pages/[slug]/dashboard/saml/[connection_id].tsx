@@ -5,10 +5,10 @@ import { updateSamlSSOConn } from "../../../../lib/api";
 import { useRouter } from "next/router";
 import {
   formatSSOStartURL,
-  SAMLConnection,
 } from "../../../../lib/loadStytch";
 import { useAuth, withSession } from "../../../../lib/sessionService";
 import Link from "next/link";
+import {SAMLConnection} from "stytch";
 
 type Props = { connection: SAMLConnection };
 

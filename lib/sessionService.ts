@@ -1,6 +1,7 @@
 import {GetServerSideProps, NextApiRequest, NextApiResponse} from 'next';
 import Cookies from 'cookies';
-import loadStytch, {Member, SessionsAuthenticateResponse} from './loadStytch';
+import {B2BSessionsAuthenticateResponse, Member} from 'stytch'
+import loadStytch from './loadStytch';
 import {ParsedUrlQuery} from 'querystring';
 import {GetServerSidePropsContext, PreviewData} from 'next/types';
 import {IncomingMessage, ServerResponse} from "http";
@@ -120,7 +121,7 @@ export function withSession<P extends { [key: string]: any } = { [key: string]: 
       return {redirect: {statusCode: 307, destination: `/login`}};
     }
 
-    let sessionAuthRes;
+    let sessionAuthRes: B2BSessionsAuthenticateResponse;
     try {
       sessionAuthRes = await stytch.sessions.authenticate({
         session_duration_minutes: 30, // extend the session a bit
@@ -145,13 +146,13 @@ export function withSession<P extends { [key: string]: any } = { [key: string]: 
  * It can only be called in functions wrapped with {@link withSession}`
  * @param context
  */
-export function useAuth(context: GetServerSidePropsContext): SessionsAuthenticateResponse {
+export function useAuth(context: GetServerSidePropsContext): B2BSessionsAuthenticateResponse {
   // @ts-ignore
   if (!context[SESSION_SYMBOL]) {
     throw Error('useAuth called in route not protected by withSession');
   }
   // @ts-ignore
-  return context[SESSION_SYMBOL] as AuthenticateResponse;
+  return context[SESSION_SYMBOL] as B2BSessionsAuthenticateResponse;
 }
 
 export function revokeSession(req: NextApiRequest, res: NextApiResponse) {
@@ -169,7 +170,7 @@ export function revokeSession(req: NextApiRequest, res: NextApiResponse) {
     .then(() => {
       console.log('Session successfully revoked');
     })
-    .catch((err) => {
+    .catch((err: unknown) => {
       console.error('Could not revoke session', err);
     });
 }

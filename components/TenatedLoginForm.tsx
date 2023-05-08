@@ -1,7 +1,8 @@
-import React, {FormEventHandler, useEffect, useState} from "react";
+import React from "react";
 import {login} from "../lib/api";
-import {formatSSOStartURL, Organization, publicToken} from "../lib/loadStytch";
+import {formatSSOStartURL} from "../lib/loadStytch";
 import {EmailLoginForm} from "./EmailLoginForm";
+import {Organization} from "stytch";
 
 type Props = {
   org: Organization;
