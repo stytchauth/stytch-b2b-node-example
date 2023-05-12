@@ -2,7 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getDomainFromRequest } from "@/lib/urlUtils";
 import loadStytch from "@/lib/loadStytch";
-import { MemberService } from "@/lib/memberService";
 
 type ErrorData = {
   errorString: string;
