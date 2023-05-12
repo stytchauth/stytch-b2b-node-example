@@ -5,19 +5,19 @@ import { adminOnlyAPIRoute } from "../../../../lib/sessionService";
 import { Member } from "../../../../lib/loadStytch";
 
 async function handler(
-    member: Member,
-    req: NextApiRequest,
-    res: NextApiResponse
+  member: Member,
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
   try {
     const { display_name } = JSON.parse(req.body);
     const { connection } = await SSOService.createSaml(
-        display_name,
-        member.organization_id
+      display_name,
+      member.organization_id
     );
     console.log(
-        "Successfully created new SAML connection",
-        connection.connection_id
+      "Successfully created new SAML connection",
+      connection.connection_id
     );
     return res.status(200).json(connection);
   } catch (e) {

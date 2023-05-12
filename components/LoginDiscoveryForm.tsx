@@ -1,11 +1,10 @@
-import React, {FormEventHandler, useRef, useState} from "react";
-import {useRouter} from "next/router";
+import React, { FormEventHandler, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
-import {EmailLoginForm} from "./EmailLoginForm";
-import {discoveryStart} from "../lib/api";
+import { EmailLoginForm } from "./EmailLoginForm";
+import { discoveryStart } from "../lib/api";
 
-
-const ContinueToTenantForm = ({onBack}: { onBack: () => void }) => {
+const ContinueToTenantForm = ({ onBack }: { onBack: () => void }) => {
   const [slug, setSlug] = useState<string>("");
   const router = useRouter();
 
@@ -18,11 +17,15 @@ const ContinueToTenantForm = ({onBack}: { onBack: () => void }) => {
     <div>
       <h1>What is your Organization&apos;s Domain?</h1>
       <p>
-        Don&apos;t know your organization&apos;s Domain?
-        Find your <Link href="" onClick={onBack}>organizations</Link>.
+        Don&apos;t know your organization&apos;s Domain? Find your{" "}
+        <Link href="" onClick={onBack}>
+          organizations
+        </Link>
+        .
       </p>
       <form onSubmit={onSubmit}>
-        <input type="text"
+        <input
+          type="text"
           value={slug}
           onChange={(e) => setSlug(e.target.value)}
           placeholder="acme-corp"
@@ -32,33 +35,30 @@ const ContinueToTenantForm = ({onBack}: { onBack: () => void }) => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
 const LoginDiscoveryForm = () => {
-  const [isDiscovery, setIsDiscovery] = useState(true)
+  const [isDiscovery, setIsDiscovery] = useState(true);
 
   if (isDiscovery) {
     return (
-      <EmailLoginForm
-        title="Sign in"
-        onSubmit={discoveryStart}
-      >
+      <EmailLoginForm title="Sign in" onSubmit={discoveryStart}>
         <p>
           We&apos;ll email you a magic code for a password-free sign in.
-          <br/>
+          <br />
           You&apos;ll be able to choose which organization you want to access.
-          <br/>
-          Or you can <Link href="" onClick={() => setIsDiscovery(false)}>sign in manually instead</Link>.
+          <br />
+          Or you can{" "}
+          <Link href="" onClick={() => setIsDiscovery(false)}>
+            sign in manually instead
+          </Link>
+          .
         </p>
       </EmailLoginForm>
-    )
+    );
   } else {
-    return (
-      <ContinueToTenantForm
-        onBack={() => setIsDiscovery(true)}
-      />
-    )
+    return <ContinueToTenantForm onBack={() => setIsDiscovery(true)} />;
   }
 };
 
