@@ -6,7 +6,7 @@ import {
 } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { OrgService } from "@/lib/orgService";
+
 import {
   createOidcSSOConn,
   createSamlSSOConn,
@@ -22,6 +22,7 @@ import {
   SAMLConnection,
 } from "@/lib/loadStytch";
 import { SSO } from "stytch/types/lib/b2b/sso";
+import { findAllMembers, findByID } from "@/lib/orgService";
 
 type Props = {
   org: Organization;
@@ -307,14 +308,14 @@ const Dashboard = ({
 export const getServerSideProps = withSession<Props, { slug: string; }>(
   async (context) => {
     const { member } = useAuth(context);
-    const org = await OrgService.findByID(member.organization_id);
+    const org = await findByID(member.organization_id);
 
     if (org === null) {
       return { redirect: { statusCode: 307, destination: `/login` } };
     }
 
     const [members, ssoConnections] = await Promise.all([
-      OrgService.findAllMembers(org.organization_id),
+      findAllMembers(org.organization_id),
       SSOService.list(org.organization_id),
     ]);
 

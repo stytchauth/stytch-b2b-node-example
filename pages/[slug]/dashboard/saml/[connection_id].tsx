@@ -1,4 +1,4 @@
-import { OrgService } from "@/lib/orgService";
+import { findByID } from "@/lib/orgService";
 import { SSOService } from "@/lib/ssoService";
 import { FormEventHandler } from "react";
 import { updateSamlSSOConn } from "@/lib/api";
@@ -128,7 +128,7 @@ export const getServerSideProps = withSession<
   const connection_id = context.params!["connection_id"];
   const { member } = useAuth(context);
 
-  const org = await OrgService.findByID(member.organization_id);
+  const org = await findByID(member.organization_id);
   if (org === null) {
     return { redirect: { statusCode: 307, destination: `/login` } };
   }

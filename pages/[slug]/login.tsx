@@ -2,7 +2,7 @@ import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import TenantedLoginForm from "@/components/TenantedLoginForm";
-import { OrgService } from "@/lib/orgService";
+import { findBySlug } from "@/lib/orgService";
 import { Organization } from "@/lib/loadStytch";
 
 type Props = { org: null | Organization; };
@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps<
   const slug = context.params!["slug"];
   return {
     props: {
-      org: await OrgService.findBySlug(slug),
+      org: await findBySlug(slug),
     },
   };
 };
