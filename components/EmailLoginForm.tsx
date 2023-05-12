@@ -1,5 +1,5 @@
 import { formatSSOStartURL, Organization } from "../lib/loadStytch";
-import React, { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import { login } from "../lib/api";
 
 const STATUS = {
@@ -16,7 +16,7 @@ const isValidEmail = (emailValue: string) => {
 
 type Props = React.PropsWithChildren<{
   title: string;
-  onSubmit: (email: string) => Promise<{ status: number }>;
+  onSubmit: (email: string) => Promise<{ status: number; }>;
 }>;
 export const EmailLoginForm = ({ title, onSubmit, children }: Props) => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);

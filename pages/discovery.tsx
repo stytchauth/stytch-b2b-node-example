@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
 import loadStytch, { DiscoveredOrganizations } from "../lib/loadStytch";
@@ -90,7 +90,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     return { redirect: { statusCode: 307, destination: `/login` } };
   }
 
-  const { discovered_organizations, request_id } =
+  const { discovered_organizations } =
     await loadStytch().discovery.organizations.list({
       intermediate_session_token: discoverySessionData.intermediateSession,
       session_jwt: discoverySessionData.sessionJWT,

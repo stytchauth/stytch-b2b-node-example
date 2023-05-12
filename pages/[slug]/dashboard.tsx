@@ -1,4 +1,4 @@
-import React, {
+import {
   FormEventHandler,
   MouseEventHandler,
   useEffect,
@@ -44,7 +44,7 @@ const SSO_METHOD = {
   OIDC: "OIDC",
 };
 
-const MemberRow = ({ member, user }: { member: Member; user: Member }) => {
+const MemberRow = ({ member, user }: { member: Member; user: Member; }) => {
   const router = useRouter();
   const [isDisabled, setIsDisabled] = useState(false);
   const doDelete: MouseEventHandler = async (e) => {
@@ -118,9 +118,8 @@ const MemberList = ({
         <h3>Invite new member</h3>
         <form onSubmit={onInviteSubmit} className="row">
           <input
-            placeholder={`your-coworker@${
-              org.email_allowed_domains[0] ?? "example.com"
-            }`}
+            placeholder={`your-coworker@${org.email_allowed_domains[0] ?? "example.com"
+              }`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -305,7 +304,7 @@ const Dashboard = ({
   );
 };
 
-export const getServerSideProps = withSession<Props, { slug: string }>(
+export const getServerSideProps = withSession<Props, { slug: string; }>(
   async (context) => {
     const { member } = useAuth(context);
     const org = await OrgService.findByID(member.organization_id);

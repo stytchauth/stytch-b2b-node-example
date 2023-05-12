@@ -1,13 +1,13 @@
 import { OrgService } from "../../../../lib/orgService";
 import { SSOService } from "../../../../lib/ssoService";
-import React, { FormEventHandler } from "react";
+import { FormEventHandler } from "react";
 import { updateSamlSSOConn } from "../../../../lib/api";
 import { useRouter } from "next/router";
 import { formatSSOStartURL, SAMLConnection } from "../../../../lib/loadStytch";
 import { useAuth, withSession } from "../../../../lib/sessionService";
 import Link from "next/link";
 
-type Props = { connection: SAMLConnection };
+type Props = { connection: SAMLConnection; };
 
 function ConnectionEditPage({ connection }: Props) {
   const router = useRouter();
@@ -123,7 +123,7 @@ function ConnectionEditPage({ connection }: Props) {
 
 export const getServerSideProps = withSession<
   Props,
-  { slug: string; connection_id: string }
+  { slug: string; connection_id: string; }
 >(async (context) => {
   const connection_id = context.params!["connection_id"];
   const { member } = useAuth(context);

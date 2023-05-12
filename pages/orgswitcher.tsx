@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import Link from "next/link";
-import { GetServerSideProps } from "next";
 import loadStytch, { Member, DiscoveredOrganizations } from "../lib/loadStytch";
 import {
   getDiscoverySessionData,

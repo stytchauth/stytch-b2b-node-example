@@ -1,4 +1,4 @@
-import React, { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import { login } from "../lib/api";
 import {
   formatSSOStartURL,

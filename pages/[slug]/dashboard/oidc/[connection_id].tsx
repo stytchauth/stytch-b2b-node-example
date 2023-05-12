@@ -1,13 +1,13 @@
 import { OrgService } from "../../../../lib/orgService";
 import { SSOService } from "../../../../lib/ssoService";
-import React, { BaseSyntheticEvent, FormEventHandler } from "react";
+import { BaseSyntheticEvent, FormEventHandler } from "react";
 import { updateOidcSSOConn } from "../../../../lib/api";
 import { useRouter } from "next/router";
 import { formatSSOStartURL, OIDCConnection } from "../../../../lib/loadStytch";
 import { useAuth, withSession } from "../../../../lib/sessionService";
 import Link from "next/link";
 
-type Props = { connection: OIDCConnection };
+type Props = { connection: OIDCConnection; };
 
 function ConnectionEditPage({ connection }: Props) {
   const router = useRouter();
@@ -159,7 +159,7 @@ function ConnectionEditPage({ connection }: Props) {
 
 export const getServerSideProps = withSession<
   Props,
-  { slug: string; connection_id: string }
+  { slug: string; connection_id: string; }
 >(async (context) => {
   const connection_id = context.params!["connection_id"];
   const { member } = useAuth(context);
