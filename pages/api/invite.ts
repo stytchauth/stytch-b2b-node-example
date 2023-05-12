@@ -1,7 +1,6 @@
 // This API route sends a magic link to the specified email address.
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getDomainFromRequest } from "@/lib/urlUtils";
-import loadStytch, { Member } from "@/lib/loadStytch";
+import { Member } from "@/lib/loadStytch";
 import { adminOnlyAPIRoute } from "@/lib/sessionService";
 import { invite } from "@/lib/memberService";
 
