@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import TenantedLoginForm from "../../components/TenatedLoginForm";
+import TenantedLoginForm from "../../components/TenantedLoginForm";
 import { OrgService } from "../../lib/orgService";
 import { Organization } from "../../lib/loadStytch";
 
