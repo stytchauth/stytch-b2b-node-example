@@ -1,11 +1,11 @@
 import { findByID } from "@/lib/orgService";
-import { SSOService } from "@/lib/ssoService";
-import { BaseSyntheticEvent, FormEventHandler } from "react";
+import { FormEventHandler } from "react";
 import { updateOidcSSOConn } from "@/lib/api";
 import { useRouter } from "next/router";
 import { formatSSOStartURL, OIDCConnection } from "@/lib/loadStytch";
 import { useAuth, withSession } from "@/lib/sessionService";
 import Link from "next/link";
+import { list } from "@/lib/ssoService";
 
 type Props = { connection: OIDCConnection; };
 
@@ -169,7 +169,7 @@ export const getServerSideProps = withSession<
     return { redirect: { statusCode: 307, destination: `/login` } };
   }
 
-  const connection = await SSOService.list(org.organization_id).then((res) => {
+  const connection = await list(org.organization_id).then((res) => {
     return res.oidc_connections.find(
       (conn) => conn.connection_id === connection_id
     );

@@ -13,7 +13,6 @@ import {
   deleteMember,
   invite,
 } from "@/lib/api";
-import { SSOService } from "@/lib/ssoService";
 import { useAuth, withSession } from "@/lib/sessionService";
 import {
   Member,
@@ -23,6 +22,7 @@ import {
 } from "@/lib/loadStytch";
 import { SSO } from "stytch/types/lib/b2b/sso";
 import { findAllMembers, findByID } from "@/lib/orgService";
+import { list } from "@/lib/ssoService";
 
 type Props = {
   org: Organization;
@@ -316,7 +316,7 @@ export const getServerSideProps = withSession<Props, { slug: string; }>(
 
     const [members, ssoConnections] = await Promise.all([
       findAllMembers(org.organization_id),
-      SSOService.list(org.organization_id),
+      list(org.organization_id),
     ]);
 
     return {

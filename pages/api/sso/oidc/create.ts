@@ -1,8 +1,8 @@
 // This API route creates an OIDC connection
 import type { NextApiRequest, NextApiResponse } from "next";
-import { SSOService } from "@/lib/ssoService";
 import { adminOnlyAPIRoute } from "@/lib/sessionService";
 import { Member } from "@/lib/loadStytch";
+import { createOidc } from "@/lib/ssoService";
 
 async function handler(
   member: Member,
@@ -11,7 +11,7 @@ async function handler(
 ) {
   try {
     const { display_name } = JSON.parse(req.body);
-    const { connection } = await SSOService.createOidc(
+    const { connection } = await createOidc(
       display_name,
       member.organization_id
     );
