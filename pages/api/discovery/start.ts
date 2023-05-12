@@ -1,8 +1,8 @@
 // This API route sends a magic link to the specified email address.
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getDomainFromRequest } from "../../../lib/urlUtils";
-import loadStytch from "../../../lib/loadStytch";
-import { MemberService } from "../../../lib/memberService";
+import { getDomainFromRequest } from "@/lib/urlUtils";
+import loadStytch from "@/lib/loadStytch";
+import { MemberService } from "@/lib/memberService";
 
 type ErrorData = {
   errorString: string;

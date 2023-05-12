@@ -1,10 +1,10 @@
-import { OrgService } from "../../../../lib/orgService";
-import { SSOService } from "../../../../lib/ssoService";
+import { OrgService } from "@/lib/orgService";
+import { SSOService } from "@/lib/ssoService";
 import { FormEventHandler } from "react";
-import { updateSamlSSOConn } from "../../../../lib/api";
+import { updateSamlSSOConn } from "@/lib/api";
 import { useRouter } from "next/router";
-import { formatSSOStartURL, SAMLConnection } from "../../../../lib/loadStytch";
-import { useAuth, withSession } from "../../../../lib/sessionService";
+import { formatSSOStartURL, SAMLConnection } from "@/lib/loadStytch";
+import { useAuth, withSession } from "@/lib/sessionService";
 import Link from "next/link";
 
 type Props = { connection: SAMLConnection; };

@@ -1,4 +1,4 @@
-import "../styles/stytch.css";
+import "@/styles/stytch.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 

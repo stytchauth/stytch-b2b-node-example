@@ -1,4 +1,4 @@
-import LoginDiscoveryForm from "../components/LoginDiscoveryForm";
+import LoginDiscoveryForm from "@/components/LoginDiscoveryForm";
 
 export default function Login() {
   return (

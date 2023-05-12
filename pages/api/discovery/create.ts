@@ -1,11 +1,11 @@
 // This API route sends a magic link to the specified email address.
 import type { NextApiRequest, NextApiResponse } from "next";
-import loadStytch from "../../../lib/loadStytch";
+import loadStytch from "@/lib/loadStytch";
 import Cookies from "cookies";
 import {
   clearIntermediateSession,
   setSession,
-} from "../../../lib/sessionService";
+} from "@/lib/sessionService";
 import { StytchError } from "stytch";
 
 const stytchClient = loadStytch();

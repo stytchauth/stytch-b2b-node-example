@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import loadStytch from "../../../lib/loadStytch";
+import loadStytch from "@/lib/loadStytch";
 import {
   clearIntermediateSession,
   getDiscoverySessionData,
   setSession,
-} from "../../../lib/sessionService";
+} from "@/lib/sessionService";
 
 const stytchClient = loadStytch();
 

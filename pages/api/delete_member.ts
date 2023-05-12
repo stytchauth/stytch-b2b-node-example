@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import loadStytch, { Member } from "../../lib/loadStytch";
-import { OrgService } from "../../lib/orgService";
-import { MemberService } from "../../lib/memberService";
-import { adminOnlyAPIRoute } from "../../lib/sessionService";
+import loadStytch, { Member } from "@/lib/loadStytch";
+import { OrgService } from "@/lib/orgService";
+import { MemberService } from "@/lib/memberService";
+import { adminOnlyAPIRoute } from "@/lib/sessionService";
 
 async function handler(
   member: Member,

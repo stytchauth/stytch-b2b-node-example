@@ -1,9 +1,9 @@
 // This API route sends a magic link to the specified email address.
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getDomainFromRequest } from "../../lib/urlUtils";
-import loadStytch, { Member } from "../../lib/loadStytch";
-import { MemberService } from "../../lib/memberService";
-import { adminOnlyAPIRoute } from "../../lib/sessionService";
+import { getDomainFromRequest } from "@/lib/urlUtils";
+import loadStytch, { Member } from "@/lib/loadStytch";
+import { MemberService } from "@/lib/memberService";
+import { adminOnlyAPIRoute } from "@/lib/sessionService";
 
 async function handler(
   member: Member,

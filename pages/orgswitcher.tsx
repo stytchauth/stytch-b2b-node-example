@@ -1,10 +1,10 @@
 import Link from "next/link";
-import loadStytch, { Member, DiscoveredOrganizations } from "../lib/loadStytch";
+import loadStytch, { Member, DiscoveredOrganizations } from "@/lib/loadStytch";
 import {
   getDiscoverySessionData,
   useAuth,
   withSession,
-} from "../lib/sessionService";
+} from "@/lib/sessionService";
 
 type Props = {
   discovered_organizations: DiscoveredOrganizations;

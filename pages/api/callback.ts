@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import loadStytch from "../../lib/loadStytch";
+import loadStytch from "@/lib/loadStytch";
 import Cookies from "cookies";
 import {
   SESSION_DURATION_MINUTES,
   setIntermediateSession,
   setSession,
-} from "../../lib/sessionService";
+} from "@/lib/sessionService";
 
 const stytchClient = loadStytch();
 
@@ -27,7 +27,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.redirect(307, "/login");
   }
 }
-type ExchangeResult = { kind: "discovery" | "login"; token: string };
+type ExchangeResult = { kind: "discovery" | "login"; token: string; };
 async function exchangeToken(req: NextApiRequest): Promise<ExchangeResult> {
   if (
     req.query.stytch_token_type === "multi_tenant_magic_links" &&

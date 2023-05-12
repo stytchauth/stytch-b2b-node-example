@@ -4,7 +4,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { discoveryStart } from "../lib/api";
+import { discoveryStart } from "@/lib/api";
 
 const STATUS = {
   INIT: 0,

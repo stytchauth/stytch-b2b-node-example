@@ -6,21 +6,21 @@ import {
 } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { OrgService } from "../../lib/orgService";
+import { OrgService } from "@/lib/orgService";
 import {
   createOidcSSOConn,
   createSamlSSOConn,
   deleteMember,
   invite,
-} from "../../lib/api";
-import { SSOService } from "../../lib/ssoService";
-import { useAuth, withSession } from "../../lib/sessionService";
+} from "@/lib/api";
+import { SSOService } from "@/lib/ssoService";
+import { useAuth, withSession } from "@/lib/sessionService";
 import {
   Member,
   OIDCConnection,
   Organization,
   SAMLConnection,
-} from "../../lib/loadStytch";
+} from "@/lib/loadStytch";
 import { SSO } from "stytch/types/lib/b2b/sso";
 
 type Props = {

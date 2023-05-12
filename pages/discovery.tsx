@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
-import loadStytch, { DiscoveredOrganizations } from "../lib/loadStytch";
-import { getDiscoverySessionData } from "../lib/sessionService";
+import loadStytch, { DiscoveredOrganizations } from "@/lib/loadStytch";
+import { getDiscoverySessionData } from "@/lib/sessionService";
 
 type Props = {
   discovered_organizations: DiscoveredOrganizations;

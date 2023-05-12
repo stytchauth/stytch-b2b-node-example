@@ -1,10 +1,10 @@
 import { FormEventHandler, useEffect, useState } from "react";
-import { login } from "../lib/api";
+import { login } from "@/lib/api";
 import {
   formatSSOStartURL,
   Organization,
   publicToken,
-} from "../lib/loadStytch";
+} from "@/lib/loadStytch";
 import { EmailLoginForm } from "./EmailLoginForm";
 
 type Props = {

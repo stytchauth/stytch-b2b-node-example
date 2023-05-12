@@ -1,8 +1,8 @@
 // This API route creates an OIDC connection
 import type { NextApiRequest, NextApiResponse } from "next";
-import { SSOService } from "../../../../lib/ssoService";
-import { adminOnlyAPIRoute } from "../../../../lib/sessionService";
-import { Member } from "../../../../lib/loadStytch";
+import { SSOService } from "@/lib/ssoService";
+import { adminOnlyAPIRoute } from "@/lib/sessionService";
+import { Member } from "@/lib/loadStytch";
 
 async function handler(
   member: Member,

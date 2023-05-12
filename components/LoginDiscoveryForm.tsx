@@ -2,7 +2,7 @@ import { FormEventHandler, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { EmailLoginForm } from "./EmailLoginForm";
-import { discoveryStart } from "../lib/api";
+import { discoveryStart } from "@/lib/api";
 
 const ContinueToTenantForm = ({ onBack }: { onBack: () => void; }) => {
   const [slug, setSlug] = useState<string>("");
