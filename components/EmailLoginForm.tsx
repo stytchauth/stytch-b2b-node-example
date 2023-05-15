@@ -1,6 +1,4 @@
-import {formatSSOStartURL, Organization} from "../lib/loadStytch";
-import React, {FormEventHandler, useEffect, useState} from "react";
-import {login} from "../lib/api";
+import { FormEventHandler, useEffect, useState } from "react";
 
 const STATUS = {
   INIT: 0,
@@ -14,11 +12,11 @@ const isValidEmail = (emailValue: string) => {
   return regex.test(emailValue);
 };
 
-type Props = React.PropsWithChildren<{
+type EmailLoginProps = React.PropsWithChildren<{
   title: string;
-  onSubmit: (email: string) => Promise<{ status: number}>;
+  onSubmit: (email: string) => Promise<{ status: number; }>;
 }>;
-export const EmailLoginForm = ({title, onSubmit, children}: Props) => {
+export const EmailLoginForm = ({ title, onSubmit, children }: EmailLoginProps) => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
   const [email, setEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);

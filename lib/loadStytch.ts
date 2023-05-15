@@ -18,7 +18,7 @@ export type SAMLConnection = Awaited<
 >["connection"];
 
 export type OIDCConnection = Awaited<
-    ReturnType<typeof client.sso.oidc.create>
+  ReturnType<typeof client.sso.oidc.create>
 >["connection"];
 
 export type DiscoveredOrganizations = Awaited<
@@ -33,8 +33,6 @@ const stytchEnv =
 export const formatSSOStartURL = (connection_id: string): string => {
   return `${stytchEnv}public/sso/start?connection_id=${connection_id}&public_token=${publicToken}`;
 };
-
-
 
 const loadStytch = () => {
   if (!client) {

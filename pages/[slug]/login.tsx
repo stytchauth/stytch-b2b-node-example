@@ -1,12 +1,11 @@
-import React from "react";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import TenantedLoginForm from "../../components/TenatedLoginForm";
-import { OrgService } from "../../lib/orgService";
-import {Organization} from "../../lib/loadStytch";
+import TenantedLoginForm from "@/components/TenantedLoginForm";
+import { findBySlug } from "@/lib/orgService";
+import { Organization } from "@/lib/loadStytch";
 
-type Props = { org: null | Organization };
+type Props = { org: null | Organization; };
 
 const TenantedLogin = ({ org }: Props) => {
   const router = useRouter();
@@ -29,12 +28,12 @@ const TenantedLogin = ({ org }: Props) => {
 
 export const getServerSideProps: GetServerSideProps<
   Props,
-  { slug: string }
+  { slug: string; }
 > = async (context) => {
   const slug = context.params!["slug"];
   return {
     props: {
-      org: await OrgService.findBySlug(slug),
+      org: await findBySlug(slug),
     },
   };
 };
