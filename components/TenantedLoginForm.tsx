@@ -1,17 +1,24 @@
-import { FormEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { login } from "@/lib/api";
 import {
-  formatSSOStartURL,
-  Organization,
-  publicToken,
+    formatOAuthStartURL,
+    formatSSOStartURL,
+    Organization,
 } from "@/lib/loadStytch";
 import { EmailLoginForm } from "./EmailLoginForm";
+import Link from "next/link";
 
 type Props = {
   org: Organization;
 };
 const TenantedLoginForm = ({ org }: Props) => {
-  return (
+    const [googleOAuthURL, setGoogleOAuthURL] = useState("");
+    useEffect(() => {
+        // UseEffect since format requires window to be loaded
+        setGoogleOAuthURL(formatOAuthStartURL("google", org.organization_slug));
+    }, [org.organization_slug]);
+
+    return (
     <div className="card">
       <EmailLoginForm
         title={`Log in to ${org.organization_name}`}
@@ -29,6 +36,10 @@ const TenantedLoginForm = ({ org }: Props) => {
           </div>
         )}
       </EmailLoginForm>
+        or 
+        <Link href={googleOAuthURL}>
+            Login with Google
+        </Link>
     </div>
   );
 };

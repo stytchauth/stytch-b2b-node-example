@@ -1,10 +1,11 @@
-import { FormEventHandler, useState } from "react";
+import {FormEventHandler, useEffect, useState} from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { EmailLoginForm } from "./EmailLoginForm";
 import { discoveryStart } from "@/lib/api";
+import { formatOAuthDiscoveryStartURL } from "@/lib/loadStytch";
 
-const ContinueToTenantForm = ({ onBack }: { onBack: () => void; }) => {
+const ContinueToTenantForm = ({ onBack }: { onBack: () => void }) => {
   const [slug, setSlug] = useState<string>("");
   const router = useRouter();
 
@@ -40,22 +41,33 @@ const ContinueToTenantForm = ({ onBack }: { onBack: () => void; }) => {
 
 const LoginDiscoveryForm = () => {
   const [isDiscovery, setIsDiscovery] = useState(true);
+  const [googleOAuthURL, setGoogleOAuthURL] = useState("");
+  useEffect(() => {
+      // UseEffect since format requires window to be loaded
+    setGoogleOAuthURL(formatOAuthDiscoveryStartURL("google"));
+  },[]);
 
   if (isDiscovery) {
     return (
-      <EmailLoginForm title="Sign in" onSubmit={discoveryStart}>
-        <p>
-          We&apos;ll email you a magic code for a password-free sign in.
-          <br />
-          You&apos;ll be able to choose which organization you want to access.
-          <br />
-          Or you can{" "}
-          <Link href="" onClick={() => setIsDiscovery(false)}>
-            sign in manually instead
-          </Link>
-          .
-        </p>
-      </EmailLoginForm>
+      <>
+        <EmailLoginForm title="Sign in" onSubmit={discoveryStart}>
+          <p>
+            We&apos;ll email you a magic code for a password-free sign in.
+            <br />
+            You&apos;ll be able to choose which organization you want to access.
+            <br />
+            Or you can{" "}
+            <Link href="" onClick={() => setIsDiscovery(false)}>
+              sign in manually instead
+            </Link>
+            .
+          </p>
+        </EmailLoginForm>
+        or
+        <Link href={googleOAuthURL}>
+          Sign in with Google
+        </Link>
+      </>
     );
   } else {
     return <ContinueToTenantForm onBack={() => setIsDiscovery(true)} />;

@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import loadStytch from "@/lib/loadStytch";
-import Cookies from "cookies";
 import {
   SESSION_DURATION_MINUTES,
   setIntermediateSession,
@@ -41,11 +40,18 @@ async function exchangeToken(req: NextApiRequest): Promise<ExchangeResult> {
   }
 
   if (req.query.stytch_token_type === "discovery" && req.query.token) {
-    return await handleDiscoveryCallback(req);
+    return await handleEmailMagicLinksDiscoveryCallback(req);
+  }
+
+  if (req.query.stytch_token_type === "discovery_oauth" && req.query.token) {
+    return await handleOAuthDiscoveryCallback(req);
+  }
+
+  if (req.query.stytch_token_type === "oauth" && req.query.token) {
+    return await handleOAuthCallback(req);
   }
 
   console.log("No token found in req.query", req.query);
-
   throw Error("No token found");
 }
 
@@ -75,7 +81,7 @@ async function handleSSOCallback(req: NextApiRequest): Promise<ExchangeResult> {
   };
 }
 
-async function handleDiscoveryCallback(
+async function handleEmailMagicLinksDiscoveryCallback(
   req: NextApiRequest
 ): Promise<ExchangeResult> {
   const authRes = await stytchClient.magicLinks.discovery.authenticate({
@@ -87,5 +93,33 @@ async function handleDiscoveryCallback(
     token: authRes.intermediate_session_token as string,
   };
 }
+
+async function handleOAuthDiscoveryCallback(
+    req: NextApiRequest
+): Promise<ExchangeResult> {
+  const authRes = await stytchClient.oauth.discovery.authenticate({
+    discovery_oauth_token: req.query.token as string,
+  });
+
+  return {
+    kind: "discovery",
+    token: authRes.intermediate_session_token as string,
+  };
+}
+
+async function handleOAuthCallback(
+    req: NextApiRequest
+): Promise<ExchangeResult> {
+  const authRes = await stytchClient.oauth.authenticate({
+    oauth_token: req.query.token as string,
+    session_duration_minutes: SESSION_DURATION_MINUTES,
+  });
+
+  return {
+    kind: "login",
+    token: authRes.session_jwt as string,
+  };
+}
+
 
 export default handler;
