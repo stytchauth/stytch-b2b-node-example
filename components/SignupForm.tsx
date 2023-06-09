@@ -4,9 +4,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import Link from "next/link";
 import { discoveryStart } from "@/lib/api";
-import {formatOAuthDiscoveryStartURL} from "@/lib/loadStytch";
+import {OAuthButton, OAuthProviders} from "@/components/OAuthButton";
 
 const STATUS = {
   INIT: 0,
@@ -24,16 +23,12 @@ const isValidOrgName = (organizationName: string) => {
   return organizationName.length > 3;
 };
 
-const SignupForm = () => {
+type Props = { domain: string; };
+
+const SignupForm = ({ domain }: Props) => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
   const [email, setEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-  const [googleOAuthURL, setGoogleOAuthURL] = useState("");
-
-  useEffect(() => {
-    // UseEffect since format requires window to be loaded
-    setGoogleOAuthURL(formatOAuthDiscoveryStartURL("google"))
-  },[]);
 
   useEffect(() => {
     const isValid = isValidEmail(email);
@@ -99,9 +94,8 @@ const SignupForm = () => {
             </button>
           </form>
           or
-          <Link href={googleOAuthURL}>
-            Sign up with Google
-          </Link>
+          <OAuthButton providerType={OAuthProviders.Google} hostDomain={domain} />
+          <OAuthButton providerType={OAuthProviders.Microsoft} hostDomain={domain} />
         </>
       )}
       {emlSent === STATUS.SENT && (

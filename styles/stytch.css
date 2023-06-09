@@ -261,3 +261,32 @@ textarea {
   align-items: center;
   gap: 8px;
 }
+
+.oauth-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  margin-top: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  background-color: #f8f8f8;
+  transition: background-color 0.2s;
+  min-width: 230px;
+}
+
+.oauth-button:hover {
+  background-color: #e8e8e8;
+}
+
+.oauth-button__icon {
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+}
+
+.oauth-button__text {
+  vertical-align: middle;
+}

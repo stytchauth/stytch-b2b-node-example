@@ -1,9 +1,9 @@
-import {FormEventHandler, useEffect, useState} from "react";
-import { useRouter } from "next/router";
+import {FormEventHandler, useState} from "react";
+import {useRouter} from "next/router";
 import Link from "next/link";
-import { EmailLoginForm } from "./EmailLoginForm";
-import { discoveryStart } from "@/lib/api";
-import { formatOAuthDiscoveryStartURL } from "@/lib/loadStytch";
+import {EmailLoginForm} from "./EmailLoginForm";
+import {discoveryStart} from "@/lib/api";
+import {OAuthButton, OAuthProviders} from "@/components/OAuthButton";
 
 const ContinueToTenantForm = ({ onBack }: { onBack: () => void }) => {
   const [slug, setSlug] = useState<string>("");
@@ -39,13 +39,10 @@ const ContinueToTenantForm = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
-const LoginDiscoveryForm = () => {
+type Props = { domain: string; };
+
+const LoginDiscoveryForm = ({domain}: Props) => {
   const [isDiscovery, setIsDiscovery] = useState(true);
-  const [googleOAuthURL, setGoogleOAuthURL] = useState("");
-  useEffect(() => {
-      // UseEffect since format requires window to be loaded
-    setGoogleOAuthURL(formatOAuthDiscoveryStartURL("google"));
-  },[]);
 
   if (isDiscovery) {
     return (
@@ -64,9 +61,8 @@ const LoginDiscoveryForm = () => {
           </p>
         </EmailLoginForm>
         or
-        <Link href={googleOAuthURL}>
-          Sign in with Google
-        </Link>
+        <OAuthButton providerType={OAuthProviders.Google} hostDomain={domain} />
+        <OAuthButton providerType={OAuthProviders.Microsoft} hostDomain={domain} />
       </>
     );
   } else {

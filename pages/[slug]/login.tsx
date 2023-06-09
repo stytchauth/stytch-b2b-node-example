@@ -4,10 +4,11 @@ import { useRouter } from "next/router";
 import TenantedLoginForm from "@/components/TenantedLoginForm";
 import { findBySlug } from "@/lib/orgService";
 import { Organization } from "@/lib/loadStytch";
+import {getDomainFromRequest} from "@/lib/urlUtils";
 
-type Props = { org: null | Organization; };
+type Props = { org: null | Organization; domain: string; };
 
-const TenantedLogin = ({ org }: Props) => {
+const TenantedLogin = ({ org, domain }: Props) => {
   const router = useRouter();
   const slug = router.query["slug"];
   if (org == null) {
@@ -23,7 +24,7 @@ const TenantedLogin = ({ org }: Props) => {
       </div>
     );
   }
-  return <TenantedLoginForm org={org} />;
+  return <TenantedLoginForm org={org} domain={domain}/>;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -34,6 +35,7 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: {
       org: await findBySlug(slug),
+      domain: getDomainFromRequest(context.req),
     },
   };
 };

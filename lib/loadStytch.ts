@@ -1,5 +1,4 @@
 import * as stytch from "stytch";
-import {getDomainFromWindow} from "@/lib/urlUtils";
 
 let client: stytch.B2BClient;
 
@@ -31,21 +30,19 @@ const stytchEnv =
     ? stytch.envs.live
     : stytch.envs.test;
 
-export const formatSSOStartURL = (connection_id: string): string => {
-  return `${stytchEnv}public/sso/start?connection_id=${connection_id}&public_token=${publicToken}`;
+export const formatSSOStartURL = (redirectDomain: string, connection_id: string): string => {
+  const redirectURL = redirectDomain + "/api/callback";
+  return `${stytchEnv}public/sso/start?connection_id=${connection_id}&public_token=${publicToken}&login_redirect_url=${redirectURL}`;
 };
 
-
-
-
 // No need to worry about CNames for OAuth Start URL's as Stytch will automatically redirect to the registered CName
-export const formatOAuthDiscoveryStartURL = (provider: string): string => {
-    const redirectURL = getDomainFromWindow() + "/api/callback";
+export const formatOAuthDiscoveryStartURL = (redirectDomain: string, provider: string): string => {
+    const redirectURL = redirectDomain + "/api/callback";
     return `${stytchEnv}b2b/public/oauth/${provider}/discovery/start?public_token=${publicToken}&discovery_redirect_url=${redirectURL}`;
 };
 
-export const formatOAuthStartURL = (provider: string, org_slug: string): string => {
-  const redirectURL = getDomainFromWindow() + "/api/callback";
+export const formatOAuthStartURL = (redirectDomain: string, provider: string, org_slug: string): string => {
+  const redirectURL = redirectDomain + "/api/callback";
   return `${stytchEnv}b2b/public/oauth/${provider}/start?public_token=${publicToken}&slug=${org_slug}&login_redirect_url=${redirectURL}`;
 };
 
