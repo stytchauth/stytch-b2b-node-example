@@ -1,4 +1,4 @@
-import { findByID } from "@/lib/orgService";
+import {findByID} from "@/lib/orgService";
 import { FormEventHandler } from "react";
 import { updateOidcSSOConn } from "@/lib/api";
 import { useRouter } from "next/router";
@@ -6,10 +6,11 @@ import { formatSSOStartURL, OIDCConnection } from "@/lib/loadStytch";
 import { useAuth, withSession } from "@/lib/sessionService";
 import Link from "next/link";
 import { list } from "@/lib/ssoService";
+import {getDomainFromRequest} from "@/lib/urlUtils";
 
-type Props = { connection: OIDCConnection; };
+type Props = { connection: OIDCConnection; domain: string; };
 
-function ConnectionEditPage({ connection }: Props) {
+function ConnectionEditPage({ connection, domain }: Props) {
   const router = useRouter();
 
   // @ts-ignore
@@ -142,7 +143,7 @@ function ConnectionEditPage({ connection }: Props) {
         </form>
         <a
           style={{ minWidth: 400, margin: 10 }}
-          href={formatSSOStartURL(connection.connection_id)}
+          href={formatSSOStartURL(domain, connection.connection_id)}
         >
           <button className="secondary">Test connection</button>
         </a>
@@ -185,8 +186,12 @@ export const getServerSideProps = withSession<
   }
 
   return {
-    props: { connection },
+    props: {
+      connection: connection,
+      domain: getDomainFromRequest(context.req),
+    },
   };
 });
+
 
 export default ConnectionEditPage;

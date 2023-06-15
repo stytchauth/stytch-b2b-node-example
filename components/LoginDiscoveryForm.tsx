@@ -1,10 +1,11 @@
-import { FormEventHandler, useState } from "react";
-import { useRouter } from "next/router";
+import {FormEventHandler, useState} from "react";
+import {useRouter} from "next/router";
 import Link from "next/link";
-import { EmailLoginForm } from "./EmailLoginForm";
-import { discoveryStart } from "@/lib/api";
+import {EmailLoginForm} from "./EmailLoginForm";
+import {discoveryStart} from "@/lib/api";
+import {OAuthButton, OAuthProviders} from "@/components/OAuthButton";
 
-const ContinueToTenantForm = ({ onBack }: { onBack: () => void; }) => {
+const ContinueToTenantForm = ({ onBack }: { onBack: () => void }) => {
   const [slug, setSlug] = useState<string>("");
   const router = useRouter();
 
@@ -38,24 +39,31 @@ const ContinueToTenantForm = ({ onBack }: { onBack: () => void; }) => {
   );
 };
 
-const LoginDiscoveryForm = () => {
+type Props = { domain: string; };
+
+const LoginDiscoveryForm = ({domain}: Props) => {
   const [isDiscovery, setIsDiscovery] = useState(true);
 
   if (isDiscovery) {
     return (
-      <EmailLoginForm title="Sign in" onSubmit={discoveryStart}>
-        <p>
-          We&apos;ll email you a magic code for a password-free sign in.
-          <br />
-          You&apos;ll be able to choose which organization you want to access.
-          <br />
-          Or you can{" "}
-          <Link href="" onClick={() => setIsDiscovery(false)}>
-            sign in manually instead
-          </Link>
-          .
-        </p>
-      </EmailLoginForm>
+      <>
+        <EmailLoginForm title="Sign in" onSubmit={discoveryStart}>
+          <p>
+            We&apos;ll email you a magic code for a password-free sign in.
+            <br />
+            You&apos;ll be able to choose which organization you want to access.
+            <br />
+            Or you can{" "}
+            <Link href="" onClick={() => setIsDiscovery(false)}>
+              sign in manually instead
+            </Link>
+            .
+          </p>
+        </EmailLoginForm>
+        or
+        <OAuthButton providerType={OAuthProviders.Google} hostDomain={domain} />
+        <OAuthButton providerType={OAuthProviders.Microsoft} hostDomain={domain} />
+      </>
     );
   } else {
     return <ContinueToTenantForm onBack={() => setIsDiscovery(true)} />;

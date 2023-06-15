@@ -6,10 +6,11 @@ import { formatSSOStartURL, SAMLConnection } from "@/lib/loadStytch";
 import { useAuth, withSession } from "@/lib/sessionService";
 import Link from "next/link";
 import { list } from "@/lib/ssoService";
+import {getDomainFromRequest} from "@/lib/urlUtils";
 
-type Props = { connection: SAMLConnection; };
+type Props = { connection: SAMLConnection; domain: string; };
 
-function ConnectionEditPage({ connection }: Props) {
+function ConnectionEditPage({ connection, domain }: Props) {
   const router = useRouter();
 
   const onSubmit: FormEventHandler = async (e) => {
@@ -106,7 +107,7 @@ function ConnectionEditPage({ connection }: Props) {
         </form>
         <a
           style={{ minWidth: 400, margin: 10 }}
-          href={formatSSOStartURL(connection.connection_id)}
+          href={formatSSOStartURL(domain, connection.connection_id)}
         >
           <button className="secondary">Test connection</button>
         </a>
@@ -147,7 +148,10 @@ export const getServerSideProps = withSession<
   }
 
   return {
-    props: { connection },
+    props: {
+      connection: connection,
+      domain: getDomainFromRequest(context.req)
+    },
   };
 });
 

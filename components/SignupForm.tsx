@@ -5,6 +5,7 @@ import {
   useState,
 } from "react";
 import { discoveryStart } from "@/lib/api";
+import {OAuthButton, OAuthProviders} from "@/components/OAuthButton";
 
 const STATUS = {
   INIT: 0,
@@ -22,7 +23,9 @@ const isValidOrgName = (organizationName: string) => {
   return organizationName.length > 3;
 };
 
-const SignupForm = () => {
+type Props = { domain: string; };
+
+const SignupForm = ({ domain }: Props) => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
   const [email, setEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
@@ -90,6 +93,9 @@ const SignupForm = () => {
               Continue
             </button>
           </form>
+          or
+          <OAuthButton providerType={OAuthProviders.Google} hostDomain={domain} />
+          <OAuthButton providerType={OAuthProviders.Microsoft} hostDomain={domain} />
         </>
       )}
       {emlSent === STATUS.SENT && (

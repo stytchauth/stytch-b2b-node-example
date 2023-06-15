@@ -1,17 +1,17 @@
-import { FormEventHandler, useEffect, useState } from "react";
 import { login } from "@/lib/api";
 import {
-  formatSSOStartURL,
-  Organization,
-  publicToken,
+    formatSSOStartURL,
+    Organization,
 } from "@/lib/loadStytch";
 import { EmailLoginForm } from "./EmailLoginForm";
+import {OAuthButton, OAuthProviders} from "@/components/OAuthButton";
 
 type Props = {
   org: Organization;
+  domain: string;
 };
-const TenantedLoginForm = ({ org }: Props) => {
-  return (
+const TenantedLoginForm = ({ org, domain }: Props) => {
+    return (
     <div className="card">
       <EmailLoginForm
         title={`Log in to ${org.organization_name}`}
@@ -21,7 +21,7 @@ const TenantedLoginForm = ({ org }: Props) => {
           <div>
             <h2>
               Or, use this organization&apos;s&nbsp;
-              <a href={formatSSOStartURL(org.sso_default_connection_id)}>
+              <a href={formatSSOStartURL(domain, org.sso_default_connection_id)}>
                 Preferred Identity Provider
               </a>
             </h2>
@@ -29,8 +29,14 @@ const TenantedLoginForm = ({ org }: Props) => {
           </div>
         )}
       </EmailLoginForm>
+        or
+        <OAuthButton providerType={OAuthProviders.Google} hostDomain={domain} orgSlug={org.organization_slug}/>
+        <OAuthButton providerType={OAuthProviders.Microsoft} hostDomain={domain} orgSlug={org.organization_slug}/>
+        {/*    Login with Google*/}
+        {/*</Link>*/}
     </div>
   );
 };
+
 
 export default TenantedLoginForm;
