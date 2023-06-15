@@ -32,7 +32,6 @@ const TenantedLoginForm = ({ org, domain }: Props) => {
         or
         <OAuthButton providerType={OAuthProviders.Google} hostDomain={domain} orgSlug={org.organization_slug}/>
         <OAuthButton providerType={OAuthProviders.Microsoft} hostDomain={domain} orgSlug={org.organization_slug}/>
-        {/*<Link href={formatOAuthStartURL(domain,"google", org.organization_slug)}>*/}
         {/*    Login with Google*/}
         {/*</Link>*/}
     </div>
