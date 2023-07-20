@@ -26,6 +26,17 @@ export function setSession(
   });
 }
 
+export function clearSession(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const cookies = new Cookies(req, res);
+  cookies.set(SESSION_COOKIE, "", {
+    httpOnly: true,
+    maxAge: 0, // minutes to milliseconds
+  });
+}
+
 export function setIntermediateSession(
   req: NextApiRequest,
   res: NextApiResponse,

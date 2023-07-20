@@ -46,6 +46,7 @@ const DiscoveredOrganizationsList = ({ discovered_organizations }: Props) => {
 
 const CreateNewOrganization = () => {
   const [orgName, setOrgName] = useState("");
+  const [requireMFA, setRequireMFA] = useState(false);
   return (
     <div className="section">
       <h3>Or, create a new Organization</h3>
@@ -59,6 +60,16 @@ const CreateNewOrganization = () => {
           value={orgName}
           onChange={(e) => setOrgName(e.target.value)}
         />
+        <div className="radio-sso">
+          <input
+            type="radio"
+            id="require_mfa"
+            name="require_mfa"
+            onClick={(e) => setRequireMFA(!requireMFA)}
+            checked={requireMFA}
+          />
+          <label htmlFor="require_mfa">Require MFA</label>
+        </div>
         <button disabled={orgName.length < 3} type="submit" className="primary">
           Create
         </button>

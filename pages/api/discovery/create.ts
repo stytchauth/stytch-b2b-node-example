@@ -34,7 +34,7 @@ export async function handler(
   if (!intermediateSession) {
     return res.redirect(307, "/discovery");
   }
-  const { organization_name } = req.body;
+  const { organization_name, require_mfa } = req.body;
   const organization_slug = toSlug(organization_name);
 
   try {
@@ -45,6 +45,7 @@ export async function handler(
         organization_name,
         organization_slug,
         session_duration_minutes: 60,
+        mfa_policy: require_mfa ? "REQUIRED_FOR_ALL" : "OPTIONAL"
       });
 
     // Make the organization discoverable to other emails
