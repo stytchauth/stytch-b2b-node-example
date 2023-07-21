@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 const STATUS = {
   INIT: 0,
@@ -7,12 +7,18 @@ const STATUS = {
 };
 
 type SMSProps = React.PropsWithChildren<{
+  memberID: string,
+  orgID: string,
   sent: boolean,
 }>;
-export const SMSForm = ({ sent }: SMSProps) => {
+export const SMSForm = ({ memberID, orgID, sent }: SMSProps) => {
   const [state, setState] = useState(sent ? STATUS.SENT : STATUS.INIT);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [code, setCode] = useState("");
+
+  useEffect(() => {
+    setState(sent ? STATUS.SENT : STATUS.INIT)
+  }, [sent]);
 
   return (
     <>
@@ -25,6 +31,8 @@ export const SMSForm = ({ sent }: SMSProps) => {
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
+          <input type="hidden" name="orgID" value={orgID} />
+          <input type="hidden" name="memberID" value={memberID} />
           <button type="submit" className="primary" onChange={() => setState(STATUS.SENT)}>
             Send
           </button>
@@ -39,6 +47,8 @@ export const SMSForm = ({ sent }: SMSProps) => {
             value={code}
             onChange={(e) => setCode(e.target.value)}
           />
+          <input type="hidden" name="orgID" value={orgID} />
+          <input type="hidden" name="memberID" value={memberID} />
           <button type="submit" className="primary">
             Authenticate
           </button>

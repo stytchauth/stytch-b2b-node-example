@@ -15,12 +15,12 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     return { redirect: { statusCode: 307, destination: `/login` } };
   }
 
-  const { code } = req.body;
+  const { orgID, memberID, code } = req.body;
 
   const authSMSMFAOTP = () => {
     return stytchClient.otps.sms.authenticate({
-      organization_id: process.env.ORG_ID || "",
-      member_id: process.env.MEMBER_ID || "",
+      organization_id: orgID,
+      member_id: memberID,
       code: code,
       intermediate_session_token: discoverySessionData.intermediateSession,
     });

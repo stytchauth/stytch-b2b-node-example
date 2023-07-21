@@ -35,14 +35,14 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
   };
 
   try {
-    const { session_jwt, organization, intermediate_session_token, mfa_required } = await exchangeSession();
+    const { session_jwt, organization, member, intermediate_session_token, mfa_required } = await exchangeSession();
     if(session_jwt === "") {
       setIntermediateSession(req, res, intermediate_session_token)
       clearSession(req, res)
       if(mfa_required != null && mfa_required.secondary_auth_initiated == "sms_otp") {
-        return res.redirect(307, `/smsmfa?sent=true`);
+        return res.redirect(307, `/smsmfa?sent=true&org_id=${organization.organization_id}&member_id=${member.member_id}`);
       } else {
-        return res.redirect(307, `/smsmfa?sent=false`);
+        return res.redirect(307, `/smsmfa?sent=false&org_id=${organization.organization_id}&member_id=${member.member_id}`);
       }
     }
     setSession(req, res, session_jwt);
