@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@next/font':
     specifier: 13.1.6
@@ -38,8 +42,8 @@ dependencies:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
   stytch:
-    specifier: ^7.1.2
-    version: 7.1.2
+    specifier: ^7.3.0
+    version: 7.3.0
   typescript:
     specifier: 4.9.5
     version: 4.9.5
@@ -2379,8 +2383,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /stytch@7.1.2:
-    resolution: {integrity: sha512-uqrdPuTndjCwGSlIZNgVkmLNnuz18BpdGJyYDCGIIcXoXGpSiXFGneNZmd1ilNv+piKmkQwBp1B40rIFA1V4TA==}
+  /stytch@7.3.0:
+    resolution: {integrity: sha512-RwOVW62dvkbm8F0a/dPjqS2FefsrDPy+gngk8tBiClxyfGaKBBzogDLwn0jeI3OBU3ltoTlnbBQPFuCfjPBZ2A==}
     engines: {node: '>= 16.0.0'}
     dependencies:
       isomorphic-unfetch: 3.1.0
