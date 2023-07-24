@@ -3,7 +3,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import loadStytch from "@/lib/loadStytch";
 import Cookies from "cookies";
 import {
-  clearIntermediateSession, clearSession, setIntermediateSession,
+  clearIntermediateSession,
+  clearSession,
+  setIntermediateSession,
   setSession,
 } from "@/lib/sessionService";
 import { StytchError } from "stytch";

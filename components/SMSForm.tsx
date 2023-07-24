@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 const STATUS = {
   INIT: 0,
   SENT: 1,
-  ERROR: 2,
 };
 
 type SMSProps = React.PropsWithChildren<{

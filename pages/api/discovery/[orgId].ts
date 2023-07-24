@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import loadStytch from "@/lib/loadStytch";
 import {
-  clearIntermediateSession, clearSession,
-  getDiscoverySessionData, setIntermediateSession,
+  clearIntermediateSession,
+  clearSession,
+  getDiscoverySessionData,
+  setIntermediateSession,
   setSession,
 } from "@/lib/sessionService";
 
