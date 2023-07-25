@@ -1,5 +1,6 @@
-import {SMSForm} from "@/components/SMSForm";
+import {SMSSendForm} from "@/components/SMSSendForm";
 import {useRouter} from "next/router";
+import {SMSAuthenticateForm} from "@/components/SMSAuthenticateForm";
 
 const App = () => {
   const router = useRouter();
@@ -7,12 +8,22 @@ const App = () => {
   const memberID = router.query.member_id as string;
   const sent = router.query.sent as string;
 
+  if(sent === "true") {
+    return (
+      <div className="card">
+        <SMSAuthenticateForm
+          orgID={orgID}
+          memberID={memberID}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="card">
-      <SMSForm
+      <SMSSendForm
         orgID={orgID}
         memberID={memberID}
-        sent={sent === "true"}
       />
     </div>
   );

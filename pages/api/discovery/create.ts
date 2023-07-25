@@ -81,7 +81,7 @@ export async function handler(
     if(session_jwt === "") {
       setIntermediateSession(req, res, intermediate_session_token)
       clearSession(req, res)
-      return res.redirect(307, `/smsmfa?sent=false&org_id=${organization.organization_id}&member_id=${member.member_id}`);
+      return res.redirect(307, `/${organization.organization_slug}/smsmfa?sent=false&org_id=${organization.organization_id}&member_id=${member.member_id}`);
     }
     clearIntermediateSession(req, res);
     setSession(req, res, session_jwt);
