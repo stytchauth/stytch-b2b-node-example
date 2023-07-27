@@ -16,7 +16,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const resp = await sendSMSMFAOTP();
-    return res.redirect(307, `/${resp.organization.organization_slug}/smsmfa?sent=true&org_id=${resp.organization.organization_id}&member_id=${resp.member.member_id}`);
+    return res.redirect(302, `/${resp.organization.organization_slug}/smsmfa?sent=true&org_id=${resp.organization.organization_id}&member_id=${resp.member.member_id}`);
   } catch (error) {
     console.error("Could not send in callback", error);
 
