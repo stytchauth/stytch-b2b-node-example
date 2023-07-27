@@ -8,25 +8,15 @@ const App = () => {
   const memberID = router.query.member_id as string;
   const sent = router.query.sent as string;
 
-  if(sent === "true") {
-    return (
-      <div className="card">
-        <SMSAuthenticateForm
-          orgID={orgID}
-          memberID={memberID}
-        />
-      </div>
-    );
-  }
-
+  const Component = sent === "true" ? SMSAuthenticateForm : SMSSendForm;
   return (
     <div className="card">
-      <SMSSendForm
+      <Component
         orgID={orgID}
         memberID={memberID}
       />
     </div>
-  );
+  )
 };
 
 export default App;

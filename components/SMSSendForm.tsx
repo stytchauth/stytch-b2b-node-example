@@ -5,6 +5,7 @@ type SMSProps = React.PropsWithChildren<{
 export const SMSSendForm = ({ memberID, orgID }: SMSProps) => {
   return (
     <form method="POST" action="/api/smsmfa/send" className="row">
+      Please enter your phone number
       <input
         type={"text"}
         placeholder={`Phone Number`}
