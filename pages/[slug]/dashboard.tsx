@@ -288,6 +288,9 @@ const Dashboard = ({
       <p>
         Current user: <span className="code">{user.email_address}</span>
       </p>
+      <p>
+        MFA Setting: <span className="code">{org.mfa_policy}</span>
+      </p>
       <MemberList org={org} members={members} user={user} />
       <br />
       <IDPList

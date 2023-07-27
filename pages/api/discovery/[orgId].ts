@@ -2,11 +2,23 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import loadStytch from "@/lib/loadStytch";
 import {
   clearIntermediateSession,
+  clearSession,
   getDiscoverySessionData,
+  setIntermediateSession,
   setSession,
 } from "@/lib/sessionService";
+import {MfaRequired} from "stytch/types/lib/b2b/mfa";
+import {Member, Organization} from "stytch";
 
 const stytchClient = loadStytch();
+
+function redirectToSMSMFA(res: NextApiResponse, organization: Organization, member: Member, mfa_required: MfaRequired | null ) {
+  if(mfa_required != null && mfa_required.secondary_auth_initiated == "sms_otp") {
+    // An OTP code is automatically sent if Stytch knows the member's phone number
+    return res.redirect(307, `/${organization.organization_slug}/smsmfa?sent=true&org_id=${organization.organization_id}&member_id=${member.member_id}`);
+  }
+  return res.redirect(307, `/${organization.organization_slug}/smsmfa?sent=false&org_id=${organization.organization_id}&member_id=${member.member_id}`);
+}
 
 export async function handler(req: NextApiRequest, res: NextApiResponse) {
   const discoverySessionData = getDiscoverySessionData(req, res);
@@ -35,7 +47,12 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
   };
 
   try {
-    const { session_jwt, organization } = await exchangeSession();
+    const { session_jwt, organization, member, intermediate_session_token, mfa_required } = await exchangeSession();
+    if(session_jwt === "") {
+      setIntermediateSession(req, res, intermediate_session_token)
+      clearSession(req, res)
+      return redirectToSMSMFA(res, organization, member, mfa_required)
+    }
     setSession(req, res, session_jwt);
     clearIntermediateSession(req, res);
     return res.redirect(307, `/${organization.organization_slug}/dashboard`);

@@ -4,6 +4,8 @@ import loadStytch from "@/lib/loadStytch";
 import Cookies from "cookies";
 import {
   clearIntermediateSession,
+  clearSession,
+  setIntermediateSession,
   setSession,
 } from "@/lib/sessionService";
 import { StytchError } from "stytch";
@@ -34,17 +36,18 @@ export async function handler(
   if (!intermediateSession) {
     return res.redirect(307, "/discovery");
   }
-  const { organization_name } = req.body;
+  const { organization_name, require_mfa } = req.body;
   const organization_slug = toSlug(organization_name);
 
   try {
-    const { member, organization, session_jwt } =
+    const { member, organization, session_jwt, intermediate_session_token } =
       await stytchClient.discovery.organizations.create({
         intermediate_session_token: intermediateSession,
         email_allowed_domains: [],
         organization_name,
         organization_slug,
         session_duration_minutes: 60,
+        mfa_policy: require_mfa ? "REQUIRED_FOR_ALL" : "OPTIONAL"
       });
 
     // Make the organization discoverable to other emails
@@ -75,6 +78,11 @@ export async function handler(
       trusted_metadata: { admin: true },
     });
 
+    if(session_jwt === "") {
+      setIntermediateSession(req, res, intermediate_session_token)
+      clearSession(req, res)
+      return res.redirect(307, `/${organization.organization_slug}/smsmfa?sent=false&org_id=${organization.organization_id}&member_id=${member.member_id}`);
+    }
     clearIntermediateSession(req, res);
     setSession(req, res, session_jwt);
     return res.redirect(307, `/${organization_slug}/dashboard`);
