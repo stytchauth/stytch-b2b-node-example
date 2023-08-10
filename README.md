@@ -22,7 +22,7 @@ Follow the steps below to get this application fully functional and running usin
 
    - If you signed up for Stytch in the past then your default Project is likely a Consumer type Project. You can confirm this in your [Project settings](https://stytch.com/dashboard/project-settings). To create a B2B project, use the Project dropdown near the top of the dashboard side nav. Be sure to select **B2B Authentication** as the authentication type.
 
-2. Navigate to [Redirect URLs](https://stytch.com/dashboard/redirect-urls), and add `http://localhost:3000/api/callback` as the types **Login**, **Sign-up**, and **Invite**.
+2. Navigate to [Redirect URLs](https://stytch.com/dashboard/redirect-urls), and add `http://localhost:3000/api/callback` as the types **Login**, **Sign-up**, **Discovery** and **Invite**.
 
    <img width="400" alt="Redirect URLs" src="https://user-images.githubusercontent.com/100632220/220420098-84c78ca3-4e71-46b5-90f1-25afbb571ce2.png">
 
