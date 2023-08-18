@@ -10,7 +10,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     return stytchClient.otps.sms.send({
       organization_id: orgID,
       member_id: memberID,
-      phone_number: phone_number,
+      mfa_phone_number: phone_number,
     });
   };
 
