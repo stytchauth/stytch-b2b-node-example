@@ -42,8 +42,8 @@ dependencies:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
   stytch:
-    specifier: ^7.3.0
-    version: 7.3.0
+    specifier: ^7.5.1
+    version: 7.5.1
   typescript:
     specifier: 4.9.5
     version: 4.9.5
@@ -2383,8 +2383,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /stytch@7.3.0:
-    resolution: {integrity: sha512-RwOVW62dvkbm8F0a/dPjqS2FefsrDPy+gngk8tBiClxyfGaKBBzogDLwn0jeI3OBU3ltoTlnbBQPFuCfjPBZ2A==}
+  /stytch@7.5.1:
+    resolution: {integrity: sha512-6eeOLXplIq/dx46SLA7IyzGgTfd5OaPPRpxfROqEowuCvxFpOKStp2cqFQu4HGNDOj7lePtbMuhMOgs5nJ5ckA==}
     engines: {node: '>= 16.0.0'}
     dependencies:
       isomorphic-unfetch: 3.1.0
