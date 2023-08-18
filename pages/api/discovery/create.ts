@@ -16,13 +16,6 @@ type ErrorData = {
   errorString: string;
 };
 
-function toSlug(orgName: string): string {
-  return orgName
-    .toLowerCase()
-    .replaceAll(/[^\s\w]/g, "")
-    .replaceAll(/\s/g, "-");
-}
-
 function toDomain(email: string): string {
   return email.split("@")[1];
 }
@@ -37,15 +30,13 @@ export async function handler(
     return res.redirect(307, "/discovery");
   }
   const { organization_name, require_mfa } = req.body;
-  const organization_slug = toSlug(organization_name);
 
   try {
     const { member, organization, session_jwt, intermediate_session_token } =
       await stytchClient.discovery.organizations.create({
         intermediate_session_token: intermediateSession,
         email_allowed_domains: [],
-        organization_name,
-        organization_slug,
+        organization_name: organization_name,
         session_duration_minutes: 60,
         mfa_policy: require_mfa ? "REQUIRED_FOR_ALL" : "OPTIONAL"
       });
@@ -85,7 +76,7 @@ export async function handler(
     }
     clearIntermediateSession(req, res);
     setSession(req, res, session_jwt);
-    return res.redirect(307, `/${organization_slug}/dashboard`);
+    return res.redirect(307, `/${organization.organization_slug}/dashboard`);
   } catch (error) {
     const errorString = JSON.stringify(error);
     console.log(error);
