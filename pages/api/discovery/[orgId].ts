@@ -12,7 +12,7 @@ import {Member, Organization} from "stytch";
 
 const stytchClient = loadStytch();
 
-function redirectToSMSMFA(res: NextApiResponse, organization: Organization, member: Member, mfa_required: MfaRequired | null ) {
+function redirectToSMSMFA(res: NextApiResponse, organization: Organization, member: Member, mfa_required: MfaRequired | undefined ) {
   if(mfa_required != null && mfa_required.secondary_auth_initiated == "sms_otp") {
     // An OTP code is automatically sent if Stytch knows the member's phone number
     return res.redirect(302, `/${organization.organization_slug}/smsmfa?sent=true&org_id=${organization.organization_id}&member_id=${member.member_id}`);
