@@ -7,6 +7,8 @@ import MicrosoftIconSvg from "@/icons/microsoft";
 export enum OAuthProviders {
     Google = 'google',
     Microsoft = 'microsoft',
+    Hubspot = 'hubspot',
+    Slack = 'slack',
 }
 
 const providerInfo = {
@@ -17,6 +19,14 @@ const providerInfo = {
     [OAuthProviders.Microsoft]: {
         providerTypeTitle: 'Microsoft',
         providerIcon: <MicrosoftIconSvg/>,
+    },
+    [OAuthProviders.Hubspot]: {
+        providerTypeTitle: 'Hubspot',
+        providerIcon: null,
+    },
+    [OAuthProviders.Slack]: {
+        providerTypeTitle: 'Slack',
+        providerIcon: null,
     }
 }
 

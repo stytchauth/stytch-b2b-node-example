@@ -63,6 +63,8 @@ const LoginDiscoveryForm = ({domain}: Props) => {
         or
         <OAuthButton providerType={OAuthProviders.Google} hostDomain={domain} />
         <OAuthButton providerType={OAuthProviders.Microsoft} hostDomain={domain} />
+        <OAuthButton providerType={OAuthProviders.Hubspot} hostDomain={domain} />
+        <OAuthButton providerType={OAuthProviders.Slack} hostDomain={domain} />
       </>
     );
   } else {
