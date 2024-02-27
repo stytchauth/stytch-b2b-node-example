@@ -1,29 +1,18 @@
 import * as stytch from "stytch";
+import { ClientConfig } from "stytch/types/lib/shared/client";
+import {OAuthProviders} from "./organizations_members_oauth_providers";
 
-let client: stytch.B2BClient;
 
 export const publicToken = process.env.NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN;
 
-export type Member = Awaited<
-  ReturnType<typeof client.magicLinks.authenticate>
->["member"];
-export type Organization = Awaited<
-  ReturnType<typeof client.organizations.get>
->["organization"];
-export type SessionsAuthenticateResponse = Awaited<
-  ReturnType<typeof client.sessions.authenticate>
->;
-export type SAMLConnection = Awaited<
-  ReturnType<typeof client.sso.saml.create>
->["connection"];
+export type Member = Awaited<ReturnType<typeof client.magicLinks.authenticate>>["member"];
+export type Organization = Awaited<ReturnType<typeof client.organizations.get>>["organization"];
+export type SessionsAuthenticateResponse = Awaited<ReturnType<typeof client.sessions.authenticate>>;
+export type SAMLConnection = Awaited<ReturnType<typeof client.sso.saml.create>>["connection"];
 
-export type OIDCConnection = Awaited<
-  ReturnType<typeof client.sso.oidc.create>
->["connection"];
+export type OIDCConnection = Awaited<ReturnType<typeof client.sso.oidc.create>>["connection"];
 
-export type DiscoveredOrganizations = Awaited<
-  ReturnType<typeof client.discovery.organizations.list>
->["discovered_organizations"];
+export type DiscoveredOrganizations = Awaited<ReturnType<typeof client.discovery.organizations.list>>["discovered_organizations"];
 
 const stytchEnv =
   process.env.NEXT_PUBLIC_STYTCH_PROJECT_ENV === "live"
@@ -37,8 +26,8 @@ export const formatSSOStartURL = (redirectDomain: string, connection_id: string)
 
 // No need to worry about CNames for OAuth Start URL's as Stytch will automatically redirect to the registered CName
 export const formatOAuthDiscoveryStartURL = (redirectDomain: string, provider: string): string => {
-    const redirectURL = redirectDomain + "/api/callback";
-    return `${stytchEnv}b2b/public/oauth/${provider}/discovery/start?public_token=${publicToken}&discovery_redirect_url=${redirectURL}`;
+  const redirectURL = redirectDomain + "/api/callback";
+  return `${stytchEnv}b2b/public/oauth/${provider}/discovery/start?public_token=${publicToken}&discovery_redirect_url=${redirectURL}`;
 };
 
 export const formatOAuthStartURL = (redirectDomain: string, provider: string, org_slug: string): string => {
@@ -46,9 +35,18 @@ export const formatOAuthStartURL = (redirectDomain: string, provider: string, or
   return `${stytchEnv}b2b/public/oauth/${provider}/start?public_token=${publicToken}&slug=${org_slug}&login_redirect_url=${redirectURL}`;
 };
 
+class B2BClient extends stytch.B2BClient {
+  memberOAuthProviders: OAuthProviders;
+  constructor(config: ClientConfig) {
+    super(config);
+    this.memberOAuthProviders = new OAuthProviders(this.fetchConfig)
+  }
+}
+
+let client: B2BClient;
 const loadStytch = () => {
   if (!client) {
-    client = new stytch.B2BClient({
+    client = new B2BClient({
       project_id: process.env.STYTCH_PROJECT_ID || "",
       secret: process.env.STYTCH_SECRET || "",
       env: stytchEnv,

@@ -4,7 +4,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 import Link from "next/link";
 
 import {
@@ -13,16 +13,17 @@ import {
   deleteMember,
   invite,
 } from "@/lib/api";
-import { useAuth, withSession } from "@/lib/sessionService";
+import {useAuth, withSession} from "@/lib/sessionService";
 import {
   Member,
   OIDCConnection,
   Organization,
   SAMLConnection,
 } from "@/lib/loadStytch";
-import { SSO } from "stytch/types/lib/b2b/sso";
-import { findAllMembers, findByID } from "@/lib/orgService";
-import { list } from "@/lib/ssoService";
+import {SSO} from "stytch/types/lib/b2b/sso";
+import {findAllMembers, findByID} from "@/lib/orgService";
+import {list} from "@/lib/ssoService";
+import {getOauthProviderValues} from "../../lib/memberService";
 
 type Props = {
   org: Organization;
@@ -30,6 +31,7 @@ type Props = {
   members: Member[];
   saml_connections: SAMLConnection[];
   oidc_connections: OIDCConnection[];
+  oauth_provider_values: { google: unknown; microsoft: unknown; hubspot: unknown; slack: unknown };
 };
 
 const isValidEmail = (emailValue: string) => {
@@ -45,7 +47,7 @@ const SSO_METHOD = {
   OIDC: "OIDC",
 };
 
-const MemberRow = ({ member, user }: { member: Member; user: Member; }) => {
+const MemberRow = ({member, user}: { member: Member; user: Member; }) => {
   const router = useRouter();
   const [isDisabled, setIsDisabled] = useState(false);
   const doDelete: MouseEventHandler = async (e) => {
@@ -79,10 +81,10 @@ const MemberRow = ({ member, user }: { member: Member; user: Member; }) => {
 };
 
 const MemberList = ({
-  members,
-  user,
-  org,
-}: Pick<Props, "members" | "user" | "org">) => {
+                      members,
+                      user,
+                      org,
+                    }: Pick<Props, "members" | "user" | "org">) => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
@@ -110,7 +112,7 @@ const MemberList = ({
         <h2>Members</h2>
         <ul>
           {members.map((member) => (
-            <MemberRow key={member.member_id} member={member} user={user} />
+            <MemberRow key={member.member_id} member={member} user={user}/>
           ))}
         </ul>
       </div>
@@ -120,7 +122,7 @@ const MemberList = ({
         <form onSubmit={onInviteSubmit} className="row">
           <input
             placeholder={`your-coworker@${org.email_allowed_domains[0] ?? "example.com"
-              }`}
+            }`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -135,10 +137,10 @@ const MemberList = ({
 };
 
 const IDPList = ({
-  user,
-  saml_connections,
-  oidc_connections,
-}: Pick<Props, "user" | "saml_connections" | "oidc_connections">) => {
+                   user,
+                   saml_connections,
+                   oidc_connections,
+                 }: Pick<Props, "user" | "saml_connections" | "oidc_connections">) => {
   const [idpNameSAML, setIdpNameSAML] = useState("");
   const [idpNameOIDC, setIdpNameOIDC] = useState("");
   const [ssoMethod, setSsoMethod] = useState(SSO_METHOD.SAML);
@@ -273,12 +275,22 @@ const IDPList = ({
 };
 
 const Dashboard = ({
-  org,
-  user,
-  members,
-  saml_connections,
-  oidc_connections,
-}: Props) => {
+                     org,
+                     user,
+                     members,
+                     oauth_provider_values,
+                     saml_connections,
+                     oidc_connections,
+                   }: Props) => {
+  console.dir(oauth_provider_values)
+
+  const replacer = (key: string, v: unknown) => {
+    if (typeof v !== "string") {
+      return v
+    }
+    return v.length > 120 ? v.substring(0, 120) + '...' : v
+  }
+
   return (
     <div className="card">
       <h1>Organization name: {org.organization_name}</h1>
@@ -288,11 +300,19 @@ const Dashboard = ({
       <p>
         Current user: <span className="code">{user.email_address}</span>
       </p>
+        <h3>Google Credentials</h3>
+        <pre className="code-block"><code>{JSON.stringify(oauth_provider_values.google, replacer, 2)}</code></pre>
+        <h3>Microsoft Credentials</h3>
+        <pre className="code-block"><code>{JSON.stringify(oauth_provider_values.microsoft, replacer, 2)}</code></pre>
+        <h3>Hubspot Credentials</h3>
+        <pre className="code-block"><code>{JSON.stringify(oauth_provider_values.hubspot, replacer, 2)}</code></pre>
+        <h3>Slack Credentials</h3>
+        <pre className="code-block"><code>{JSON.stringify(oauth_provider_values.slack, replacer, 2)}</code></pre>
       <p>
         MFA Setting: <span className="code">{org.mfa_policy}</span>
       </p>
-      <MemberList org={org} members={members} user={user} />
-      <br />
+      <MemberList org={org} members={members} user={user}/>
+      <br/>
       <IDPList
         user={user}
         saml_connections={saml_connections}
@@ -310,11 +330,11 @@ const Dashboard = ({
 
 export const getServerSideProps = withSession<Props, { slug: string; }>(
   async (context) => {
-    const { member } = useAuth(context);
+    const {member} = useAuth(context);
     const org = await findByID(member.organization_id);
 
     if (org === null) {
-      return { redirect: { statusCode: 307, destination: `/login` } };
+      return {redirect: {statusCode: 307, destination: `/login`}};
     }
 
     const [members, ssoConnections] = await Promise.all([
@@ -327,6 +347,7 @@ export const getServerSideProps = withSession<Props, { slug: string; }>(
         org,
         user: member,
         members,
+        oauth_provider_values: await getOauthProviderValues(member.organization_id, member.member_id),
         saml_connections: ssoConnections.saml_connections ?? [],
         oidc_connections: ssoConnections.oidc_connections ?? [],
       },
