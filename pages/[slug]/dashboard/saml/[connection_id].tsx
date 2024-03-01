@@ -101,16 +101,17 @@ function ConnectionEditPage({ connection, domain }: Props) {
             placeholder="-------BEGIN ------"
             defaultValue={connection.verification_certificates[0]?.certificate}
           />
-          <button className="primary" type="submit">
+          <button className="primary full-width" type="submit">
             Save
           </button>
         </form>
-        <a
-          style={{ minWidth: 400, margin: 10 }}
-          href={formatSSOStartURL(domain, connection.connection_id)}
-        >
-          <button className="secondary">Test connection</button>
-        </a>
+        <div className="section">
+          <a
+            href={formatSSOStartURL(domain, connection.connection_id)}
+          >
+            <button className="primary full-width">Test connection</button>
+          </a>
+        </div>
         <Link
           style={{ marginRight: "auto" }}
           href={`/${router.query.slug}/dashboard`}

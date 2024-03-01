@@ -11,6 +11,7 @@ const App = () => {
   const Component = sent === "true" ? SMSAuthenticateForm : SMSSendForm;
   return (
     <div className="card">
+      <h1>Complete MFA</h1>
       <Component
         orgID={orgID}
         memberID={memberID}

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import loadStytch from "@/lib/loadStytch";
 import {
+  SESSION_DURATION_MINUTES,
   clearIntermediateSession,
   clearSession,
   getDiscoverySessionData,
@@ -37,7 +38,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       return stytchClient.discovery.intermediateSessions.exchange({
         intermediate_session_token: discoverySessionData.intermediateSession,
         organization_id: orgId,
-        session_duration_minutes: 60,
+        session_duration_minutes: SESSION_DURATION_MINUTES,
       });
     }
     return stytchClient.sessions.exchange({

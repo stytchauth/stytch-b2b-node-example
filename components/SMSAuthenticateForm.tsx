@@ -4,18 +4,20 @@ type SMSProps = React.PropsWithChildren<{
 }>;
 export const SMSAuthenticateForm = ({ memberID, orgID }: SMSProps) => {
   return (
-    <form method="POST" action="/api/smsmfa/authenticate" className="row">
-      Please enter the one-time code sent to your phone number
-      <input
-        type={"text"}
-        placeholder={`Code`}
-        name="code"
-      />
-      <input type="hidden" name="orgID" value={orgID} />
-      <input type="hidden" name="memberID" value={memberID} />
-      <button type="submit" className="primary">
-        Authenticate
-      </button>
-    </form>
+    <div>
+      <p>Please enter the one-time login code sent to your phone.</p>
+      <form method="POST" action="/api/smsmfa/authenticate" className="row">
+        <input
+          type={"text"}
+          placeholder={"123456"}
+          name="code"
+        />
+        <input type="hidden" name="orgID" value={orgID} />
+        <input type="hidden" name="memberID" value={memberID} />
+        <button type="submit" className="primary">
+          Submit
+        </button>
+      </form>
+    </div>
   );
 };

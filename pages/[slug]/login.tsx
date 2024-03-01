@@ -14,12 +14,16 @@ const TenantedLogin = ({ org, domain }: Props) => {
   if (org == null) {
     return (
       <div className="card">
-        <div style={{ padding: "24px 40px" }}>
+        <div>
           <h2>Organization not found</h2>
           <p>
-            No organization with the domain <strong>{slug}</strong> was found.
+            No organization with the slug <strong>{slug}</strong> was found.
           </p>
-          <Link href={"/login"}>Try again</Link>
+          <Link href={"/login"}>
+            <button className="primary full-width" id="button">
+              Try again
+            </button>
+          </Link>
         </div>
       </div>
     );

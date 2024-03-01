@@ -4,18 +4,20 @@ type SMSProps = React.PropsWithChildren<{
 }>;
 export const SMSSendForm = ({ memberID, orgID }: SMSProps) => {
   return (
-    <form method="POST" action="/api/smsmfa/send" className="row">
-      Please enter your phone number
-      <input
-        type={"text"}
-        placeholder={`Phone Number`}
-        name="phone_number"
-      />
-      <input type="hidden" name="orgID" value={orgID} />
-      <input type="hidden" name="memberID" value={memberID} />
-      <button type="submit" className="primary">
-        Send
-      </button>
-    </form>
+    <div>
+      <p>Enter your phone number below. You'll receive an SMS with a one-time login code.</p>
+      <form method="POST" action="/api/smsmfa/send" className="row">
+        <input
+          type={"text"}
+          placeholder={`+18005551234`}
+          name="phone_number"
+        />
+        <input type="hidden" name="orgID" value={orgID} />
+        <input type="hidden" name="memberID" value={memberID} />
+        <button type="submit" className="primary">
+          Send
+        </button>
+      </form>
+    </div>
   );
 };

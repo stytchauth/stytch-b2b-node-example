@@ -5,7 +5,7 @@ import { ParsedUrlQuery } from "querystring";
 import { GetServerSidePropsContext, PreviewData } from "next/types";
 import { IncomingMessage, ServerResponse } from "http";
 
-export const SESSION_DURATION_MINUTES = 60;
+export const SESSION_DURATION_MINUTES = 60 * 24 * 30;
 export const INTERMEDIATE_SESSION_DURATION_MINUTES = 10;
 
 const SESSION_SYMBOL = Symbol("session");

@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import loadStytch from "@/lib/loadStytch";
 import Cookies from "cookies";
 import {
+  SESSION_DURATION_MINUTES,
   clearIntermediateSession,
   clearSession,
   setIntermediateSession,
@@ -37,7 +38,7 @@ export async function handler(
         intermediate_session_token: intermediateSession,
         email_allowed_domains: [],
         organization_name: organization_name,
-        session_duration_minutes: 60,
+        session_duration_minutes: SESSION_DURATION_MINUTES,
         mfa_policy: require_mfa ? "REQUIRED_FOR_ALL" : "OPTIONAL"
       });
 

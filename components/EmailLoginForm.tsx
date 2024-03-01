@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FormEventHandler, useEffect, useState } from "react";
 
 const STATUS = {
@@ -65,32 +66,32 @@ export const EmailLoginForm = ({ title, onSubmit, children }: EmailLoginProps) =
               type="email"
             />
             <button
-              className="primary"
+              className="primary full-width no-margins"
               disabled={isDisabled}
               id="button"
               type="submit"
             >
-              Continue
+              Send Magic Link
             </button>
           </form>
         </div>
       )}
       {emlSent === STATUS.SENT && (
-        <div className="section">
-          <h2>Check your email</h2>
-          <p>{`An email was sent to ${email}`}</p>
-          <a className="link" onClick={handleTryAgain}>
-            Click here to try again.
-          </a>
+        <div className="section center-items">
+          <h2 className="gray">Check your email</h2>
+          <p className="gray">{`An email was sent to ${email}`}</p>
+          <Link href="" onClick={handleTryAgain}>
+            Click here to try again
+          </Link>
         </div>
       )}
       {emlSent === STATUS.ERROR && (
-        <div>
-          <h2>Something went wrong!</h2>
-          <p>{`Failed to send email to ${email}`}</p>
-          <a className="link" onClick={handleTryAgain}>
-            Click here to try again.
-          </a>
+        <div className="section center-items">
+          <h2 className="gray">Something went wrong!</h2>
+          <p className="gray">{`Failed to send email to ${email}`}</p>
+          <Link href="" onClick={handleTryAgain}>
+            Click here to try again
+          </Link>
         </div>
       )}
     </>
