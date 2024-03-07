@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import TenantedLoginForm from "@/components/TenantedLoginForm";
 import { findBySlug } from "@/lib/orgService";
 import { Organization } from "@/lib/loadStytch";
-import {getDomainFromRequest} from "@/lib/urlUtils";
+import { getDomainFromRequest } from "@/lib/urlUtils";
 
-type Props = { org: null | Organization; domain: string; };
+type Props = { org: null | Organization; domain: string };
 
 const TenantedLogin = ({ org, domain }: Props) => {
   const router = useRouter();
@@ -28,12 +28,12 @@ const TenantedLogin = ({ org, domain }: Props) => {
       </div>
     );
   }
-  return <TenantedLoginForm org={org} domain={domain}/>;
+  return <TenantedLoginForm org={org} domain={domain} />;
 };
 
 export const getServerSideProps: GetServerSideProps<
   Props,
-  { slug: string; }
+  { slug: string }
 > = async (context) => {
   const slug = context.params!["slug"];
   return {

@@ -28,8 +28,9 @@ const DiscoveredOrganizationsList = ({ discovered_organizations }: Props) => {
   return (
     <div className="section">
       <h1>Select an Organization</h1>
-      <p>Below, you'll find a list of Organizations that you can access.
-        Select the Organization that you'd like to log into.
+      <p>
+        Below, you'll find a list of Organizations that you can access. Select
+        the Organization that you'd like to log into.
       </p>
       {discovered_organizations.length === 0 && (
         <p>No existing organizations.</p>
@@ -57,12 +58,12 @@ const CreateNewOrganization = () => {
         <form method="POST" action="/api/discovery/create">
           <div className="input-row">
             <input
-            type={"text"}
-            style={{ width: 330, marginRight: 20 }}
-            placeholder={`Organization name`}
-            name="organization_name"
-            value={orgName}
-            onChange={(e) => setOrgName(e.target.value)}
+              type={"text"}
+              style={{ width: 330, marginRight: 20 }}
+              placeholder={`Organization name`}
+              name="organization_name"
+              value={orgName}
+              onChange={(e) => setOrgName(e.target.value)}
             />
             <div className="radio-sso">
               <input
@@ -72,10 +73,14 @@ const CreateNewOrganization = () => {
                 onClick={(e) => setRequireMFA(!requireMFA)}
                 checked={requireMFA}
               />
-            <label htmlFor="require_mfa">Require MFA</label>
+              <label htmlFor="require_mfa">Require MFA</label>
+            </div>
           </div>
-          </div>
-          <button disabled={orgName.length < 3} type="submit" className="primary full-width">
+          <button
+            disabled={orgName.length < 3}
+            type="submit"
+            className="primary full-width"
+          >
             Create a new Organization
           </button>
         </form>

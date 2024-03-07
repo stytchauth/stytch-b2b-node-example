@@ -39,7 +39,7 @@ export async function handler(
         email_allowed_domains: [],
         organization_name: organization_name,
         session_duration_minutes: SESSION_DURATION_MINUTES,
-        mfa_policy: require_mfa ? "REQUIRED_FOR_ALL" : "OPTIONAL"
+        mfa_policy: require_mfa ? "REQUIRED_FOR_ALL" : "OPTIONAL",
       });
 
     // Make the organization discoverable to other emails
@@ -70,10 +70,13 @@ export async function handler(
       trusted_metadata: { admin: true },
     });
 
-    if(session_jwt === "") {
-      setIntermediateSession(req, res, intermediate_session_token)
-      clearSession(req, res)
-      return res.redirect(302, `/${organization.organization_slug}/smsmfa?sent=false&org_id=${organization.organization_id}&member_id=${member.member_id}`);
+    if (session_jwt === "") {
+      setIntermediateSession(req, res, intermediate_session_token);
+      clearSession(req, res);
+      return res.redirect(
+        302,
+        `/${organization.organization_slug}/smsmfa?sent=false&org_id=${organization.organization_id}&member_id=${member.member_id}`
+      );
     }
     clearIntermediateSession(req, res);
     setSession(req, res, session_jwt);

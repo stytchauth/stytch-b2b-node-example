@@ -26,7 +26,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.redirect(307, "/login");
   }
 }
-type ExchangeResult = { kind: "discovery" | "login"; token: string; };
+type ExchangeResult = { kind: "discovery" | "login"; token: string };
 async function exchangeToken(req: NextApiRequest): Promise<ExchangeResult> {
   if (
     req.query.stytch_token_type === "multi_tenant_magic_links" &&
@@ -95,7 +95,7 @@ async function handleEmailMagicLinksDiscoveryCallback(
 }
 
 async function handleOAuthDiscoveryCallback(
-    req: NextApiRequest
+  req: NextApiRequest
 ): Promise<ExchangeResult> {
   const authRes = await stytchClient.oauth.discovery.authenticate({
     discovery_oauth_token: req.query.token as string,
@@ -108,7 +108,7 @@ async function handleOAuthDiscoveryCallback(
 }
 
 async function handleOAuthCallback(
-    req: NextApiRequest
+  req: NextApiRequest
 ): Promise<ExchangeResult> {
   const authRes = await stytchClient.oauth.authenticate({
     oauth_token: req.query.token as string,
@@ -120,6 +120,5 @@ async function handleOAuthCallback(
     token: authRes.session_jwt as string,
   };
 }
-
 
 export default handler;

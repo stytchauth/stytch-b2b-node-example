@@ -2,7 +2,9 @@ import loadStytch, { Member, Organization } from "./loadStytch";
 
 const stytch = loadStytch();
 
-export const findByID = async (organization_id: string): Promise<Organization | null> => {
+export const findByID = async (
+  organization_id: string
+): Promise<Organization | null> => {
   const orgGetPromise = stytch.organizations.get({ organization_id });
 
   try {
@@ -16,7 +18,9 @@ export const findByID = async (organization_id: string): Promise<Organization | 
   }
 };
 
-export const findBySlug = async (slug: string): Promise<Organization | null> => {
+export const findBySlug = async (
+  slug: string
+): Promise<Organization | null> => {
   const orgSearchPromise = stytch.organizations.search({
     query: {
       operator: "AND",
@@ -39,11 +43,12 @@ export const findBySlug = async (slug: string): Promise<Organization | null> => 
   }
 };
 
-export const findAllMembers = async (organization_id: string): Promise<Member[]> => {
+export const findAllMembers = async (
+  organization_id: string
+): Promise<Member[]> => {
   return stytch.organizations.members
     .search({
       organization_ids: [organization_id],
     })
     .then((res) => res.members);
-}
-
+};

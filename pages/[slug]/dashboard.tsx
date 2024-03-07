@@ -31,15 +31,15 @@ const Dashboard = ({
       <OrganizationCard organization={org} />
       <MembersCard organization={org} members={members} currentUser={user} />
       <SSOCard
-          currentUser={user}
-          saml_connections={saml_connections}
-          oidc_connections={oidc_connections}
+        currentUser={user}
+        saml_connections={saml_connections}
+        oidc_connections={oidc_connections}
       />
     </div>
   );
 };
 
-export const getServerSideProps = withSession<Props, { slug: string; }>(
+export const getServerSideProps = withSession<Props, { slug: string }>(
   async (context) => {
     const { member } = useAuth(context);
     const org = await findByID(member.organization_id);

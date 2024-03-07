@@ -1,6 +1,6 @@
-import {SMSSendForm} from "@/components/SMSSendForm";
-import {useRouter} from "next/router";
-import {SMSAuthenticateForm} from "@/components/SMSAuthenticateForm";
+import { SMSSendForm } from "@/components/SMSSendForm";
+import { useRouter } from "next/router";
+import { SMSAuthenticateForm } from "@/components/SMSAuthenticateForm";
 
 const App = () => {
   const router = useRouter();
@@ -12,12 +12,9 @@ const App = () => {
   return (
     <div className="card">
       <h1>Complete MFA</h1>
-      <Component
-        orgID={orgID}
-        memberID={memberID}
-      />
+      <Component orgID={orgID} memberID={memberID} />
     </div>
-  )
+  );
 };
 
 export default App;

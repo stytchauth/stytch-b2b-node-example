@@ -15,7 +15,10 @@ const OrgSwitcherList = ({ discovered_organizations, user }: Props) => {
   return (
     <div className="section">
       <h1>Switch Organizations</h1>
-      <p>Log into one of the below Organizations by exchanging your current session.</p>
+      <p>
+        Log into one of the below Organizations by exchanging your current
+        session.
+      </p>
       <ul>
         {discovered_organizations.map(({ organization }) => (
           <li key={organization.organization_id}>

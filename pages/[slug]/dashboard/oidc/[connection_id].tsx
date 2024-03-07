@@ -1,4 +1,4 @@
-import {findByID} from "@/lib/orgService";
+import { findByID } from "@/lib/orgService";
 import { FormEventHandler } from "react";
 import { updateOidcSSOConn } from "@/lib/api";
 import { useRouter } from "next/router";
@@ -6,9 +6,9 @@ import { formatSSOStartURL, OIDCConnection } from "@/lib/loadStytch";
 import { useAuth, withSession } from "@/lib/sessionService";
 import Link from "next/link";
 import { list } from "@/lib/ssoService";
-import {getDomainFromRequest} from "@/lib/urlUtils";
+import { getDomainFromRequest } from "@/lib/urlUtils";
 
-type Props = { connection: OIDCConnection; domain: string; };
+type Props = { connection: OIDCConnection; domain: string };
 
 function ConnectionEditPage({ connection, domain }: Props) {
   const router = useRouter();
@@ -142,9 +142,7 @@ function ConnectionEditPage({ connection, domain }: Props) {
           </button>
         </form>
         <div className="section">
-          <a
-            href={formatSSOStartURL(domain, connection.connection_id)}
-          >
+          <a href={formatSSOStartURL(domain, connection.connection_id)}>
             <button className="primary full-width">Test connection</button>
           </a>
         </div>
@@ -161,7 +159,7 @@ function ConnectionEditPage({ connection, domain }: Props) {
 
 export const getServerSideProps = withSession<
   Props,
-  { slug: string; connection_id: string; }
+  { slug: string; connection_id: string }
 >(async (context) => {
   const connection_id = context.params!["connection_id"];
   const { member } = useAuth(context);
@@ -193,6 +191,5 @@ export const getServerSideProps = withSession<
     },
   };
 });
-
 
 export default ConnectionEditPage;

@@ -15,9 +15,13 @@ const isValidEmail = (emailValue: string) => {
 
 type EmailLoginProps = React.PropsWithChildren<{
   title: string;
-  onSubmit: (email: string) => Promise<{ status: number; }>;
+  onSubmit: (email: string) => Promise<{ status: number }>;
 }>;
-export const EmailLoginForm = ({ title, onSubmit, children }: EmailLoginProps) => {
+export const EmailLoginForm = ({
+  title,
+  onSubmit,
+  children,
+}: EmailLoginProps) => {
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
   const [email, setEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
