@@ -52,7 +52,7 @@ main {
   align-items: center;
   flex-direction: column;
   padding: 36px 0;
-  background-color: #F8F7FF;
+  background-color: white;
 }
 
 ul {
@@ -196,7 +196,7 @@ span.code {
 header {
   width: 100%;
   height: 70px;
-  background-color: #d4ceff;
+  background-color: #eeecff;
   display: flex;
   align-items: center;
   justify-content: space-between;
