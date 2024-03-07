@@ -140,7 +140,7 @@ export function adminOnlyAPIRoute(apiHandler: APIHandler) {
     // Stytch issues a new JWT on every authenticate call - store it on the UA for faster validation next time
     setSession(req, res, sessionAuthRes.session_jwt);
 
-    const isAdmin = sessionAuthRes.member.trusted_metadata.admin as boolean;
+    const isAdmin = sessionAuthRes.member.trusted_metadata?.admin as boolean;
     if (!isAdmin) {
       console.error("Member is not authorized to call route");
       return res.status(403).end();
