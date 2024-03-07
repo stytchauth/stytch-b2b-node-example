@@ -15,11 +15,11 @@ const App = () => {
           our Node SDK
         </Link>
         &nbsp;to communicate with the Stytch API. The frontend is fully custom,
-        and does not use Stytch's frontend JavaScript SDK.
+        and does not use Stytch&apos;s frontend JavaScript SDK.
       </p>
       <p>
-        If you're interested in a B2B example application that does use our
-        frontend JavaScript SDK, we'd recommend checking out our&nbsp;
+        If you&apos;re interested in a B2B example application that does use our
+        frontend JavaScript SDK, we&apos;d recommend checking out our&nbsp;
         <Link href={"https://github.com/stytchauth/stytch-b2b-sdk-example"}>
           NextJS example app
         </Link>

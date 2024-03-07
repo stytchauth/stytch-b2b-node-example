@@ -7,7 +7,7 @@ const OrganizationCard = ({ organization }) => {
       <div className="section">
         <h1>Welcome to your {organization.organization_name} profile!</h1>
         <p>
-          For future reference, this Organization's slug is&nbsp;
+          For future reference, this Organization&apos;s slug is&nbsp;
           <span className="code">{organization.organization_slug}</span>. Below
           is the full Organization object:
         </p>

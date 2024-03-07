@@ -18,9 +18,9 @@ const ContinueToTenantForm = ({ onBack }: { onBack: () => void }) => {
     <div>
       <h1>Log into a specific Organization</h1>
       <p>
-        Provide the slug of the Organization that you'd like to log into below,
-        and you'll be redirected to the Organization's unique login URL. Note
-        that you can also navigate directly to your Organization's unique login
+        Provide the slug of the Organization that you&apos;d like to log into below,
+        and you&apos;ll be redirected to the Organization&apos;s unique login URL. Note
+        that you can also navigate directly to your Organization&apos;s unique login
         URL, if you know it.
       </p>
       <form onSubmit={onSubmit}>
@@ -39,7 +39,7 @@ const ContinueToTenantForm = ({ onBack }: { onBack: () => void }) => {
           Continue
         </button>
         <p>
-          Don't know your Organization's slug? Try the&nbsp;
+          Don&apos;t know your Organization&apos;s slug? Try the&nbsp;
           <Link href="" onClick={onBack}>
             Discovery login flow
           </Link>
@@ -61,9 +61,9 @@ const LoginDiscoveryForm = ({ domain }: Props) => {
         <EmailLoginForm title="Log in or sign up" onSubmit={discoveryStart}>
           <p>
             Once you complete one of the below authentication methods (Email
-            Magic Links or OAuth), you'll be able to view which Organizations
-            you have access to and choose which one you'd like to log into. If
-            you don't currently have access to any Organizations, you'll be able
+            Magic Links or OAuth), you&apos;ll be able to view which Organizations
+            you have access to and choose which one you&apos;d like to log into. If
+            you don&apos;t currently have access to any Organizations, you&apos;ll be able
             to create one.
           </p>
           <p>
@@ -91,7 +91,7 @@ const LoginDiscoveryForm = ({ domain }: Props) => {
         />
         <br></br>
         <p>
-          If you already know the slug of the Organization that you'd like to
+          If you already know the slug of the Organization that you&apos;d like to
           log into,&nbsp;
           <Link href="" onClick={() => setIsDiscovery(false)}>
             click here

@@ -29,8 +29,8 @@ const DiscoveredOrganizationsList = ({ discovered_organizations }: Props) => {
     <div className="section">
       <h1>Select an Organization</h1>
       <p>
-        Below, you'll find a list of Organizations that you can access. Select
-        the Organization that you'd like to log into.
+        Below, you&apos;ll find a list of Organizations that you can access. Select
+        the Organization that you&apos;d like to log into.
       </p>
       {discovered_organizations.length === 0 && (
         <p>No existing organizations.</p>

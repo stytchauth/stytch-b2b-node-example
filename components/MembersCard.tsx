@@ -136,8 +136,8 @@ const MembersCard = ({
     <div className="card profile-card">
       <h1>Members</h1>
       <p>
-        You're currently logged in as&nbsp;
-        <span className="code">{currentUser.email_address}</span>. Below, you'll
+        You&apos;re currently logged in as&nbsp;
+        <span className="code">{currentUser.email_address}</span>. Below, you&apos;ll
         find a full list of Members who belong to&nbsp;
         {organization.organization_name}:
       </p>
