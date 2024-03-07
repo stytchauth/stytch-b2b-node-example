@@ -1,5 +1,4 @@
 import loadStytch, { Member, Organization } from "./loadStytch";
-import { SearchOperator } from "stytch";
 
 const stytch = loadStytch();
 
@@ -20,7 +19,7 @@ export const findByID = async (organization_id: string): Promise<Organization | 
 export const findBySlug = async (slug: string): Promise<Organization | null> => {
   const orgSearchPromise = stytch.organizations.search({
     query: {
-      operator: SearchOperator.AND,
+      operator: "AND",
       operands: [{ filter_name: "organization_slugs", filter_value: [slug] }],
     },
   });

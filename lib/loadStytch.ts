@@ -14,11 +14,11 @@ export type SessionsAuthenticateResponse = Awaited<
   ReturnType<typeof client.sessions.authenticate>
 >;
 export type SAMLConnection = Awaited<
-  ReturnType<typeof client.sso.saml.create>
+  ReturnType<typeof client.sso.saml.createConnection>
 >["connection"];
 
 export type OIDCConnection = Awaited<
-  ReturnType<typeof client.sso.oidc.create>
+  ReturnType<typeof client.sso.oidc.createConnection>
 >["connection"];
 
 export type DiscoveredOrganizations = Awaited<

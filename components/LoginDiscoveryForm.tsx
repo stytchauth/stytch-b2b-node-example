@@ -49,7 +49,7 @@ const LoginDiscoveryForm = ({domain}: Props) => {
       <>
         <EmailLoginForm title="Sign in" onSubmit={discoveryStart}>
           <p>
-            We&apos;ll email you a magic code for a password-free sign in.
+            We&apos;ll email you a magic code for a password free sign in.
             <br />
             You&apos;ll be able to choose which organization you want to access.
             <br />
