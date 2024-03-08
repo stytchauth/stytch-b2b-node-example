@@ -15,7 +15,7 @@ const SSO_METHOD = {
   OIDC: "OIDC",
 };
 
-const isAdmin = (member: Member) => !!member.trusted_metadata.admin;
+const isAdmin = (member: Member) => !!member.trusted_metadata?.admin;
 
 const IDPList = ({
   currentUser,
@@ -65,15 +65,15 @@ const IDPList = ({
         {saml_connections.length === 0 && <p>No connections configured.</p>}
         <ul>
           {saml_connections.map((conn) => (
-            <li key={conn.connection_id}>
+            <li key={conn?.connection_id}>
               <Link
-                href={`/${router.query.slug}/dashboard/saml/${conn.connection_id}`}
+                href={`/${router.query.slug}/dashboard/saml/${conn?.connection_id}`}
               >
                 <button className="primary small">Edit</button>
               </Link>
               <span>
-                &nbsp;<span className="code">{conn.display_name}</span> (
-                {conn.status})&nbsp;
+                &nbsp;<span className="code">{conn?.display_name}</span> (
+                {conn?.status})&nbsp;
               </span>
             </li>
           ))}
@@ -84,15 +84,15 @@ const IDPList = ({
         {oidc_connections.length === 0 && <p>No connections configured.</p>}
         <ul>
           {oidc_connections.map((conn) => (
-            <li key={conn.connection_id}>
+            <li key={conn?.connection_id}>
               <Link
-                href={`/${router.query.slug}/dashboard/oidc/${conn.connection_id}`}
+                href={`/${router.query.slug}/dashboard/oidc/${conn?.connection_id}`}
               >
                 <button className="primary small">Edit</button>
               </Link>
               <span>
-                &nbsp;<span className="code">{conn.display_name}</span> (
-                {conn.status})
+                &nbsp;<span className="code">{conn?.display_name}</span> (
+                {conn?.status})
               </span>
             </li>
           ))}

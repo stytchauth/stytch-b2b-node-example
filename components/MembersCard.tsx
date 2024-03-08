@@ -21,7 +21,7 @@ const isValidEmail = (emailValue: string) => {
   return regex.test(emailValue);
 };
 
-const isAdmin = (member: Member) => !!member.trusted_metadata.admin;
+const isAdmin = (member: Member) => !!member.trusted_metadata?.admin;
 
 const MemberRow = ({
   member,
@@ -137,8 +137,8 @@ const MembersCard = ({
       <h1>Members</h1>
       <p>
         You&apos;re currently logged in as&nbsp;
-        <span className="code">{currentUser.email_address}</span>. Below, you&apos;ll
-        find a full list of Members who belong to&nbsp;
+        <span className="code">{currentUser.email_address}</span>. Below,
+        you&apos;ll find a full list of Members who belong to&nbsp;
         {organization.organization_name}:
       </p>
       <MemberList

@@ -13,32 +13,32 @@ const DiscoveredOrganizationsList = ({ discovered_organizations }: Props) => {
     membership,
     organization,
   }: Pick<DiscoveredOrganizations[0], "membership" | "organization">) => {
-    if (membership.type === "pending_member") {
-      return `Join ${organization.organization_name}`;
+    if (membership?.type === "pending_member") {
+      return `Join ${organization?.organization_name}`;
     }
-    if (membership.type === "eligible_to_join_by_email_domain") {
-      return `Join ${organization.organization_name}`;
+    if (membership?.type === "eligible_to_join_by_email_domain") {
+      return `Join ${organization?.organization_name}`;
     }
-    if (membership.type === "invited_member") {
-      return `Accept invitation to ${organization.organization_name}`;
+    if (membership?.type === "invited_member") {
+      return `Accept invitation to ${organization?.organization_name}`;
     }
-    return `Log into ${organization.organization_name}`;
+    return `Log into ${organization?.organization_name}`;
   };
 
   return (
     <div className="section">
       <h1>Select an Organization</h1>
       <p>
-        Below, you&apos;ll find a list of Organizations that you can access. Select
-        the Organization that you&apos;d like to log into.
+        Below, you&apos;ll find a list of Organizations that you can access.
+        Select the Organization that you&apos;d like to log into.
       </p>
       {discovered_organizations.length === 0 && (
         <p>No existing organizations.</p>
       )}
       <ul>
         {discovered_organizations.map(({ organization, membership }) => (
-          <li key={organization.organization_id}>
-            <Link href={`/api/discovery/${organization.organization_id}`}>
+          <li key={organization?.organization_id}>
+            <Link href={`/api/discovery/${organization?.organization_id}`}>
               <span>{formatMembership({ organization, membership })}</span>
             </Link>
           </li>

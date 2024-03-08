@@ -19,7 +19,7 @@ async function handler(
       certificate,
       connection_id,
     } = JSON.parse(req.body);
-    await loadStytch().sso.saml.update({
+    await loadStytch().sso.saml.updateConnection({
       organization_id: member.organization_id,
       connection_id,
       idp_entity_id: idp_entity_id,

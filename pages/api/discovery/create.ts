@@ -40,47 +40,50 @@ export async function handler(
         organization_name: organization_name,
         session_duration_minutes: SESSION_DURATION_MINUTES,
         mfa_policy: require_mfa ? "REQUIRED_FOR_ALL" : "OPTIONAL",
+        organization_slug: organization_name.toLowerCase().replace(/\s/g, ""),
       });
 
     // Make the organization discoverable to other emails
-    try {
-      await stytchClient.organizations.update({
-        organization_id: organization.organization_id,
-        email_jit_provisioning: "RESTRICTED",
-        sso_jit_provisioning: "ALL_ALLOWED",
-        email_allowed_domains: [toDomain(member.email_address)],
-      });
-    } catch (e) {
-      if (
-        e instanceof StytchError &&
-        e.error_type == "organization_settings_domain_too_common"
-      ) {
-        console.log(
-          "User domain is common email provider, cannot link to organization"
-        );
-      } else {
-        throw e;
+    if (organization) {
+      try {
+        await stytchClient.organizations.update({
+          organization_id: organization.organization_id,
+          email_jit_provisioning: "RESTRICTED",
+          sso_jit_provisioning: "ALL_ALLOWED",
+          email_allowed_domains: [toDomain(member.email_address)],
+        });
+      } catch (e) {
+        if (
+          e instanceof StytchError &&
+          e.error_type == "organization_settings_domain_too_common"
+        ) {
+          console.log(
+            "User domain is common email provider, cannot link to organization"
+          );
+        } else {
+          throw e;
+        }
       }
-    }
 
-    // Mark the first user in the organization as the admin
-    await stytchClient.organizations.members.update({
-      organization_id: organization.organization_id,
-      member_id: member.member_id,
-      trusted_metadata: { admin: true },
-    });
+      // Mark the first user in the organization as the admin
+      await stytchClient.organizations.members.update({
+        organization_id: organization.organization_id,
+        member_id: member.member_id,
+        trusted_metadata: { admin: true },
+      });
 
-    if (session_jwt === "") {
-      setIntermediateSession(req, res, intermediate_session_token);
-      clearSession(req, res);
-      return res.redirect(
-        302,
-        `/${organization.organization_slug}/smsmfa?sent=false&org_id=${organization.organization_id}&member_id=${member.member_id}`
-      );
+      if (session_jwt === "") {
+        setIntermediateSession(req, res, intermediate_session_token);
+        clearSession(req, res);
+        return res.redirect(
+          302,
+          `/${organization.organization_slug}/smsmfa?sent=false&org_id=${organization.organization_id}&member_id=${member.member_id}`
+        );
+      }
+      clearIntermediateSession(req, res);
+      setSession(req, res, session_jwt);
+      return res.redirect(307, `/${organization.organization_slug}/dashboard`);
     }
-    clearIntermediateSession(req, res);
-    setSession(req, res, session_jwt);
-    return res.redirect(307, `/${organization.organization_slug}/dashboard`);
   } catch (error) {
     const errorString = JSON.stringify(error);
     console.log(error);

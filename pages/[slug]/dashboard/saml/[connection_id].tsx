@@ -2,7 +2,8 @@ import { findByID } from "@/lib/orgService";
 import { FormEventHandler } from "react";
 import { updateSamlSSOConn } from "@/lib/api";
 import { useRouter } from "next/router";
-import { formatSSOStartURL, SAMLConnection } from "@/lib/loadStytch";
+import { formatSSOStartURL } from "@/lib/loadStytch";
+import { SAMLConnection } from "stytch";
 import { useAuth, withSession } from "@/lib/sessionService";
 import Link from "next/link";
 import { list } from "@/lib/ssoService";
@@ -79,21 +80,21 @@ function ConnectionEditPage({ connection, domain }: Props) {
             type="text"
             name="email_attribute"
             placeholder="NameID"
-            defaultValue={connection.attribute_mapping["email"]}
+            defaultValue={connection.attribute_mapping?.email}
           />
           <label htmlFor="first_name_attribute">First Name Attribute</label>
           <input
             type="text"
             name="first_name_attribute"
             placeholder="firstName"
-            defaultValue={connection.attribute_mapping["first_name"]}
+            defaultValue={connection.attribute_mapping?.first_name}
           />
           <label htmlFor="last_name_attribute">Last Name Attribute</label>
           <input
             type="text"
             name="last_name_attribute"
             placeholder="lastName"
-            defaultValue={connection.attribute_mapping["last_name"]}
+            defaultValue={connection.attribute_mapping?.last_name}
           />
           <label htmlFor="certificate">Signing Certificate</label>
           <textarea

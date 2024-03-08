@@ -21,10 +21,10 @@ const OrgSwitcherList = ({ discovered_organizations, user }: Props) => {
       </p>
       <ul>
         {discovered_organizations.map(({ organization }) => (
-          <li key={organization.organization_id}>
-            <Link href={`/api/discovery/${organization.organization_id}`}>
-              <span>{organization.organization_name}</span>
-              {organization.organization_id === user.organization_id && (
+          <li key={organization?.organization_id}>
+            <Link href={`/api/discovery/${organization?.organization_id}`}>
+              <span>{organization?.organization_name}</span>
+              {organization?.organization_id === user.organization_id && (
                 <span>&nbsp;(Active)</span>
               )}
             </Link>

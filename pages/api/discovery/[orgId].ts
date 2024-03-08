@@ -17,7 +17,7 @@ function redirectToSMSMFA(
   res: NextApiResponse,
   organization: Organization,
   member: Member,
-  mfa_required: MfaRequired | null
+  mfa_required: MfaRequired | undefined
 ) {
   if (
     mfa_required != null &&

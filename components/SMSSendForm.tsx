@@ -6,8 +6,8 @@ export const SMSSendForm = ({ memberID, orgID }: SMSProps) => {
   return (
     <div>
       <p>
-        Enter your phone number below. You&apos;ll receive an SMS with a one-time
-        login code.
+        Enter your phone number below. You&apos;ll receive an SMS with a
+        one-time login code.
       </p>
       <form method="POST" action="/api/smsmfa/send" className="row">
         <input type={"text"} placeholder={`+18005551234`} name="phone_number" />

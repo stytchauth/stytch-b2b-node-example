@@ -17,7 +17,7 @@ async function handler(
     );
     console.log(
       "Successfully created new SAML connection",
-      connection.connection_id
+      connection?.connection_id
     );
     return res.status(200).json(connection);
   } catch (e) {

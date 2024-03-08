@@ -1,7 +1,12 @@
 import Link from "next/link";
 import CodeBlock from "./common/CodeBlock";
+import { Organization } from "@/lib/loadStytch";
 
-const OrganizationCard = ({ organization }) => {
+type Props = {
+  organization: Organization;
+};
+
+const OrganizationCard = ({ organization }: Pick<Props, "organization">) => {
   return (
     <div className="card profile-card">
       <div className="section">
