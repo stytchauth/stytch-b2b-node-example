@@ -2,13 +2,14 @@ import { findByID } from "@/lib/orgService";
 import { FormEventHandler } from "react";
 import { updateSamlSSOConn } from "@/lib/api";
 import { useRouter } from "next/router";
-import { formatSSOStartURL, SAMLConnection } from "@/lib/loadStytch";
+import { formatSSOStartURL } from "@/lib/loadStytch";
+import { SAMLConnection } from "stytch";
 import { useAuth, withSession } from "@/lib/sessionService";
 import Link from "next/link";
 import { list } from "@/lib/ssoService";
-import {getDomainFromRequest} from "@/lib/urlUtils";
+import { getDomainFromRequest } from "@/lib/urlUtils";
 
-type Props = { connection: SAMLConnection; domain: string; };
+type Props = { connection: SAMLConnection; domain: string };
 
 function ConnectionEditPage({ connection, domain }: Props) {
   const router = useRouter();
@@ -79,21 +80,21 @@ function ConnectionEditPage({ connection, domain }: Props) {
             type="text"
             name="email_attribute"
             placeholder="NameID"
-            defaultValue={connection.attribute_mapping["email"]}
+            defaultValue={connection.attribute_mapping?.email}
           />
           <label htmlFor="first_name_attribute">First Name Attribute</label>
           <input
             type="text"
             name="first_name_attribute"
             placeholder="firstName"
-            defaultValue={connection.attribute_mapping["first_name"]}
+            defaultValue={connection.attribute_mapping?.first_name}
           />
           <label htmlFor="last_name_attribute">Last Name Attribute</label>
           <input
             type="text"
             name="last_name_attribute"
             placeholder="lastName"
-            defaultValue={connection.attribute_mapping["last_name"]}
+            defaultValue={connection.attribute_mapping?.last_name}
           />
           <label htmlFor="certificate">Signing Certificate</label>
           <textarea
@@ -101,16 +102,15 @@ function ConnectionEditPage({ connection, domain }: Props) {
             placeholder="-------BEGIN ------"
             defaultValue={connection.verification_certificates[0]?.certificate}
           />
-          <button className="primary" type="submit">
+          <button className="primary full-width" type="submit">
             Save
           </button>
         </form>
-        <a
-          style={{ minWidth: 400, margin: 10 }}
-          href={formatSSOStartURL(domain, connection.connection_id)}
-        >
-          <button className="secondary">Test connection</button>
-        </a>
+        <div className="section">
+          <a href={formatSSOStartURL(domain, connection.connection_id)}>
+            <button className="primary full-width">Test connection</button>
+          </a>
+        </div>
         <Link
           style={{ marginRight: "auto" }}
           href={`/${router.query.slug}/dashboard`}
@@ -124,7 +124,7 @@ function ConnectionEditPage({ connection, domain }: Props) {
 
 export const getServerSideProps = withSession<
   Props,
-  { slug: string; connection_id: string; }
+  { slug: string; connection_id: string }
 >(async (context) => {
   const connection_id = context.params!["connection_id"];
   const { member } = useAuth(context);
@@ -150,7 +150,7 @@ export const getServerSideProps = withSession<
   return {
     props: {
       connection: connection,
-      domain: getDomainFromRequest(context.req)
+      domain: getDomainFromRequest(context.req),
     },
   };
 });

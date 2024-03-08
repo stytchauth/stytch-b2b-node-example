@@ -5,7 +5,7 @@ import { ParsedUrlQuery } from "querystring";
 import { GetServerSidePropsContext, PreviewData } from "next/types";
 import { IncomingMessage, ServerResponse } from "http";
 
-export const SESSION_DURATION_MINUTES = 60;
+export const SESSION_DURATION_MINUTES = 60 * 24 * 30;
 export const INTERMEDIATE_SESSION_DURATION_MINUTES = 10;
 
 const SESSION_SYMBOL = Symbol("session");
@@ -26,10 +26,7 @@ export function setSession(
   });
 }
 
-export function clearSession(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export function clearSession(req: NextApiRequest, res: NextApiResponse) {
   const cookies = new Cookies(req, res);
   cookies.set(SESSION_COOKIE, "", {
     httpOnly: true,
@@ -143,7 +140,7 @@ export function adminOnlyAPIRoute(apiHandler: APIHandler) {
     // Stytch issues a new JWT on every authenticate call - store it on the UA for faster validation next time
     setSession(req, res, sessionAuthRes.session_jwt);
 
-    const isAdmin = sessionAuthRes.member.trusted_metadata.admin as boolean;
+    const isAdmin = sessionAuthRes.member.trusted_metadata?.admin as boolean;
     if (!isAdmin) {
       console.error("Member is not authorized to call route");
       return res.status(403).end();

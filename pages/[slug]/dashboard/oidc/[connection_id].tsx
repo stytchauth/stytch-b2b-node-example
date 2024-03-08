@@ -1,14 +1,15 @@
-import {findByID} from "@/lib/orgService";
+import { findByID } from "@/lib/orgService";
 import { FormEventHandler } from "react";
 import { updateOidcSSOConn } from "@/lib/api";
 import { useRouter } from "next/router";
-import { formatSSOStartURL, OIDCConnection } from "@/lib/loadStytch";
+import { formatSSOStartURL } from "@/lib/loadStytch";
+import { OIDCConnection } from "stytch";
 import { useAuth, withSession } from "@/lib/sessionService";
 import Link from "next/link";
 import { list } from "@/lib/ssoService";
-import {getDomainFromRequest} from "@/lib/urlUtils";
+import { getDomainFromRequest } from "@/lib/urlUtils";
 
-type Props = { connection: OIDCConnection; domain: string; };
+type Props = { connection: OIDCConnection; domain: string };
 
 function ConnectionEditPage({ connection, domain }: Props) {
   const router = useRouter();
@@ -49,7 +50,7 @@ function ConnectionEditPage({ connection, domain }: Props) {
       <div className="card">
         <form onSubmit={onSubmit} style={{ minWidth: 400 }}>
           <h1>Edit OIDC Connection</h1>
-          <label htmlFor="display_name">Display Name</label>
+          <label htmlFor="display_name">Display name</label>
           <input
             type="text"
             name="display_name"
@@ -79,11 +80,11 @@ function ConnectionEditPage({ connection, domain }: Props) {
             placeholder="Client ID"
             defaultValue={connection.client_id}
           />
-          <label htmlFor="client_secret">Client Secret</label>
+          <label htmlFor="client_secret">Client secret</label>
           <input
             type="text"
             name="client_secret"
-            placeholder="Client Secret"
+            placeholder="Client secret"
             defaultValue={connection.client_secret}
           />
           <label htmlFor="issuer">Issuer URL</label>
@@ -96,7 +97,7 @@ function ConnectionEditPage({ connection, domain }: Props) {
           <hr />
           <h5>
             If you provide a valid Issuer URL using an IDP that supports a
-            well-known configuration page, these endpoints will be
+            well-known configuration page, the following endpoints will be
             auto-populated.
           </h5>
           <button className="accordion" onClick={urlSectionClick}>
@@ -128,25 +129,24 @@ function ConnectionEditPage({ connection, domain }: Props) {
                 placeholder="User Info URL"
                 defaultValue={connection.userinfo_url}
               />
-              <label htmlFor="jwks_url">Jwks URL</label>
+              <label htmlFor="jwks_url">JWKS URL</label>
               <input
                 type="text"
                 name="jwks_url"
-                placeholder="Jwks URL"
+                placeholder="JWKS URL"
                 defaultValue={connection.jwks_url}
               />
             </div>
           </div>
-          <button className="primary" type="submit">
+          <button className="primary full-width" type="submit">
             Save
           </button>
         </form>
-        <a
-          style={{ minWidth: 400, margin: 10 }}
-          href={formatSSOStartURL(domain, connection.connection_id)}
-        >
-          <button className="secondary">Test connection</button>
-        </a>
+        <div className="section">
+          <a href={formatSSOStartURL(domain, connection.connection_id)}>
+            <button className="primary full-width">Test connection</button>
+          </a>
+        </div>
         <Link
           style={{ marginRight: "auto" }}
           href={`/${router.query.slug}/dashboard`}
@@ -160,7 +160,7 @@ function ConnectionEditPage({ connection, domain }: Props) {
 
 export const getServerSideProps = withSession<
   Props,
-  { slug: string; connection_id: string; }
+  { slug: string; connection_id: string }
 >(async (context) => {
   const connection_id = context.params!["connection_id"];
   const { member } = useAuth(context);
@@ -192,6 +192,5 @@ export const getServerSideProps = withSession<
     },
   };
 });
-
 
 export default ConnectionEditPage;

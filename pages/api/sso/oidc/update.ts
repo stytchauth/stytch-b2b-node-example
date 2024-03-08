@@ -21,7 +21,7 @@ async function handler(
       jwks_url,
     } = JSON.parse(req.body);
 
-    await loadStytch().sso.oidc.update({
+    await loadStytch().sso.oidc.updateConnection({
       organization_id: member.organization_id,
       connection_id,
       display_name: display_name,
