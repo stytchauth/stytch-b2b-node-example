@@ -48,7 +48,7 @@ class MyDocument extends Document {
             <Link
               className="header"
               target="_blank"
-              href="https://github.com/stytchauth/stytch-b2b-nextjs-example"
+              href="https://github.com/stytchauth/stytch-b2b-node-example"
             >
               <Image
                 alt="Github"
