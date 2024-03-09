@@ -35,7 +35,7 @@ In your terminal, clone the project and install dependencies:
 ```bash
 git clone https://github.com/stytchauth/stytch-b2b-node-example.git
 cd stytch-b2b-node-example
-npm install
+pnpm install
 ```
 
 Next, create an `.env.local` file by running the command below, which copies the contents of `.env.template`.
@@ -59,7 +59,7 @@ NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN=public-token-test-abc123-abcde-1234-0987-0000-ab
 After completing all of the above steps, the application can be run with the command:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 The application will be available at [`http://localhost:3000`](http://localhost:3000).
