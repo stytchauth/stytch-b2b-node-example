@@ -29,9 +29,9 @@ const TenantedLoginForm = ({ org, domain }: Props) => {
           orgSlug={org.organization_slug}
         />
       </div>
-      <h3 style={styles.h3}>or</h3>
       {org.sso_default_connection_id && (
         <div>
+          <h3 style={styles.h3}>or</h3>
           <p>
             Use this organization&apos;s&nbsp;
             <a href={formatSSOStartURL(domain, org.sso_default_connection_id)}>
