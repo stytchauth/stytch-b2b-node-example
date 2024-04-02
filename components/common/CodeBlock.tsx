@@ -20,6 +20,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: "16px",
     fontFamily: '"IBM Plex Mono", monospace',
     overflowY: "scroll",
+    marginBottom: "12px",
   },
 };
 

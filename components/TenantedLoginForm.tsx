@@ -8,44 +8,48 @@ type Props = {
   domain: string;
 };
 const TenantedLoginForm = ({ org, domain }: Props) => {
-  console.log("here: " + JSON.stringify(org));
   return (
-    <div className="card">
+    <div>
       <EmailLoginForm
         title={`Log into ${org.organization_name}`}
         onSubmit={(email) => login(email, org.organization_id)}
       >
-        <p>
-          This is an Organization-specific login page, where you can log into
-          the Organization mentioned above.
-        </p>
-        {org.sso_default_connection_id && (
-          <div>
-            <h2>
-              Or, use this organization&apos;s&nbsp;
-              <a
-                href={formatSSOStartURL(domain, org.sso_default_connection_id)}
-              >
-                Preferred Identity Provider
-              </a>
-            </h2>
-            <br />
-          </div>
-        )}
+        <p>Enter your email address below to receive a login email.</p>
       </EmailLoginForm>
-      <h2 className="center">or</h2>
-      <OAuthButton
-        providerType={OAuthProviders.Google}
-        hostDomain={domain}
-        orgSlug={org.organization_slug}
-      />
-      <OAuthButton
-        providerType={OAuthProviders.Microsoft}
-        hostDomain={domain}
-        orgSlug={org.organization_slug}
-      />
+      <h3 style={styles.h3}>or</h3>
+      <div className="section">
+        <OAuthButton
+          providerType={OAuthProviders.Google}
+          hostDomain={domain}
+          orgSlug={org.organization_slug}
+        />
+        <OAuthButton
+          providerType={OAuthProviders.Microsoft}
+          hostDomain={domain}
+          orgSlug={org.organization_slug}
+        />
+      </div>
+      <h3 style={styles.h3}>or</h3>
+      {org.sso_default_connection_id && (
+        <div>
+          <p>
+            Use this organization&apos;s&nbsp;
+            <a href={formatSSOStartURL(domain, org.sso_default_connection_id)}>
+              Preferred Identity Provider
+            </a>
+          </p>
+          <br />
+        </div>
+      )}
     </div>
   );
+};
+
+const styles: Record<string, React.CSSProperties> = {
+  h3: {
+    display: "flex",
+    justifyContent: "center",
+  },
 };
 
 export default TenantedLoginForm;
