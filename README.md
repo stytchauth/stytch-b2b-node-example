@@ -1,7 +1,7 @@
 # Stytch B2B backend Node example
 
 <p align="center">
-  <img width="600" alt="B2B example app login page" src="https://github.com/stytchauth/stytch-b2b-nextjs-example/assets/113396792/d26140e1-5035-41c7-81c0-51370832cd06">
+  <img width="787" alt="image" src="https://github.com/stytchauth/stytch-b2b-node-example/assets/113396792/1c374141-b72f-4706-aaf7-bd71247b7c39">
 </p>
 
 ## Overview
