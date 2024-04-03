@@ -1,130 +1,112 @@
-import { useState } from "react";
-import Link from "next/link";
+import LoginDiscoveryForm from "@/components/LoginDiscoveryForm";
 import { GetServerSideProps } from "next";
-import loadStytch, { DiscoveredOrganizations } from "@/lib/loadStytch";
-import { getDiscoverySessionData } from "@/lib/sessionService";
+import { getDomainFromRequest } from "@/lib/urlUtils";
+import CodeSpan from "@/components/CodeSpan";
+import Link from "next/link";
+import CodeBlock from "@/components/common/CodeBlock";
 
-type Props = {
-  discovered_organizations: DiscoveredOrganizations;
-};
+type Props = { domain: string };
 
-const DiscoveredOrganizationsList = ({ discovered_organizations }: Props) => {
-  const formatMembership = ({
-    membership,
-    organization,
-  }: Pick<DiscoveredOrganizations[0], "membership" | "organization">) => {
-    if (membership?.type === "pending_member") {
-      return `Join ${organization?.organization_name}`;
-    }
-    if (membership?.type === "eligible_to_join_by_email_domain") {
-      return `Join ${organization?.organization_name}`;
-    }
-    if (membership?.type === "invited_member") {
-      return `Accept invitation to ${organization?.organization_name}`;
-    }
-    return `Log into ${organization?.organization_name}`;
-  };
-
-  return (
-    <div className="section">
-      <h1>Select an Organization</h1>
-      <p>
-        Below, you&apos;ll find a list of Organizations that you can access.
-        Select the Organization that you&apos;d like to log into.
-      </p>
-      {discovered_organizations.length === 0 && (
-        <p>No existing organizations.</p>
-      )}
-      <ul>
-        {discovered_organizations.map(({ organization, membership }) => (
-          <li key={organization?.organization_id}>
-            <Link href={`/api/discovery/${organization?.organization_id}`}>
-              <span>{formatMembership({ organization, membership })}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-const CreateNewOrganization = () => {
-  const [orgName, setOrgName] = useState("");
-  const [requireMFA, setRequireMFA] = useState(false);
+export default function Discovery({ domain }: Props) {
   return (
     <>
-      <h2 className="center">or</h2>
-      <div className="section">
-        <form method="POST" action="/api/discovery/create">
-          <div className="input-row">
-            <input
-              type={"text"}
-              style={{ width: 330, marginRight: 20 }}
-              placeholder={`Organization name`}
-              name="organization_name"
-              value={orgName}
-              onChange={(e) => setOrgName(e.target.value)}
-            />
-            <div className="radio-sso">
-              <input
-                type="radio"
-                id="require_mfa"
-                name="require_mfa"
-                onClick={(e) => setRequireMFA(!requireMFA)}
-                checked={requireMFA}
-              />
-              <label htmlFor="require_mfa">Require MFA</label>
-            </div>
-          </div>
-          <button
-            disabled={orgName.length < 3}
-            type="submit"
-            className="primary full-width"
-          >
-            Create a new Organization
-          </button>
-        </form>
+      <div style={styles.container}>
+        <div style={styles.details} className="bordered">
+          <h2>Discovery login flow</h2>
+          <p>
+            Once you complete one of the authentication methods using the
+            component to the right (
+            <Link
+              href="https://stytch.com/docs/b2b/guides/magic-links/send-discover-eml"
+              target="_blank"
+            >
+              Email Magic Links
+            </Link>
+            &nbsp;or&nbsp;
+            <Link
+              href="https://stytch.com/docs/b2b/guides/oauth/discovery"
+              target="_blank"
+            >
+              OAuth
+            </Link>
+            ), you&apos;ll be able to view which Organizations you have access
+            to and choose which one you&apos;d like to log into. If you
+            don&apos;t currently have access to any Organizations, you&apos;ll
+            be able to create one.
+          </p>
+          <p>
+            We refer to this as the Discovery flow, since the user authenticates
+            in order to discover which Organizations they can access.
+          </p>
+          <p>
+            The Discovery flow is usually hosted on a generic login URL
+            (like&nbsp;
+            <CodeSpan>https://yourdomain.com/login</CodeSpan>), as opposed to
+            the Organization flow, which is usually hosted on an
+            Organization-specific URL (like&nbsp;
+            <CodeSpan>https://yourdomain.com/organization-slug/login</CodeSpan>
+            ). If you already know the slug of the Organization that you&apos;d
+            like to log into, you can alternatively use the&nbsp;
+            <Link href="/organization-lookup">Organization login flow</Link>.
+          </p>
+          <p>
+            Below are some code snippets that power the login component to the
+            right.
+          </p>
+          <CodeBlock
+            codeString={`// The "Send login email" button triggers the following Stytch Node SDK method
+
+await stytchClient.magicLinks.email.discovery.send({
+  email_address: email,
+  discovery_redirect_url: \`\${domain}/api/callback\`,
+});
+
+// The OAuth buttons initiate a client-side redirect to the following URL,
+// where \${provider} is either 'google' or 'microsoft'
+
+const redirectURL = redirectDomain + "/api/callback";
+return \`\${stytchEnv}v1/b2b/public/oauth/\${provider}/discovery/start?
+  public_token=\${publicToken}&discovery_redirect_url=\${redirectURL}\`;`}
+          />
+          <Link href="/">Back</Link>
+        </div>
+        <div style={styles.component} className="bordered">
+          <LoginDiscoveryForm domain={domain} />
+        </div>
       </div>
     </>
   );
-};
+}
 
-const Discovery = ({ discovered_organizations }: Props) => {
-  return (
-    <div className="card">
-      <DiscoveredOrganizationsList
-        discovered_organizations={discovered_organizations}
-      />
-      <CreateNewOrganization />
-    </div>
-  );
-};
-
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
-  const discoverySessionData = getDiscoverySessionData(
-    context.req,
-    context.res
-  );
-  if (discoverySessionData.error) {
-    console.log("No session tokens found...");
-    return { redirect: { statusCode: 307, destination: `/login` } };
-  }
-
-  const { discovered_organizations } =
-    await loadStytch().discovery.organizations.list({
-      intermediate_session_token: discoverySessionData.intermediateSession,
-      session_jwt: discoverySessionData.sessionJWT,
-    });
-
-  console.log(discovered_organizations);
-
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { slug: string }
+> = async (context) => {
   return {
     props: {
-      discovered_organizations,
+      domain: getDomainFromRequest(context.req),
     },
   };
 };
 
-export default Discovery;
+const styles: Record<string, React.CSSProperties> = {
+  container: {
+    display: "flex",
+    margin: "48px 24px",
+    flexWrap: "wrap-reverse",
+    justifyContent: "center",
+    alignItems: "top",
+    gap: "48px",
+  },
+  details: {
+    backgroundColor: "#FFF",
+    padding: "48px",
+    flexBasis: "600px",
+    flexGrow: 1,
+    maxWidth: "1000px",
+  },
+  component: {
+    padding: "48px",
+    maxWidth: "500px",
+  },
+};

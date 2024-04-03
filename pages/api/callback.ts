@@ -19,7 +19,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.redirect(307, `/${slug}/dashboard`);
     } else {
       setIntermediateSession(req, res, exchangeResult.token);
-      return res.redirect(307, `/discovery`);
+      return res.redirect(307, `/select-organization`);
     }
   } catch (error) {
     console.error("Could not authenticate in callback", error);

@@ -57,7 +57,7 @@ export const EmailLoginForm = ({
 
   return (
     <>
-      <h1>{title}</h1>
+      <h2>{title}</h2>
       {children}
       {emlSent === STATUS.INIT && (
         <div className="section">
@@ -75,7 +75,7 @@ export const EmailLoginForm = ({
               id="button"
               type="submit"
             >
-              Send Magic Link
+              Send login email
             </button>
           </form>
         </div>
