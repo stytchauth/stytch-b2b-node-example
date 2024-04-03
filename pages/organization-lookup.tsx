@@ -14,16 +14,16 @@ export default function OrganizationLookup() {
             Organization&apos;s login URL, you can also navigate directly to it.
           </p>
           <p>
-            We refer to this type of login flow as the &quot;Organization&quot; flow,
+            We refer to this type of login flow as the Organization flow,
             since the user is logging into one specific Organization that they
-            identify at the beginning of the flow (generally, by nagivating
+            identify at the beginning of the flow (generally, by navigating
             directly to that Organization&apos;s unique login URL – for
             example,&nbsp;
             <CodeSpan>https://yourdomain.com/organization-slug/login</CodeSpan>
             ).
           </p>
           <p>
-            In contrast, the &quot;Discovery&quot; flow is used when the user does not
+            In contrast, the Discovery flow is used when the user does not
             immediately identify which Organization they&apos;d like to log into. The
             Discovery flow is usually hosted on a generic login URL (for
             example,&nbsp;
