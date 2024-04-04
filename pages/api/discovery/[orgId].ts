@@ -39,7 +39,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
   const discoverySessionData = getDiscoverySessionData(req, res);
   if (discoverySessionData.error) {
     console.log("No session tokens found...");
-    return { redirect: { statusCode: 307, destination: `/login` } };
+    return { redirect: { statusCode: 307, destination: `/` } };
   }
 
   const orgId = req.query.orgId;

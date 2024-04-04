@@ -131,7 +131,7 @@ export const getServerSideProps = withSession<
 
   const org = await findByID(member.organization_id);
   if (org === null) {
-    return { redirect: { statusCode: 307, destination: `/login` } };
+    return { redirect: { statusCode: 307, destination: `/` } };
   }
 
   const connection = await list(org.organization_id).then((res) =>
