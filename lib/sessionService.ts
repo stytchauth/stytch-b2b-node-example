@@ -166,7 +166,7 @@ export function withSession<
 
     if (!sessionJWT) {
       console.log("No session JWT found...");
-      return { redirect: { statusCode: 307, destination: `/login` } };
+      return { redirect: { statusCode: 307, destination: `/` } };
     }
 
     let sessionAuthRes;
@@ -177,7 +177,7 @@ export function withSession<
       });
     } catch (err) {
       console.error("Could not find member by session token", err);
-      return { redirect: { statusCode: 307, destination: `/login` } };
+      return { redirect: { statusCode: 307, destination: `/` } };
     }
 
     // Hide the session authentication result on the context

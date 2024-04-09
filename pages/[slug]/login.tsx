@@ -70,7 +70,7 @@ const TenantedLogin = ({ org, domain }: Props) => {
             >
               Passwords
             </Link>
-            &nbsp;are also supported as part of Stych&apos;s Organization flow (not
+            &nbsp;are also supported as part of Stytch&apos;s Organization flow (not
             implemented as part of this example app).
           </p>
           <p>
