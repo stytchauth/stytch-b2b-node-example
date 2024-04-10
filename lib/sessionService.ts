@@ -77,15 +77,6 @@ export function getDiscoverySessionData(
   res: ServerResponse
 ): DiscoverySessionData {
   const cookies = new Cookies(req, res);
-  const sessionJWT = cookies.get("session");
-  if (sessionJWT) {
-    return {
-      sessionJWT,
-      intermediateSession: undefined,
-      isDiscovery: false,
-      error: false,
-    };
-  }
 
   const intermediateSession = cookies.get("intermediate_session");
   if (intermediateSession) {
@@ -93,6 +84,16 @@ export function getDiscoverySessionData(
       sessionJWT: undefined,
       intermediateSession,
       isDiscovery: true,
+      error: false,
+    };
+  }
+
+  const sessionJWT = cookies.get("session");
+  if (sessionJWT) {
+    return {
+      sessionJWT,
+      intermediateSession: undefined,
+      isDiscovery: false,
       error: false,
     };
   }
