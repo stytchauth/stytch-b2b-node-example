@@ -6,7 +6,7 @@
 
 ## Overview
 
-This example application demonstrates how to use Stytch's B2B authentication suite using our [backend Node SDK](https://www.npmjs.com/package/stytch) inside of a Next.js application. The application features both Discovery and Organization B2B login flows.
+This example application demonstrates how to use Stytch's B2B authentication suite using our [backend Node SDK](https://www.npmjs.com/package/stytch) inside of a Next.js application. The application features both Discovery and Organization B2B login flows, you can try out a hosted version of this app on Vercel at [https://www.stytchb2bdemo.app/](https://www.stytchb2bdemo.app/).
 
 Using the Discovery flow, users can log in via Email Magic Links, Google OAuth, or Microsoft OAuth, and can join existing Organizations that they have access to or create new ones. Using the Organization flow, users can log into a specific Organization that they belong to via Email Magic Links, Google OAuth, Microsoft OAuth, or SSO.
 
