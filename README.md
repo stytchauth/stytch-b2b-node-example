@@ -74,4 +74,4 @@ Join the discussion, ask questions, and suggest new features in our [Slack commu
 
 #### :question: Need support?
 
-Check out the [Stytch Forum](https://forum.stytch.com/) or email us at [support@stytch.com](mailto:support@stytch.com).
+Check out our support options [here](https://stytch.com/docs/resources/get-support).
