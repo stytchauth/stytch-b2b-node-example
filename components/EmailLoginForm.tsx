@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useState } from "react";
 
 const STATUS = {
   INIT: 0,
@@ -25,10 +25,6 @@ export const EmailLoginForm = ({
   const [emlSent, setEMLSent] = useState(STATUS.INIT);
   const [email, setEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-
-  useEffect(() => {
-    setIsDisabled(!isValidEmail(email));
-  }, [email]);
 
   const onSubmitFormHandler: FormEventHandler = async (e) => {
     e.preventDefault();
@@ -66,7 +62,10 @@ export const EmailLoginForm = ({
               name="email"
               placeholder="example@email.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setIsDisabled(!isValidEmail(e.target.value));
+              }}
               type="email"
             />
             <button

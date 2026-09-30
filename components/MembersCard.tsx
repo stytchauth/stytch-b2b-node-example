@@ -1,11 +1,6 @@
 import { deleteMember, invite } from "@/lib/api";
 import { useRouter } from "next/router";
-import {
-  FormEventHandler,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { FormEventHandler, MouseEventHandler, useState } from "react";
 import { Member, Organization } from "@/lib/loadStytch";
 
 type Props = {
@@ -70,10 +65,6 @@ const MemberList = ({
   const [email, setEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
 
-  useEffect(() => {
-    setIsDisabled(!isValidEmail(email));
-  }, [email]);
-
   const onInviteSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     // Disable button right away to prevent sending emails twice
@@ -110,7 +101,10 @@ const MemberList = ({
               organization.email_allowed_domains[0] ?? "example.com"
             }`}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setIsDisabled(!isValidEmail(e.target.value));
+            }}
             type="email"
           />
           <button
