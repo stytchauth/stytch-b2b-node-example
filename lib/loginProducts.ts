@@ -1,8 +1,8 @@
-import emlIcon from "/public/eml-icon.svg";
-import oauthIcon from "/public/oauth-icon.svg";
-import smsIcon from "/public/sms-icon.svg";
-import passwordsIcon from "/public/passwords-icon.svg";
-import ssoIcon from "/public/sso-icon.svg";
+import emlIcon from "@/public/eml-icon.svg";
+import oauthIcon from "@/public/oauth-icon.svg";
+import smsIcon from "@/public/sms-icon.svg";
+import passwordsIcon from "@/public/passwords-icon.svg";
+import ssoIcon from "@/public/sso-icon.svg";
 import { LoginProduct } from "./types";
 
 const LoginProducts: Record<string, LoginProduct> = {

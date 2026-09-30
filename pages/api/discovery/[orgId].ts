@@ -8,8 +8,7 @@ import {
   setIntermediateSession,
   setSession,
 } from "@/lib/sessionService";
-import { MfaRequired } from "stytch/types/lib/b2b/mfa";
-import { Member, Organization } from "stytch";
+import { Member, MfaRequired, Organization } from "stytch";
 
 const stytchClient = loadStytch();
 
